@@ -1,0 +1,31 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="ToolbarButton">
+        <item name="android:layout_width">@dimen/material_min_touch_space</item>
+        <item name="android:layout_height">@dimen/material_min_touch_space</item>
+        <item name="android:background">?attr/controlBackground</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="ToolbarButton.More">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:background">?attr/controlBackground</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="ToolbarDropShadow">
+        <item name="android:visibility">visible</item>
+    </style>
+
+    <style name="ToolbarOptionMenu" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="overlapAnchor">true</item>
+    </style>
+</resources>
