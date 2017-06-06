@@ -1,5 +1,8 @@
 package io.yon.android.ui.activity;
 
+import android.arch.lifecycle.LifecycleActivity;
+import android.arch.lifecycle.LifecycleRegistry;
+import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -26,7 +29,9 @@ import io.yon.android.utils.DrawerHelper;
  * Created by amirhosein on 5/27/17.
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements LifecycleRegistryOwner {
+
+    private final LifecycleRegistry mRegistry = new LifecycleRegistry(this);
 
     @Nullable
     private Toolbar mToolbar;
@@ -98,6 +103,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         super.onBackPressed();
+    }
+    
+    @Override
+    public LifecycleRegistry getLifecycle() {
+        return mRegistry;
     }
 
     private void initToolbar() {
