@@ -32,11 +32,11 @@ public class MainActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.create_new:
                 Log.d("menu", "createNew");
-                break;
+                return true;
 
             case R.id.open:
                 Log.d("menu", "opn");
-                break;
+                return true;
         }
         return false;
     }

@@ -1,14 +1,15 @@
 package io.yon.android.ui.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.NavUtils;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 import io.yon.android.R;
 import io.yon.android.ui.view.PopupMenu;
+import io.yon.android.utils.DrawerHelper;
 
 /**
  * Created by amirhosein on 5/27/17.
@@ -44,6 +46,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Nullable
     private PopupMenu mPopupMenu;
 
+    @Nullable
+    private DrawerLayout mDrawerLayout;
+    private DrawerHelper drawerHelper;
+
     private boolean isOptionMenuEnabled = false;
 
     protected abstract
@@ -56,6 +62,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayoutResourceId());
 
         initToolbar();
+        initDrawer();
     }
 
     @Override
@@ -83,6 +90,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         return isOptionMenuEnabled && mPopupMenu != null && onCreateOptionMenu(mPopupMenu.getMenu(), mPopupMenu.getMenuInflater());
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout != null && mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+            mDrawerLayout.closeDrawer(Gravity.RIGHT);
+            return;
+        }
+
+        super.onBackPressed();
+    }
+
     private void initToolbar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolbar == null)
@@ -94,14 +111,46 @@ public abstract class BaseActivity extends AppCompatActivity {
         toolbarLeftButton = (ImageButton) mToolbar.findViewById(R.id.toolbar_icon_left);
     }
 
+    private void initDrawer() {
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (mDrawerLayout == null)
+            return;
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow_left, Gravity.RIGHT);
+        }
+
+        if (toolbarRightButton == null)
+            return;
+
+        toolbarRightButton.setImageResource(R.drawable.ic_menu_24dp);
+        toolbarRightButton.setVisibility(View.VISIBLE);
+        toolbarRightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDrawerButtonClick();
+            }
+        });
+
+        drawerHelper = new DrawerHelper(this, mDrawerLayout);
+        drawerHelper.init();
+    }
+
+    private void onDrawerButtonClick() {
+        if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT))
+            mDrawerLayout.closeDrawer(Gravity.RIGHT);
+        else
+            mDrawerLayout.openDrawer(Gravity.RIGHT);
+    }
+
     protected void setDisplayHomeAsUpEnabled(boolean enable) {
-        // #TODO update using lambdas
         if (toolbarRightButton == null)
             return;
 
         final BaseActivity activity = this;
         if (enable) {
             toolbarRightButton.setImageResource(R.drawable.ic_navigation_back_24dp);
+            toolbarRightButton.setVisibility(View.VISIBLE);
             toolbarRightButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -125,7 +174,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         isOptionMenuEnabled = enable;
         if (enable) {
             mPopupMenu = new PopupMenu(BaseActivity.this, toolbarMoreButton, Gravity.TOP, 0, R.style.Widget_AppCompat_Light_PopupMenu_Overflow);
-            mPopupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            mPopupMenu.setOnMenuItemClickListener(new android.support.v7.widget.PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     return isOptionMenuEnabled && BaseActivity.this.onOptionsItemSelected(item);
@@ -138,7 +187,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (mPopupMenu != null && isOptionMenuEnabled)
                         mPopupMenu.show();
-
                 }
             });
         } else {
@@ -146,6 +194,10 @@ public abstract class BaseActivity extends AppCompatActivity {
             toolbarMoreButton.setVisibility(View.GONE);
             toolbarMoreButton.setOnClickListener(null);
         }
+    }
+
+    protected DrawerHelper getDrawerHelper() {
+        return drawerHelper;
     }
 
     protected void forceEnableOptionMenu(@MenuRes int menuId) {

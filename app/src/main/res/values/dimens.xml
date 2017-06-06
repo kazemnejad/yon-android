@@ -4,5 +4,10 @@
     <dimen name="material_step_2_margin">72dp</dimen>
     <dimen name="material_diff_step_12_margin">72dp</dimen>
 
+    <dimen name="material_icon_size">24dp</dimen>
+
     <dimen name="material_min_touch_space">48dp</dimen>
+
+    <dimen name="material_drawer_max_width_phone">260dp</dimen>
+    <dimen name="material_drawer_max_width_tablet">320dp</dimen>
 </resources>

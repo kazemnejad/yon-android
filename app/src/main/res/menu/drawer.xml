@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/gp_guest"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/testI1"
+            android:checked="true"
+            android:icon="@drawable/ic_search_24dp"
+            android:title="Guest" />
+
+        <item
+            android:id="@+id/testI2"
+            android:icon="@drawable/ic_menu_24dp"
+            android:title="test2" />
+        <item
+            android:id="@+id/testI3"
+            android:icon="@drawable/ic_navigation_back_24dp"
+            android:title="test3" />
+        <item
+            android:id="@+id/testI4"
+            android:icon="@drawable/ic_more_vert_24dp"
+            android:title="test4" />
+    </group>
+
+    <group
+        android:id="@+id/gp_member"
+        android:checkableBehavior="single"
+        android:visible="false">
+        <item
+            android:id="@+id/testI5"
+            android:icon="@drawable/ic_search_24dp"
+            android:title="Member" />
+
+        <item
+            android:id="@+id/testI6"
+            android:icon="@drawable/ic_menu_24dp"
+            android:title="test2" />
+        <item
+            android:id="@+id/testI7"
+            android:icon="@drawable/ic_navigation_back_24dp"
+            android:title="test3" />
+        <item
+            android:id="@+id/testI8"
+            android:icon="@drawable/ic_more_vert_24dp"
+            android:title="test4" />
+    </group>
+</menu>
