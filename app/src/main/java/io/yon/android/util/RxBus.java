@@ -1,4 +1,4 @@
-package io.yon.android.utils;
+package io.yon.android.util;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
