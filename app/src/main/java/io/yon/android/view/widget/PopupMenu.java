@@ -1,4 +1,4 @@
-package io.yon.android.ui.view;
+package io.yon.android.view.widget;
 
 import android.content.Context;
 import android.support.annotation.AttrRes;

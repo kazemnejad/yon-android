@@ -1,6 +1,5 @@
-package io.yon.android.ui.activity;
+package io.yon.android.view.activity;
 
-import android.arch.lifecycle.LifecycleActivity;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.os.Build;
@@ -22,7 +21,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import io.yon.android.R;
-import io.yon.android.ui.view.PopupMenu;
+import io.yon.android.view.widget.PopupMenu;
 import io.yon.android.utils.DrawerHelper;
 
 /**
