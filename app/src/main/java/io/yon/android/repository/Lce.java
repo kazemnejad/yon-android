@@ -1,5 +1,9 @@
 package io.yon.android.repository;
 
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DisposableObserver;
+
 /**
  * Created by amirhosein on 6/6/17.
  */
@@ -27,15 +31,46 @@ public class Lce<T> {
         this.loading = loading;
     }
 
-    boolean isLoading() {
+    public boolean isLoading() {
         return loading;
     }
 
-    boolean hasError() {
+    public boolean hasError() {
         return error != null;
     }
 
-    T getData() {
+    public T getData() {
         return data;
+    }
+
+    public Throwable getError(){
+        return error;
+    }
+
+    public static class Observer<T> extends DisposableObserver<Lce<T>> {
+
+        private Consumer<Lce<T>> consumer;
+
+        public Observer(Consumer<Lce<T>> consumer) {
+            this.consumer = consumer;
+        }
+
+        @Override
+        public void onNext(@NonNull Lce<T> tLce) {
+            try {
+                consumer.accept(tLce);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onError(@NonNull Throwable e) {
+            onNext(Lce.error(e));
+        }
+
+        @Override
+        public void onComplete() {
+        }
     }
 }
