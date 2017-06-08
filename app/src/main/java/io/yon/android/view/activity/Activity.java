@@ -158,7 +158,7 @@ public abstract class Activity extends AppCompatActivity implements LifecycleReg
                 if (NavUtils.getParentActivityIntent(activity) != null)
                     NavUtils.navigateUpFromSameTask(activity);
                 else
-                    onBackPressed();
+                    finish();
             });
         } else {
             toolbarRightButton.setOnClickListener(null);
