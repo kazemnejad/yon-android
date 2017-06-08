@@ -43,7 +43,7 @@ public class Lce<T> {
         return data;
     }
 
-    public Throwable getError(){
+    public Throwable getError() {
         return error;
     }
 
@@ -59,14 +59,13 @@ public class Lce<T> {
         public void onNext(@NonNull Lce<T> tLce) {
             try {
                 consumer.accept(tLce);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ignored) {
             }
         }
 
         @Override
         public void onError(@NonNull Throwable e) {
-            onNext(Lce.error(e));
+            onNext(error(e));
         }
 
         @Override
