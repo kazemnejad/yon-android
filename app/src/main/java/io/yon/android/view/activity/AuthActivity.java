@@ -1,11 +1,8 @@
 package io.yon.android.view.activity;
 
 import android.os.Bundle;
-import android.support.annotation.DimenRes;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -30,9 +27,14 @@ public class AuthActivity extends Activity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setTitle(R.string.login_to_user_account);
         setDisplayHomeAsUpEnabled(true);
 
+        initView();
+    }
+
+    private void initView() {
         btnPasswordVisibility = (ImageButton) findViewById(R.id.password_visible);
         btnPasswordVisibility.setOnClickListener(v -> passwordVisibilityToggleRequested());
 
