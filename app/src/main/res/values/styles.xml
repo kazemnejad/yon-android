@@ -12,7 +12,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.DrawerActivity">
+    <style name="AppTheme.DrawerActivity"></style>
+
+    <style name="AppTheme.AuthActivity">
+        <item name="android:windowBackground">@color/authActivityBackgroundColor</item>
     </style>
 
     <style name="ToolbarButton">
@@ -36,4 +39,22 @@
     <style name="ToolbarOptionMenu" parent="@style/Widget.AppCompat.Light.ActionBar">
         <item name="overlapAnchor">true</item>
     </style>
+
+    <style name="PrimaryColoredButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="AccentColoredButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorAccent</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="GoogleSignInButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Button</item>
+        <item name="colorButtonNormal">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+
 </resources>

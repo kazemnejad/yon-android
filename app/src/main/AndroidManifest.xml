@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="io.yon.android">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="io.yon.android">
 
     <application
         android:name=".MainApplication"
@@ -12,31 +12,30 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/AppTheme.DrawerActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+
         <activity android:name=".ArchTestActivity">
             <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
-        <!--<activity-->
-        <!--android:name=".TestActivity"-->
-        <!--android:theme="@style/Theme.AppCompat.Light.DarkActionBar">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="android.intent.action.MAIN" />-->
 
-        <!--<category android:name="android.intent.category.LAUNCHER" />-->
-        <!--</intent-filter>-->
-        <!--</activity>-->
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.DrawerActivity"/>
+
+        <activity
+            android:name=".view.activity.AuthActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

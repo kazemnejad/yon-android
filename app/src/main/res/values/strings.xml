@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">یونجه</string>
+    <string name="email">ایمیل</string>
+    <string name="password">کلمه‌ی عبور</string>
+    <string name="login">ورود</string>
+    <string name="sign_in_with_google">ورود با حساب گوگل</string>
+    <string name="or">یا</string>
+    <string name="forgot_password">کلمه‌ی عبور را فراموش کردم.</string>
+    <string name="login_to_user_account">ورود به حساب کاربری</string>
 </resources>
