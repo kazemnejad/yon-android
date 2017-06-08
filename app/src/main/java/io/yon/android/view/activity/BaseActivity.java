@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import io.yon.android.R;
 import io.yon.android.view.widget.PopupMenu;
-import io.yon.android.utils.DrawerHelper;
+import io.yon.android.util.DrawerHelper;
 
 /**
  * Created by amirhosein on 5/27/17.
@@ -103,7 +103,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
 
         super.onBackPressed();
     }
-    
+
     @Override
     public LifecycleRegistry getLifecycle() {
         return mRegistry;
@@ -134,12 +134,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
 
         toolbarRightButton.setImageResource(R.drawable.ic_menu_24dp);
         toolbarRightButton.setVisibility(View.VISIBLE);
-        toolbarRightButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDrawerButtonClick();
-            }
-        });
+        toolbarRightButton.setOnClickListener(v -> onDrawerButtonClick());
 
         drawerHelper = new DrawerHelper(this, mDrawerLayout);
         drawerHelper.init();
@@ -160,14 +155,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
         if (enable) {
             toolbarRightButton.setImageResource(R.drawable.ic_navigation_back_24dp);
             toolbarRightButton.setVisibility(View.VISIBLE);
-            toolbarRightButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (NavUtils.getParentActivityIntent(activity) != null)
-                        NavUtils.navigateUpFromSameTask(activity);
-                    else
-                        onBackPressed();
-                }
+            toolbarRightButton.setOnClickListener(v -> {
+                if (NavUtils.getParentActivityIntent(activity) != null)
+                    NavUtils.navigateUpFromSameTask(activity);
+                else
+                    onBackPressed();
             });
         } else {
             toolbarRightButton.setOnClickListener(null);
@@ -183,20 +175,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
         isOptionMenuEnabled = enable;
         if (enable) {
             mPopupMenu = new PopupMenu(BaseActivity.this, toolbarMoreButton, Gravity.TOP, 0, R.style.Widget_AppCompat_Light_PopupMenu_Overflow);
-            mPopupMenu.setOnMenuItemClickListener(new android.support.v7.widget.PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    return isOptionMenuEnabled && BaseActivity.this.onOptionsItemSelected(item);
-                }
-            });
+            mPopupMenu.setOnMenuItemClickListener(item -> isOptionMenuEnabled && BaseActivity.this.onOptionsItemSelected(item));
 
             toolbarMoreButton.setVisibility(View.VISIBLE);
-            toolbarMoreButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mPopupMenu != null && isOptionMenuEnabled)
-                        mPopupMenu.show();
-                }
+            toolbarMoreButton.setOnClickListener(v -> {
+                if (mPopupMenu != null && isOptionMenuEnabled)
+                    mPopupMenu.show();
             });
         } else {
             mPopupMenu = null;
