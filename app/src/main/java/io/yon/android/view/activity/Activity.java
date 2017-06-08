@@ -15,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -28,7 +27,7 @@ import io.yon.android.util.DrawerHelper;
  * Created by amirhosein on 5/27/17.
  */
 
-public abstract class BaseActivity extends AppCompatActivity implements LifecycleRegistryOwner {
+public abstract class Activity extends AppCompatActivity implements LifecycleRegistryOwner {
 
     private final LifecycleRegistry mRegistry = new LifecycleRegistry(this);
 
@@ -151,7 +150,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
         if (toolbarRightButton == null)
             return;
 
-        final BaseActivity activity = this;
+        final Activity activity = this;
         if (enable) {
             toolbarRightButton.setImageResource(R.drawable.ic_navigation_back_24dp);
             toolbarRightButton.setVisibility(View.VISIBLE);
@@ -174,8 +173,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
 
         isOptionMenuEnabled = enable;
         if (enable) {
-            mPopupMenu = new PopupMenu(BaseActivity.this, toolbarMoreButton, Gravity.TOP, 0, R.style.Widget_AppCompat_Light_PopupMenu_Overflow);
-            mPopupMenu.setOnMenuItemClickListener(item -> isOptionMenuEnabled && BaseActivity.this.onOptionsItemSelected(item));
+            mPopupMenu = new PopupMenu(Activity.this, toolbarMoreButton, Gravity.TOP, 0, R.style.Widget_AppCompat_Light_PopupMenu_Overflow);
+            mPopupMenu.setOnMenuItemClickListener(item -> isOptionMenuEnabled && Activity.this.onOptionsItemSelected(item));
 
             toolbarMoreButton.setVisibility(View.VISIBLE);
             toolbarMoreButton.setOnClickListener(v -> {
