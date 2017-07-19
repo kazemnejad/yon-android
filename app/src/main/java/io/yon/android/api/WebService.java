@@ -1,10 +1,16 @@
 package io.yon.android.api;
 
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+
 import io.reactivex.Observable;
-import io.reactivex.Single;
 import io.yon.android.api.request.LoginRequest;
+import io.yon.android.api.request.RegisterRequest;
 import io.yon.android.api.response.AuthResponse;
+import io.yon.android.api.response.BasicResponse;
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
+import retrofit2.Converter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -18,6 +24,7 @@ import retrofit2.http.POST;
 
 public abstract class WebService {
     private static YonWebService webService;
+    private static Retrofit retrofit;
 
     public static YonWebService getInstance() {
         return webService;
@@ -39,17 +46,34 @@ public abstract class WebService {
                     )).build()
             );
 
-
-        webService = retroBuilder.build().create(YonWebService.class);
+        retrofit = retroBuilder.build();
+        webService = retrofit.create(YonWebService.class);
     }
 
     public static void init() {
         init(null);
     }
 
+    public static <T extends BasicResponse> T getErrorBody(Response<?> response, Class<T> clazz) {
+        Converter<ResponseBody, T> converter = retrofit.responseBodyConverter(clazz, new Annotation[0]);
+
+        T result;
+
+        try {
+            result = converter.convert(response.errorBody());
+        } catch (IOException e) {
+            return null;
+        }
+
+        return result;
+    }
+
     public interface YonWebService {
         // User end-points
         @POST("user/auth/login")
         Observable<Response<AuthResponse>> login(@Body LoginRequest request);
+
+        @POST("user/auth/signup")
+        Observable<Response<AuthResponse>> register(@Body RegisterRequest request);
     }
 }

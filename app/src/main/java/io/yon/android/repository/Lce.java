@@ -1,5 +1,7 @@
 package io.yon.android.repository;
 
+import com.orhanobut.logger.Logger;
+
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableObserver;
@@ -59,7 +61,8 @@ public class Lce<T> {
         public void onNext(@NonNull Lce<T> tLce) {
             try {
                 consumer.accept(tLce);
-            } catch (Exception ignored) {
+            } catch (Exception exp) {
+                Logger.e(exp, "");
             }
         }
 

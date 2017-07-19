@@ -3,8 +3,6 @@
     <string name="email">ایمیل</string>
     <string name="password">کلمه‌ی عبور</string>
     <string name="login">ورود</string>
-    <string name="sign_in_with_google">ورود با حساب گوگل</string>
-    <string name="or">یا</string>
-    <string name="forgot_password">کلمه‌ی عبور را فراموش کردم.</string>
-    <string name="login_to_user_account">ورود به حساب کاربری</string>
+    <string name="unable_to_connect_to_server">مشکل در برقراری ارتباط با سرور</string>
+    <string name="field_shold_not_be_empty">این فیلد را حتما باید پر شود.</string>
 </resources>

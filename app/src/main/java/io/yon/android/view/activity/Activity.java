@@ -2,6 +2,7 @@ package io.yon.android.view.activity;
 
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -12,6 +13,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,8 +22,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import io.yon.android.R;
-import io.yon.android.view.widget.PopupMenu;
 import io.yon.android.util.DrawerHelper;
+import io.yon.android.view.widget.PopupMenu;
 
 /**
  * Created by amirhosein on 5/27/17.
@@ -30,6 +32,11 @@ import io.yon.android.util.DrawerHelper;
 public abstract class Activity extends AppCompatActivity implements LifecycleRegistryOwner {
 
     private final LifecycleRegistry mRegistry = new LifecycleRegistry(this);
+
+    private final SparseArray<OnActivityResultListener> mResultListeners = new SparseArray<>();
+    private int lastRequestCode = 0;
+
+    private View rootView;
 
     @Nullable
     private Toolbar mToolbar;
@@ -64,6 +71,7 @@ public abstract class Activity extends AppCompatActivity implements LifecycleReg
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResourceId());
 
+        rootView = findViewById(R.id.root);
         initToolbar();
         initDrawer();
     }
@@ -86,6 +94,15 @@ public abstract class Activity extends AppCompatActivity implements LifecycleReg
     public void setTitle(@StringRes int titleId) {
         if (toolbarMain != null)
             toolbarMain.setText(titleId);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        OnActivityResultListener listener = mResultListeners.get(requestCode);
+        if (listener != null) {
+            listener.onResult(resultCode, data);
+            mResultListeners.remove(requestCode);
+        }
     }
 
     @Override
@@ -192,6 +209,10 @@ public abstract class Activity extends AppCompatActivity implements LifecycleReg
         return drawerHelper;
     }
 
+    protected View getRootView() {
+        return rootView;
+    }
+
     protected void forceEnableOptionMenu(@MenuRes int menuId) {
         setHasOptionMenu(true);
         if (mPopupMenu != null)
@@ -200,5 +221,17 @@ public abstract class Activity extends AppCompatActivity implements LifecycleReg
 
     public boolean onCreateOptionMenu(Menu menu, MenuInflater inflater) {
         return false;
+    }
+
+    public void addOnActivityResultListener(int requestCode, OnActivityResultListener listener) {
+        mResultListeners.append(requestCode, listener);
+    }
+
+    public int getNewRequestCode() {
+        return lastRequestCode++;
+    }
+
+    public interface OnActivityResultListener {
+        void onResult(int resultCode, Intent data);
     }
 }

@@ -1,0 +1,24 @@
+<resources>
+    <string name="or">یا</string>
+    <string name="forgot_password">کلمه‌ی عبور را فراموش کردم.</string>
+
+    <string name="go_to_login">ورود با حساب کاربری</string>
+    <string name="go_to_register">ساخت حساب کاربری</string>
+
+    <!--Login-->
+    <string name="login_to_user_account">ورود به حساب کاربری</string>
+    <string name="sign_in_with_google">ورود با حساب گوگل</string>
+    <string name="login_invalid_email_format">قالب ایمیل صحیح نیست.</string>
+    <string name="login_invalid_password_format">گذرواژه حداقل باید ۶ حرف داشته‌باشد.</string>
+
+    <!--Register-->
+    <string name="sign_up_with_google">ثبت‌نام با حساب گوگل</string>
+    <string name="create_user_account">ساخت حساب کاربری</string>
+    <string name="register">ثبت‌نام</string>
+
+    <string name="fname">نام</string>
+    <string name="lname">نام‌خانوادگی</string>
+    <string name="email_password_doesnt_match">ایمیل و گذرواژه هم‌خوانی ندارند.</string>
+    <string name="email_already_exists">این ایمیل قبلا وجود دارد.</string>
+
+</resources>

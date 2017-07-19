@@ -6,9 +6,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import io.yon.android.ui.activity.BaseActivity;
+import io.yon.android.view.activity.Activity;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected int getLayoutResourceId() {

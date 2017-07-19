@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 
 public class Config {
     private static final String MAIN = "main";
+    private static final String USER = "user";
 
     private static SharedPreferences get(Context context, String name) {
         return context.getApplicationContext().getSharedPreferences(name, Context.MODE_PRIVATE);
@@ -18,7 +19,16 @@ public class Config {
         return get(context, MAIN);
     }
 
+    public static SharedPreferences getUser(Context context) {
+        return get(context, USER);
+    }
+
     public static abstract class Field {
         public final static String Token = "token";
+
+        public final static String FirstName = "fname";
+        public final static String LastName = "lname";
+        public final static String Email = "email";
+        public final static String Avatar = "avatar";
     }
 }
