@@ -46,10 +46,10 @@ public class RegisterFragment extends Fragment implements Validator.ValidationLi
     @Password(min = 6, scheme = Password.Scheme.ANY, messageResId = R.string.login_invalid_password_format)
     private EditText etPassword;
 
-    @NotEmpty(messageResId = R.string.field_shold_not_be_empty)
+    @NotEmpty(messageResId = R.string.field_should_not_be_empty)
     private EditText etFname;
 
-    @NotEmpty(messageResId = R.string.field_shold_not_be_empty)
+    @NotEmpty(messageResId = R.string.field_should_not_be_empty)
     private EditText etLname;
 
     private ProgressBar mProgressBar;
