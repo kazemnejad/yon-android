@@ -74,6 +74,8 @@ public abstract class Activity extends AppCompatActivity implements LifecycleReg
         rootView = findViewById(R.id.root);
         initToolbar();
         initDrawer();
+
+        findViews();
     }
 
     @Override
@@ -124,6 +126,8 @@ public abstract class Activity extends AppCompatActivity implements LifecycleReg
     public LifecycleRegistry getLifecycle() {
         return mRegistry;
     }
+
+    protected void findViews() {}
 
     private void initToolbar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
