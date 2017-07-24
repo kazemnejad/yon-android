@@ -19,7 +19,7 @@ import io.yon.android.view.adapter.viewholder.RecommendationListsViewHolder;
  * Created by amirhosein on 7/22/17.
  */
 
-public class VaryingShowcaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ShowcaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int BANNERS = 0;
     private static final int RECOMMENDATIONS = 1;
@@ -27,7 +27,7 @@ public class VaryingShowcaseAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private ArrayList<Object> mData = new ArrayList<Object>();
     private RxBus rxBus;
 
-    public VaryingShowcaseAdapter(ArrayList<Object> data, RxBus bus) {
+    public ShowcaseAdapter(ArrayList<Object> data, RxBus bus) {
         mData = data;
         rxBus = bus;
     }
