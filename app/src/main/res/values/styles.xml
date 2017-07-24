@@ -21,14 +21,16 @@
     <style name="ToolbarButton">
         <item name="android:layout_width">@dimen/material_min_touch_space</item>
         <item name="android:layout_height">@dimen/material_min_touch_space</item>
-        <item name="android:background">?attr/controlBackground</item>
+        <!--<item name="android:background">?attr/controlBackground</item>-->
+        <item name="android:background">@drawable/round_button</item>
         <item name="android:layout_gravity">center_vertical</item>
     </style>
 
     <style name="ToolbarButton.More">
         <item name="android:layout_width">24dp</item>
         <item name="android:layout_height">24dp</item>
-        <item name="android:background">?attr/controlBackground</item>
+        <!--<item name="android:background">?attr/controlBackground</item>-->
+        <item name="android:background">@drawable/round_button</item>
         <item name="android:layout_gravity">center_vertical</item>
     </style>
 
@@ -56,5 +58,8 @@
         <item name="android:textColor">@android:color/black</item>
     </style>
 
+    <style name="BannerCard">
+        <item name="cardCornerRadius">0dp</item>
+    </style>
 
 </resources>

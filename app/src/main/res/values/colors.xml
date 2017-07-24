@@ -7,4 +7,6 @@
     <color name="authActivityBackgroundColor">#f9f9f9</color>
 
     <color name="actionItemColorLight">#89000000</color>
+
+    <color name="solidPlaceHolder">#eaeaea</color>
 </resources>
