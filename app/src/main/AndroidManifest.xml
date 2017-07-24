@@ -26,7 +26,7 @@
 
         <activity
             android:name=".view.activity.MainActivity"
-            android:theme="@style/AppTheme.DrawerActivity">
+            android:theme="@style/AppTheme.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

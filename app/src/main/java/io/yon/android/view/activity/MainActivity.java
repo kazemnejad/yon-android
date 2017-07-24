@@ -14,8 +14,10 @@ import java.util.List;
 
 import io.yon.android.R;
 import io.yon.android.model.Banner;
+import io.yon.android.model.Restaurant;
+import io.yon.android.model.SimpleSection;
 import io.yon.android.util.RxBus;
-import io.yon.android.view.adapter.VaryingShowcaseAdapter;
+import io.yon.android.view.adapter.ShowcaseAdapter;
 import io.yon.android.view.widget.ShowcaseOnScrollListener;
 
 public class MainActivity extends Activity {
@@ -57,9 +59,10 @@ public class MainActivity extends Activity {
     private void fillDummyContent() {
         ArrayList<Object> data = new ArrayList<>();
         data.add(makeBanners());
+        data.add(makeSimpleSection());
         data.add("sss");
 
-        recyclerView.setAdapter(new VaryingShowcaseAdapter(data, new RxBus()));
+        recyclerView.setAdapter(new ShowcaseAdapter(this, new RxBus(), data));
     }
 
     private List<Banner> makeBanners() {
@@ -80,6 +83,36 @@ public class MainActivity extends Activity {
         }
 
         return banners;
+    }
+
+    private SimpleSection makeSimpleSection() {
+        String[] avatarUrls = {
+                "https://www.reyhoon.com/images/logo/1665.jpeg?_=1500713079",
+                "https://www.reyhoon.com/images/logo/1166.jpeg?_=1488296020",
+                "https://www.reyhoon.com/images/logo/410.jpg?_=1498976539",
+                "https://www.reyhoon.com/images/logo/616.jpeg?_=1488286265"
+        };
+        String[] names = {
+                "توران",
+                "اصغر جوجه",
+                "اکبر جوجه",
+                "بوف"
+        };
+
+        SimpleSection section = new SimpleSection();
+        section.setTitle(getString(R.string.recent_visits));
+        ArrayList<Restaurant> rests = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            Restaurant r = new Restaurant();
+            r.setName(names[i]);
+            r.setAvatar(avatarUrls[i]);
+
+            rests.add(r);
+        }
+
+        section.setRestaurants(rests);
+
+        return section;
     }
 
     @Override

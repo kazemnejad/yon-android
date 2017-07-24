@@ -18,6 +18,10 @@
         <item name="android:windowBackground">@color/authActivityBackgroundColor</item>
     </style>
 
+    <style name="AppTheme.MainActivity" parent="AppTheme.DrawerActivity">
+        <item name="android:windowBackground">@color/mainActivityBackgroundColor</item>
+    </style>
+
     <style name="ToolbarButton">
         <item name="android:layout_width">@dimen/material_min_touch_space</item>
         <item name="android:layout_height">@dimen/material_min_touch_space</item>
@@ -60,6 +64,37 @@
 
     <style name="BannerCard">
         <item name="cardCornerRadius">0dp</item>
+    </style>
+
+    <style name="SimpleSectionContainer">
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">90dp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <!--<item name="android:background">@drawable/round_button_light</item>-->
+    </style>
+
+    <style name="SimpleSectionIcon">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="SimpleSectionText">
+        <item name="android:layout_gravity">right</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="SimpleSectionTitle">
+
     </style>
 
 </resources>

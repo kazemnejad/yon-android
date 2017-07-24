@@ -26,10 +26,10 @@ public class BannersViewHolder extends RecyclerView.ViewHolder {
 
     private RecyclerView recyclerView;
 
-    public BannersViewHolder(View itemView, RxBus rxBus) {
+    public BannersViewHolder(View itemView, Context context, RxBus rxBus) {
         super(itemView);
 
-        this.context = itemView.getContext().getApplicationContext();
+        this.context = context;
         this.rxBus = rxBus;
 
         adapter = new BannersAdapter(context, new ArrayList<Banner>(), rxBus);
