@@ -12,37 +12,37 @@ import java.util.List;
 import io.yon.android.R;
 import io.yon.android.model.Banner;
 import io.yon.android.util.RxBus;
-import io.yon.android.view.adapter.BannersAdapter;
+import io.yon.android.view.adapter.Adapter;
 
 /**
  * Created by amirhosein on 7/22/17.
  */
 
-public class BannersViewHolder extends RecyclerView.ViewHolder {
-
-    private final BannersAdapter adapter;
-    private Context context;
-    private RxBus rxBus;
+public class BannersViewHolder extends ViewHolder<List<Banner>> {
 
     private RecyclerView recyclerView;
+    private Adapter<Banner, ItemBannerViewHolder> adapter;
 
-    public BannersViewHolder(View itemView, Context context, RxBus rxBus) {
-        super(itemView);
+    public BannersViewHolder(View itemView, Context context, RxBus bus) {
+        super(itemView, context, bus);
+    }
 
-        this.context = context;
-        this.rxBus = rxBus;
+    @Override
+    protected void findViews() {
+        recyclerView = (RecyclerView) findViewById(R.id.banners);
+    }
 
-        adapter = new BannersAdapter(context, new ArrayList<Banner>(), rxBus);
-
-        recyclerView = (RecyclerView) itemView.findViewById(R.id.banners);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true));
+    @Override
+    protected void initViews() {
+        adapter = new Adapter<>(getContext(), new ArrayList<>(), getBus(), ItemBannerViewHolder.getFactory());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
         new LinearSnapHelper().attachToRecyclerView(recyclerView);
     }
 
+    @Override
     public void bindContent(List<Banner> banners) {
-        adapter.update(banners);
-        adapter.notifyDataSetChanged();
+        adapter.setDataAndNotify(banners);
     }
 }

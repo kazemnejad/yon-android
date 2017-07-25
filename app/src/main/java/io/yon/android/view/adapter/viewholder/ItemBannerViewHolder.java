@@ -3,7 +3,6 @@ package io.yon.android.view.adapter.viewholder;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,32 +16,38 @@ import io.yon.android.view.GlideApp;
  * Created by amirhosein on 7/22/17.
  */
 
-public class ItemBannerViewHolder extends RecyclerView.ViewHolder {
-
-    private Context context;
-    private RxBus bus;
+public class ItemBannerViewHolder extends ViewHolder<Banner> {
 
     private ImageView banner;
     private TextView title;
     private TextView subTitle;
 
-    public ItemBannerViewHolder(View itemView, Context context, RxBus bus) {
-        super(itemView);
-
-        this.context = context;
-        this.bus = bus;
-
-        banner = (ImageView) itemView.findViewById(R.id.banner);
-        title = (TextView) itemView.findViewById(R.id.title);
-        subTitle = (TextView) itemView.findViewById(R.id.subtitle);
+    public static Factory<ItemBannerViewHolder> getFactory() {
+        return (inflater, parent, context, bus) -> new ItemBannerViewHolder(
+                inflater.inflate(R.layout.banner_item, parent, false),
+                context,
+                bus
+        );
     }
 
+    public ItemBannerViewHolder(View itemView, Context context, RxBus bus) {
+        super(itemView, context, bus);
+    }
+
+    @Override
+    protected void findViews() {
+        banner = (ImageView) findViewById(R.id.banner);
+        title = (TextView) findViewById(R.id.title);
+        subTitle = (TextView) findViewById(R.id.subtitle);
+    }
+
+    @Override
     public void bindContent(Banner b) {
         title.setText(b.getTitle());
         subTitle.setText(b.getSubTitle());
 
-        int color = ContextCompat.getColor(context, R.color.solidPlaceHolder);
-        GlideApp.with(context)
+        int color = ContextCompat.getColor(getContext(), R.color.solidPlaceHolder);
+        GlideApp.with(getContext())
                 .load(b.getBannerUrl())
                 .placeholder(new ColorDrawable(color))
                 .centerCrop()
