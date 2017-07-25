@@ -15,7 +15,7 @@ import io.yon.android.model.RecommendationList;
 import io.yon.android.model.SimpleSection;
 import io.yon.android.util.RxBus;
 import io.yon.android.view.adapter.viewholder.BannersViewHolder;
-import io.yon.android.view.adapter.viewholder.RecommendationListsViewHolder;
+import io.yon.android.view.adapter.viewholder.CompactRecommendationsViewHolder;
 import io.yon.android.view.adapter.viewholder.SimpleSectionViewHolder;
 
 /**
@@ -51,8 +51,8 @@ public class ShowcaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
 
             case RECOMMENDATIONS:
-                view = inflater.inflate(R.layout.banners, parent, false);
-                viewHolder = new RecommendationListsViewHolder(view, rxBus);
+                view = inflater.inflate(R.layout.compact_recommendations, parent, false);
+                viewHolder = new CompactRecommendationsViewHolder(view, rxBus);
                 break;
 
             case SIMPLE_SECTION:
@@ -97,8 +97,8 @@ public class ShowcaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof BannersViewHolder)
             ((BannersViewHolder) holder).bindContent((List<Banner>) mData.get(position));
-        else if (holder instanceof RecommendationListsViewHolder)
-            ((RecommendationListsViewHolder) holder).bindContent((List<RecommendationList>) mData.get(position));
+        else if (holder instanceof CompactRecommendationsViewHolder)
+            ((CompactRecommendationsViewHolder) holder).bindContent((List<RecommendationList>) mData.get(position));
         else if (holder instanceof SimpleSectionViewHolder)
             ((SimpleSectionViewHolder) holder).bindContent((SimpleSection) mData.get(position));
     }

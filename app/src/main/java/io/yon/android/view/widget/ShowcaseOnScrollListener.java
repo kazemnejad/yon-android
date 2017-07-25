@@ -64,6 +64,9 @@ public abstract class ShowcaseOnScrollListener extends RecyclerView.OnScrollList
         if (banners == null)
             banners = findViewById(R.id.banners);
 
+        if (banners == null)
+            return;
+
         banners.setAlpha((float) (height - scrolled) / height);
     }
 

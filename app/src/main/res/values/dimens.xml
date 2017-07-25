@@ -10,4 +10,7 @@
 
     <dimen name="material_drawer_max_width_phone">260dp</dimen>
     <dimen name="material_drawer_max_width_tablet">320dp</dimen>
+
+
+    <dimen name="simple_restaurant_item_icon_width">60dp</dimen>
 </resources>

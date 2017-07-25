@@ -14,6 +14,7 @@ import java.util.List;
 
 import io.yon.android.R;
 import io.yon.android.model.Banner;
+import io.yon.android.model.RecommendationList;
 import io.yon.android.model.Restaurant;
 import io.yon.android.model.SimpleSection;
 import io.yon.android.util.RxBus;
@@ -47,7 +48,9 @@ public class MainActivity extends Activity {
 
     private void initView() {
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setItemPrefetchEnabled(true);
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.addOnScrollListener(new ShowcaseOnScrollListener(this) {
             @Override
             protected View findViewById(int id) {
@@ -60,6 +63,7 @@ public class MainActivity extends Activity {
         ArrayList<Object> data = new ArrayList<>();
         data.add(makeBanners());
         data.add(makeSimpleSection());
+        data.add(makeRecommendations());
         data.add("sss");
 
         recyclerView.setAdapter(new ShowcaseAdapter(this, new RxBus(), data));
@@ -98,6 +102,18 @@ public class MainActivity extends Activity {
                 "اکبر جوجه",
                 "بوف"
         };
+        String[] addresses = {
+                "انفلاب، امیرآباد، میدان دانشجو",
+                "سعادت‌آباد، بلوار پیام",
+                "رسالت، فرجام، دانشگاه علم‌و‌صنعت",
+                "تجریش، باهنر، فضیه"
+        };
+        String[] rates = {
+                "۴.۲",
+                "۴.۹",
+                "۳.۱",
+                "۳.۸"
+        };
 
         SimpleSection section = new SimpleSection();
         section.setTitle(getString(R.string.recent_visits));
@@ -105,7 +121,9 @@ public class MainActivity extends Activity {
         for (int i = 0; i < 4; i++) {
             Restaurant r = new Restaurant();
             r.setName(names[i]);
-            r.setAvatar(avatarUrls[i]);
+            r.setAvatarUrl(avatarUrls[i]);
+            r.setAddress(addresses[i]);
+            r.setRate(rates[i]);
 
             rests.add(r);
         }
@@ -113,6 +131,20 @@ public class MainActivity extends Activity {
         section.setRestaurants(rests);
 
         return section;
+    }
+
+    private List<RecommendationList> makeRecommendations() {
+        ArrayList<RecommendationList> list = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            RecommendationList r = new RecommendationList();
+            List<Restaurant> restaurants = makeSimpleSection().getRestaurants();
+            restaurants.remove(0);
+            r.setRestaurants(restaurants);
+
+            list.add(r);
+        }
+
+        return list;
     }
 
     @Override
