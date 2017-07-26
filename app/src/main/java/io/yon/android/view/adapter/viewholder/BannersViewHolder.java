@@ -20,24 +20,29 @@ import io.yon.android.view.adapter.Adapter;
 
 public class BannersViewHolder extends ViewHolder<List<Banner>> {
 
-    private RecyclerView recyclerView;
     private Adapter<Banner, ItemBannerViewHolder> adapter;
+
+    public static Factory<BannersViewHolder> getFactory() {
+        return (inflater, parent, context, bus) -> new BannersViewHolder(
+                inflater.inflate(R.layout.banners, parent, false),
+                context,
+                bus
+        );
+    }
 
     public BannersViewHolder(View itemView, Context context, RxBus bus) {
         super(itemView, context, bus);
     }
 
     @Override
-    protected void findViews() {
-        recyclerView = (RecyclerView) findViewById(R.id.banners);
-    }
-
-    @Override
     protected void initViews() {
         adapter = new Adapter<>(getContext(), new ArrayList<>(), getBus(), ItemBannerViewHolder.getFactory());
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.banners);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
+
         new LinearSnapHelper().attachToRecyclerView(recyclerView);
     }
 

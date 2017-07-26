@@ -5,45 +5,48 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import java.util.ArrayList;
-
 import io.yon.android.R;
 import io.yon.android.model.RecommendationList;
+import io.yon.android.model.Restaurant;
 import io.yon.android.util.RxBus;
-import io.yon.android.view.adapter.RestaurantsAdapter;
+import io.yon.android.view.adapter.Adapter;
 import io.yon.android.view.widget.NonScrollingLayoutManager;
 
 /**
  * Created by amirhosein on 7/25/17.
  */
 
-public class ItemRecommendationViewHolder extends RecyclerView.ViewHolder {
+public class ItemRecommendationViewHolder extends ViewHolder<RecommendationList> {
 
-    private Context context;
-    private RxBus bus;
+    private Adapter<Restaurant, ItemSimpleRestaurantViewHolder> adapter;
 
-    private RecyclerView recyclerView;
-    private RestaurantsAdapter adapter;
+    public static Factory<ItemRecommendationViewHolder> getFactory() {
+        return (inflater, parent, context, bus) -> new ItemRecommendationViewHolder(
+                inflater.inflate(R.layout.item_recommendation, parent, false),
+                context,
+                bus
+        );
+    }
 
     public ItemRecommendationViewHolder(View itemView, Context context, RxBus bus) {
-        super(itemView);
+        super(itemView, context, bus);
+    }
 
-        this.context = context;
-        this.bus = bus;
-
-        recyclerView = (RecyclerView) itemView.findViewById(R.id.recycler_view);
+    @Override
+    protected void initViews() {
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(false);
 
-        LinearLayoutManager layoutManager = new NonScrollingLayoutManager(context);
+        LinearLayoutManager layoutManager = new NonScrollingLayoutManager(getContext());
         layoutManager.setInitialPrefetchItemCount(3);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new RestaurantsAdapter(context, new ArrayList<>(), bus);
+        adapter = new Adapter<>(getContext(), null, getBus(), ItemSimpleRestaurantViewHolder.getFactory());
         recyclerView.setAdapter(adapter);
     }
 
-    public void bindContent(RecommendationList recomList) {
-        adapter.updateData(recomList.getRestaurants());
-        adapter.notifyDataSetChanged();
+    @Override
+    public void bindContent(RecommendationList lst) {
+        adapter.setDataAndNotify(lst.getRestaurants());
     }
 }

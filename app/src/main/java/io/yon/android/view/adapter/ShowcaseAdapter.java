@@ -17,56 +17,47 @@ import io.yon.android.util.RxBus;
 import io.yon.android.view.adapter.viewholder.BannersViewHolder;
 import io.yon.android.view.adapter.viewholder.CompactRecommendationsViewHolder;
 import io.yon.android.view.adapter.viewholder.SimpleSectionViewHolder;
+import io.yon.android.view.adapter.viewholder.ViewHolder;
 
 /**
  * Created by amirhosein on 7/22/17.
  */
 
-public class ShowcaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ShowcaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private static final int BANNERS = 0;
     private static final int RECOMMENDATIONS = 1;
     private static final int SIMPLE_SECTION = 2;
 
     private ArrayList<Object> mData = new ArrayList<Object>();
-    private RxBus rxBus;
+    private RxBus bus;
     private Context context;
 
     public ShowcaseAdapter(Context context, RxBus bus, ArrayList<Object> data) {
         this.mData = data;
-        this.rxBus = bus;
+        this.bus = bus;
         this.context = context;
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view;
-        RecyclerView.ViewHolder viewHolder = null;
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         switch (viewType) {
             case BANNERS:
-                view = inflater.inflate(R.layout.banners, parent, false);
-                viewHolder = new BannersViewHolder(view, context, rxBus);
-                break;
+                return BannersViewHolder.getFactory().create(inflater, parent, context, bus);
 
             case RECOMMENDATIONS:
-                view = inflater.inflate(R.layout.compact_recommendations, parent, false);
-                viewHolder = new CompactRecommendationsViewHolder(view, rxBus);
-                break;
+                return CompactRecommendationsViewHolder.getFactory().create(inflater, parent, context, bus);
 
             case SIMPLE_SECTION:
-                view = inflater.inflate(R.layout.simple_section, parent, false);
-                viewHolder = new SimpleSectionViewHolder(view, context, rxBus);
-                break;
+                return SimpleSectionViewHolder.getFactory().create(inflater, parent, context, bus);
 
             case 5:
-                view = inflater.inflate(R.layout.dummy_vh, parent, false);
-                viewHolder = new DummyViewHolder(view);
-                break;
+                return new DummyViewHolder(inflater.inflate(R.layout.dummy_vh, parent, false), null);
         }
 
-        return viewHolder;
+        return null;
     }
 
     @Override
@@ -94,7 +85,7 @@ public class ShowcaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @SuppressWarnings("unchecked")
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         if (holder instanceof BannersViewHolder)
             ((BannersViewHolder) holder).bindContent((List<Banner>) mData.get(position));
         else if (holder instanceof CompactRecommendationsViewHolder)
@@ -103,9 +94,10 @@ public class ShowcaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((SimpleSectionViewHolder) holder).bindContent((SimpleSection) mData.get(position));
     }
 
-    public static class DummyViewHolder extends RecyclerView.ViewHolder {
-        public DummyViewHolder(View itemView) {
-            super(itemView);
+    public static class DummyViewHolder extends ViewHolder<Object> {
+
+        public DummyViewHolder(View itemView, Context context) {
+            super(itemView, context);
         }
     }
 }

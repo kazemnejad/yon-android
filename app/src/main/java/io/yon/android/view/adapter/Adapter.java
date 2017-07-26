@@ -44,7 +44,7 @@ public class Adapter<T, V extends ViewHolder<T>> extends RecyclerView.Adapter<V>
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mData != null ? mData.size() : 0;
     }
 
     public void setData(List<T> data) {
