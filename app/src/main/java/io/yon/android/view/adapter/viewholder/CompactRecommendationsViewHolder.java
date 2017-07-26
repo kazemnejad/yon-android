@@ -2,8 +2,8 @@ package io.yon.android.view.adapter.viewholder;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 
 import java.util.List;
@@ -12,12 +12,15 @@ import io.yon.android.R;
 import io.yon.android.model.RecommendationList;
 import io.yon.android.util.RxBus;
 import io.yon.android.view.adapter.Adapter;
+import io.yon.android.view.widget.snapHelper.GravitySnapHelper;
 
 /**
  * Created by amirhosein on 7/22/17.
  */
 
 public class CompactRecommendationsViewHolder extends ViewHolder<List<RecommendationList>> {
+
+    private Adapter<RecommendationList, ItemRecommendationViewHolder> adapter;
 
     public static Factory<CompactRecommendationsViewHolder> getFactory() {
         return (inflater, parent, context, bus) -> new CompactRecommendationsViewHolder(
@@ -26,8 +29,6 @@ public class CompactRecommendationsViewHolder extends ViewHolder<List<Recommenda
                 bus
         );
     }
-
-    private Adapter<RecommendationList, ItemRecommendationViewHolder> adapter;
 
     public CompactRecommendationsViewHolder(View itemView, Context context, RxBus bus) {
         super(itemView, context, bus);
@@ -44,7 +45,7 @@ public class CompactRecommendationsViewHolder extends ViewHolder<List<Recommenda
         adapter = new Adapter<>(getContext(), null, getBus(), ItemRecommendationViewHolder.getFactory());
         recyclerView.setAdapter(adapter);
 
-        new LinearSnapHelper().attachToRecyclerView(recyclerView);
+        new GravitySnapHelper(Gravity.END).attachToRecyclerView(recyclerView);
     }
 
     @Override

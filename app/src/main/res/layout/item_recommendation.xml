@@ -2,6 +2,6 @@
 <android.support.v7.widget.RecyclerView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@id/recycler_view"
-    android:layout_width="330dp"
+    android:layout_width="@dimen/recommendation_list_width"
     android:layout_height="match_parent"
     android:clipToPadding="false"/>

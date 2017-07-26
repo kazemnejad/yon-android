@@ -4,11 +4,13 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 
 import io.yon.android.R;
 import io.yon.android.model.RecommendationList;
 import io.yon.android.model.Restaurant;
 import io.yon.android.util.RxBus;
+import io.yon.android.util.ViewUtils;
 import io.yon.android.view.adapter.Adapter;
 import io.yon.android.view.widget.NonScrollingLayoutManager;
 
@@ -43,6 +45,15 @@ public class ItemRecommendationViewHolder extends ViewHolder<RecommendationList>
 
         adapter = new Adapter<>(getContext(), null, getBus(), ItemSimpleRestaurantViewHolder.getFactory());
         recyclerView.setAdapter(adapter);
+
+        int screenWidthDp = ViewUtils.dp(getContext(), ViewUtils.getScreenWidth(getContext()));
+
+        ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
+        recyclerView.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewUtils.px(getContext(), screenWidthDp - 54),
+                params.height
+        ));
+
     }
 
     @Override

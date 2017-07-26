@@ -13,4 +13,6 @@
 
 
     <dimen name="simple_restaurant_item_icon_width">60dp</dimen>
+
+    <dimen name="recommendation_list_width">360dp</dimen>
 </resources>

@@ -45,6 +45,8 @@ public class ViewHolder<T> extends RecyclerView.ViewHolder {
 
     protected void initViews() {}
 
+    protected View getItemView() {return itemView;}
+
     protected View findViewById(@IdRes int id) {
         return itemView.findViewById(id);
     }
