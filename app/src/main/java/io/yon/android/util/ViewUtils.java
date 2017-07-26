@@ -2,11 +2,13 @@ package io.yon.android.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.IBinder;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -59,5 +61,26 @@ public class ViewUtils {
                     til.setErrorEnabled(false);
             }
         });
+    }
+
+    private static DisplayMetrics getDisplayMetrics(Context context) {
+        if (!(context instanceof Activity)) {
+            return Resources.getSystem().getDisplayMetrics();
+        }
+
+        DisplayMetrics dm = new DisplayMetrics();
+        ((Activity) context).getWindowManager()
+                .getDefaultDisplay()
+                .getMetrics(dm);
+
+        return dm;
+    }
+
+    public static int getScreenWidth(Context context) {
+        return getDisplayMetrics(context).widthPixels;
+    }
+
+    public static int getScreenHeight(Context context) {
+        return getDisplayMetrics(context).heightPixels;
     }
 }
