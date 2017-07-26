@@ -31,7 +31,7 @@ public class BannersAdapter extends RecyclerView.Adapter<ItemBannerViewHolder> {
     @Override
     public ItemBannerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ItemBannerViewHolder(
-                LayoutInflater.from(context).inflate(R.layout.banner_item, parent, false),
+                LayoutInflater.from(context).inflate(R.layout.item_banner, parent, false),
                 context,
                 rxBus
         );

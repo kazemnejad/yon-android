@@ -24,7 +24,7 @@ public class ItemBannerViewHolder extends ViewHolder<Banner> {
 
     public static Factory<ItemBannerViewHolder> getFactory() {
         return (inflater, parent, context, bus) -> new ItemBannerViewHolder(
-                inflater.inflate(R.layout.banner_item, parent, false),
+                inflater.inflate(R.layout.item_banner, parent, false),
                 context,
                 bus
         );
