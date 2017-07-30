@@ -17,9 +17,11 @@ import io.yon.android.model.Banner;
 import io.yon.android.model.RecommendationList;
 import io.yon.android.model.Restaurant;
 import io.yon.android.model.SimpleSection;
+import io.yon.android.model.Tag;
 import io.yon.android.util.RxBus;
 import io.yon.android.view.adapter.ShowcaseAdapter;
 import io.yon.android.view.widget.ShowcaseOnScrollListener;
+
 
 public class MainActivity extends Activity {
 
@@ -64,6 +66,7 @@ public class MainActivity extends Activity {
         data.add(makeBanners());
         data.add(makeSimpleSection());
         data.add(makeRecommendations());
+        data.add(makeRecommendedTags());
         data.add("sss");
 
         recyclerView.setAdapter(new ShowcaseAdapter(this, new RxBus(), data));
@@ -155,6 +158,37 @@ public class MainActivity extends Activity {
         }
 
         return list;
+    }
+
+    private List<Tag> makeRecommendedTags() {
+        String[] names = {
+                "ایتالیایی",
+                "فست‌فود",
+                "سنتی",
+                "سوشی",
+                "برگر",
+                "اتاق سیگار"
+        };
+
+        String[] avatarUrls = {
+                "http://viztangocafe.com/wp-content/uploads/2015/06/food2.jpg",
+                "http://s.eatthis-cdn.com/media/images/ext/336492655/fast-food.jpg",
+                "https://s-media-cache-ak0.pinimg.com/originals/b5/1d/db/b51ddbf9ee7f29edcab76b12e1aded81.jpg",
+                "http://touristmeetstraveler.com/wp-content/uploads/sushi.jpg",
+                "http://www.daradasie.com/imgs/products/22/510x250_bad-fast-food-restaurants.jpg",
+                "https://media-cdn.tripadvisor.com/media/photo-s/04/37/06/36/rook-ruimte-smoking-room.jpg"
+        };
+
+        ArrayList<Tag> tags = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            Tag t = new Tag();
+            t.setName(names[i]);
+            t.setAvatarUrl(avatarUrls[i]);
+
+            tags.add(t);
+        }
+
+        return tags;
     }
 
     @Override

@@ -13,9 +13,11 @@ import io.yon.android.R;
 import io.yon.android.model.Banner;
 import io.yon.android.model.RecommendationList;
 import io.yon.android.model.SimpleSection;
+import io.yon.android.model.Tag;
 import io.yon.android.util.RxBus;
 import io.yon.android.view.adapter.viewholder.BannersViewHolder;
 import io.yon.android.view.adapter.viewholder.CompactRecommendationsViewHolder;
+import io.yon.android.view.adapter.viewholder.RecommendedTags;
 import io.yon.android.view.adapter.viewholder.SimpleSectionViewHolder;
 import io.yon.android.view.adapter.viewholder.ViewHolder;
 
@@ -28,6 +30,7 @@ public class ShowcaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     private static final int BANNERS = 0;
     private static final int RECOMMENDATIONS = 1;
     private static final int SIMPLE_SECTION = 2;
+    private static final int TAGS = 3;
 
     private ArrayList<Object> mData = new ArrayList<Object>();
     private RxBus bus;
@@ -53,6 +56,9 @@ public class ShowcaseAdapter extends RecyclerView.Adapter<ViewHolder> {
             case SIMPLE_SECTION:
                 return SimpleSectionViewHolder.getFactory().create(inflater, parent, context, bus);
 
+            case TAGS:
+                return RecommendedTags.getFactory().create(inflater, parent, context, bus);
+
             case 5:
                 return new DummyViewHolder(inflater.inflate(R.layout.dummy_vh, parent, false), null);
         }
@@ -75,6 +81,8 @@ public class ShowcaseAdapter extends RecyclerView.Adapter<ViewHolder> {
             if (((List) item).size() > 0 && ((List) item).get(0) instanceof RecommendationList)
                 return RECOMMENDATIONS;
 
+            if (((List) item).size() > 0 && ((List) item).get(0) instanceof Tag)
+                return TAGS;
         }
 
         if (item instanceof SimpleSection)
@@ -92,6 +100,8 @@ public class ShowcaseAdapter extends RecyclerView.Adapter<ViewHolder> {
             ((CompactRecommendationsViewHolder) holder).bindContent((List<RecommendationList>) mData.get(position));
         else if (holder instanceof SimpleSectionViewHolder)
             ((SimpleSectionViewHolder) holder).bindContent((SimpleSection) mData.get(position));
+        else if (holder instanceof RecommendedTags)
+            ((RecommendedTags) holder).bindContent((List<Tag>) mData.get(position));
     }
 
     public static class DummyViewHolder extends ViewHolder<Object> {
