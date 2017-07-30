@@ -14,7 +14,10 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="44dp"
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground"
+        >
 
         <TextView
             android:id="@+id/textView4"
@@ -68,15 +71,16 @@
             android:text="بیشتر"
             android:textColor="@color/colorPrimary"/>
 
-        <io.yon.android.view.widget.FeedRootRecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="236dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:clipToPadding="false"
-            android:paddingLeft="50dp"/>
-
     </RelativeLayout>
+
+    <io.yon.android.view.widget.FeedRootRecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_marginTop="44dp"
+        android:layout_height="236dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:clipToPadding="false"
+        android:paddingLeft="50dp"/>
 
 </android.support.v7.widget.CardView>
