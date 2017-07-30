@@ -55,4 +55,8 @@ public class Adapter<T, V extends ViewHolder<T>> extends RecyclerView.Adapter<V>
         mData = data;
         notifyDataSetChanged();
     }
+
+    public List<T> getData() {
+        return mData;
+    }
 }

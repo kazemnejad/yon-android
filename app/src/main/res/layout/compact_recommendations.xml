@@ -10,14 +10,14 @@
     app:cardBackgroundColor="@android:color/white"
     app:cardCornerRadius="3dp"
     app:cardElevation="4dp"
-    app:cardUseCompatPadding="true"
-    >
+    app:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -28,9 +28,39 @@
             android:text="@string/recommended"
             android:textColor="@color/black_54"
             android:textSize="17sp"
+            android:gravity="right"
+            android:layout_gravity="right"
             android:textStyle="bold"/>
 
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textView4"
+            android:layout_marginRight="@dimen/material_step_1_margin"
+            android:layout_marginTop="2dp"
+            android:layout_toLeftOf="@+id/textView4">
+
+            <TextView
+                android:id="@+id/tab_title1"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/tab_title2"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp"/>
+        </FrameLayout>
+
         <TextView
+            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -43,9 +73,9 @@
             android:layout_width="match_parent"
             android:layout_height="228dp"
             android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:clipToPadding="false"
-            android:paddingLeft="50dp"
-            android:layout_centerHorizontal="true"/>
+            android:paddingLeft="50dp"/>
 
     </RelativeLayout>
 

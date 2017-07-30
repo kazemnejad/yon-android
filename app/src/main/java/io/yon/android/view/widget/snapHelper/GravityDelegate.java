@@ -247,9 +247,9 @@ class GravityDelegate {
 
         if (layoutManager instanceof LinearLayoutManager) {
             if (gravity == Gravity.START || gravity == Gravity.TOP) {
-                return ((LinearLayoutManager) layoutManager).findFirstCompletelyVisibleItemPosition();
+                return ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
             } else if (gravity == Gravity.END || gravity == Gravity.BOTTOM) {
-                return ((LinearLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition();
+                return ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
             }
         }
 

@@ -59,7 +59,7 @@ public class ViewHolder<T> extends RecyclerView.ViewHolder {
         return bus;
     }
 
-    protected Adapter getAdapter() {
+    protected Adapter getParentAdapter() {
         return adapterRef.get();
     }
 

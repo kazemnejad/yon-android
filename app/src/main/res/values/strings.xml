@@ -96,6 +96,6 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="recent_visits">بازدید‌های اخیر</string>
-    <string name="recommended">پیشنهاد‌شده‌ها</string>
+    <string name="recommended">پیشنهاد‌شده‌ها:</string>
 
 </resources>

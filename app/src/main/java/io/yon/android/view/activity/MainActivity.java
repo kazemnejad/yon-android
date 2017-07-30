@@ -134,12 +134,22 @@ public class MainActivity extends Activity {
     }
 
     private List<RecommendationList> makeRecommendations() {
+        String[] titles = {
+                "مکزیکی",
+                "هندی",
+                "جدید",
+                "مجلل",
+                "دنج",
+                "ارزان",
+        };
+
         ArrayList<RecommendationList> list = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             RecommendationList r = new RecommendationList();
             List<Restaurant> restaurants = makeSimpleSection().getRestaurants();
             restaurants.remove(0);
             r.setRestaurants(restaurants);
+            r.setTitle(titles[i]);
 
             list.add(r);
         }
