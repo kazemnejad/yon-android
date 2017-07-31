@@ -1,43 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.percent.PercentRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
-    android:layout_width="200dp"
-    android:layout_height="200dp"
-    android:layout_margin="2dp"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:clickable="true"
-    android:background="@color/black_54">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:clickable="true">
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/center_shadow"/>
+        android:background="@drawable/center_shadow"
+        app:layout_aspectRatio="100%"
+        app:layout_widthPercent="100%"/>
 
-    <!--<View-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:background="?android:attr/selectableItemBackground"/>-->
-
-    <TextView
-        android:id="@+id/title"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="75dp"
-        android:text="ایتالیایی"
-        android:textColor="@android:color/white"
-        android:textSize="23sp"
-        android:textStyle="bold"/>
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/sub_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="110dp"
-        android:text="ایتالیایی"
-        android:textColor="@android:color/white"
-        android:textSize="15sp"/>
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="ایتالیایی"
+            android:textColor="@android:color/white"
+            android:textSize="23sp"
+            android:textStyle="bold"/>
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/sub_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="ایتالیایی"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
+
+    <View
+        android:background="@drawable/selectable_item_background"
+        app:layout_aspectRatio="100%"
+        app:layout_widthPercent="100%"/>
+
+</android.support.percent.PercentRelativeLayout>

@@ -2,6 +2,7 @@ package io.yon.android.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.IBinder;
 import android.support.design.widget.TextInputLayout;
@@ -82,5 +83,9 @@ public class ViewUtils {
 
     public static int getScreenHeight(Context context) {
         return getDisplayMetrics(context).heightPixels;
+    }
+
+    public static boolean isOnPortrait(Context context) {
+        return !(context instanceof Activity) || context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 }

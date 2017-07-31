@@ -11,6 +11,9 @@
 
     <color name="solidPlaceHolder">#eaeaea</color>
 
+    <color name="selectable_item_background_color_highlight">#bfbfbf</color>
+    <color name="selectable_item_background_color_highlight_press">#77979797</color>
+    <color name="selectable_item_background_color_highlight_focus">#cce4e4e4</color>
 
     <color name="black_87">#dd000000</color>
     <color name="black_54">#89000000</color>
