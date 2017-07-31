@@ -42,8 +42,6 @@ public abstract class ShowcaseOnScrollListener extends RecyclerView.OnScrollList
 
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        super.onScrolled(recyclerView, dx, dy);
-
         int scrolled = recyclerView.computeVerticalScrollOffset();
         setAlpha(scrolled);
 
