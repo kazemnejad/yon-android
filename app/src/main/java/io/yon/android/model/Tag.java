@@ -1,9 +1,13 @@
 package io.yon.android.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by amirhosein on 7/30/17.
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Tag extends Model {
     private String name;
     private String slug;
@@ -15,6 +19,7 @@ public class Tag extends Model {
         return name;
     }
 
+    @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
     }
@@ -23,6 +28,7 @@ public class Tag extends Model {
         return slug;
     }
 
+    @JsonProperty("slug")
     public void setSlug(String slug) {
         this.slug = slug;
     }
@@ -31,6 +37,7 @@ public class Tag extends Model {
         return avatarUrl;
     }
 
+    @JsonProperty("avatar_url")
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
     }
