@@ -1,9 +1,13 @@
 package io.yon.android.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by amirhosein on 7/22/17.
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Banner extends Model {
     public static final int TYPE_URL = 0;
     public static final int TYPE_TARGET_RESTAURANT = 1;
@@ -29,6 +33,7 @@ public class Banner extends Model {
         return title;
     }
 
+    @JsonProperty("title")
     public void setTitle(String title) {
         this.title = title;
     }
@@ -37,6 +42,7 @@ public class Banner extends Model {
         return subTitle;
     }
 
+    @JsonProperty("sub_title")
     public void setSubTitle(String subTitle) {
         this.subTitle = subTitle;
     }
@@ -45,6 +51,7 @@ public class Banner extends Model {
         return type;
     }
 
+    @JsonProperty("type")
     public void setType(int type) {
         this.type = type;
     }
@@ -53,6 +60,7 @@ public class Banner extends Model {
         return targetUrl;
     }
 
+    @JsonProperty("target_url")
     public void setTargetUrl(String targetUrl) {
         this.targetUrl = targetUrl;
     }
@@ -61,6 +69,7 @@ public class Banner extends Model {
         return targetId;
     }
 
+    @JsonProperty("target_id")
     public void setTargetId(int targetId) {
         this.targetId = targetId;
     }
@@ -69,6 +78,7 @@ public class Banner extends Model {
         return bannerUrl;
     }
 
+    @JsonProperty("banner_url")
     public void setBannerUrl(String bannerUrl) {
         this.bannerUrl = bannerUrl;
     }
@@ -77,6 +87,7 @@ public class Banner extends Model {
         return backgroundUrl;
     }
 
+    @JsonProperty("background_url")
     public void setBackgroundUrl(String backgroundUrl) {
         this.backgroundUrl = backgroundUrl;
     }
@@ -85,6 +96,7 @@ public class Banner extends Model {
         return colorCode;
     }
 
+    @JsonProperty("color_code")
     public void setColorCode(String colorCode) {
         this.colorCode = colorCode;
     }
@@ -93,7 +105,17 @@ public class Banner extends Model {
         return rate;
     }
 
+    @JsonProperty("rate")
     public void setRate(String rate) {
         this.rate = rate;
+    }
+
+    public int getTargetListId() {
+        return targetListId;
+    }
+
+    @JsonProperty("target_list_id")
+    public void setTargetListId(int targetListId) {
+        this.targetListId = targetListId;
     }
 }
