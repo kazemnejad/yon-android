@@ -12,11 +12,11 @@ import io.yon.android.model.Restaurant;
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SimpleSectionShocaseItem extends ShowcaseItem {
+public class SimpleSectionShowcaseItem extends ShowcaseItem {
     private String title;
     private List<Restaurant> restaurants;
 
-    public SimpleSectionShocaseItem() {}
+    public SimpleSectionShowcaseItem() {}
 
     public String getTitle() {
         return title;

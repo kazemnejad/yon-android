@@ -12,7 +12,7 @@ import io.yon.android.model.Model;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = BannersShowcaseItem.class, name = "banner"),
-        @JsonSubTypes.Type(value = SimpleSectionShocaseItem.class, name = "simple_section"),
+        @JsonSubTypes.Type(value = SimpleSectionShowcaseItem.class, name = "simple_section"),
         @JsonSubTypes.Type(value = CompactRecomShowcaseItem.class, name = "compact_recom"),
         @JsonSubTypes.Type(value = TagRecomShowcaseItem.class, name = "tag_recom"),
         @JsonSubTypes.Type(value = ZoneRecomShowcaseItem.class, name = "zone_recom"),

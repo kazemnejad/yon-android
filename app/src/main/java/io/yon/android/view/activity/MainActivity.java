@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.yon.android.R;
-import io.yon.android.api.response.SimpleSectionShocaseItem;
+import io.yon.android.api.response.SimpleSectionShowcaseItem;
 import io.yon.android.model.Banner;
 import io.yon.android.model.RecommendationList;
 import io.yon.android.model.Restaurant;
@@ -121,7 +121,7 @@ public class MainActivity extends Activity {
         return banners;
     }
 
-    private SimpleSectionShocaseItem makeSimpleSection() {
+    private SimpleSectionShowcaseItem makeSimpleSection() {
         String[] avatarUrls = {
                 "https://www.reyhoon.com/images/logo/1665.jpeg?_=1500713079",
                 "https://www.reyhoon.com/images/logo/1166.jpeg?_=1488296020",
@@ -147,7 +147,7 @@ public class MainActivity extends Activity {
                 "۳.۸"
         };
 
-        SimpleSectionShocaseItem section = new SimpleSectionShocaseItem();
+        SimpleSectionShowcaseItem section = new SimpleSectionShowcaseItem();
         section.setTitle(getString(R.string.recent_visits));
         ArrayList<Restaurant> rests = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
