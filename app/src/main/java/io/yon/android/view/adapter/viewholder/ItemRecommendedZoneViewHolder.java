@@ -52,7 +52,7 @@ public class ItemRecommendedZoneViewHolder extends ViewHolder<Zone> {
         title.setText(zone.getName());
 
         GlideApp.with(getContext())
-                .load(zone.getIconUrl())
+                .load(zone.getAvatarUrl())
                 .placeholder(new ColorDrawable(placeHolderColor))
                 .centerCrop()
                 .transition(withCrossFade())

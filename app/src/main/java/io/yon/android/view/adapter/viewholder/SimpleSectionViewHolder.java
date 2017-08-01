@@ -7,8 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import io.yon.android.R;
+import io.yon.android.api.response.SimpleSectionShocaseItem;
 import io.yon.android.model.Restaurant;
-import io.yon.android.model.SimpleSection;
 import io.yon.android.util.RxBus;
 import io.yon.android.view.GlideApp;
 import io.yon.android.view.RoundedCornersTransformation;
@@ -19,7 +19,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
  * Created by amirhosein on 7/24/17.
  */
 
-public class SimpleSectionViewHolder extends ViewHolder<SimpleSection> {
+public class SimpleSectionViewHolder extends ViewHolder<SimpleSectionShocaseItem> {
 
     private static final int[] CONTAINER_IDS = {
             R.id.container_1,
@@ -75,7 +75,7 @@ public class SimpleSectionViewHolder extends ViewHolder<SimpleSection> {
     }
 
     @Override
-    public void bindContent(SimpleSection section) {
+    public void bindContent(SimpleSectionShocaseItem section) {
         title.setText(section.getTitle());
 
         for (int i = 0; i < 4; i++) {

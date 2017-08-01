@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.yon.android.R;
+import io.yon.android.api.response.SimpleSectionShocaseItem;
 import io.yon.android.model.Banner;
 import io.yon.android.model.RecommendationList;
-import io.yon.android.model.SimpleSection;
 import io.yon.android.model.Tag;
 import io.yon.android.model.Zone;
 import io.yon.android.util.RxBus;
@@ -99,7 +99,7 @@ public class ShowcaseAdapter extends RecyclerView.Adapter<ViewHolder> {
                 return ZONES;
         }
 
-        if (item instanceof SimpleSection)
+        if (item instanceof SimpleSectionShocaseItem)
             return SIMPLE_SECTION;
 
         if (item instanceof Banner)
@@ -116,7 +116,7 @@ public class ShowcaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         else if (holder instanceof CompactRecommendationsViewHolder)
             ((CompactRecommendationsViewHolder) holder).bindContent((List<RecommendationList>) mData.get(position));
         else if (holder instanceof SimpleSectionViewHolder)
-            ((SimpleSectionViewHolder) holder).bindContent((SimpleSection) mData.get(position));
+            ((SimpleSectionViewHolder) holder).bindContent((SimpleSectionShocaseItem) mData.get(position));
         else if (holder instanceof RecommendedTags)
             ((RecommendedTags) holder).bindContent((List<Tag>) mData.get(position));
         else if (holder instanceof RecommendedZones)
