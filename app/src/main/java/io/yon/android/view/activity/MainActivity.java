@@ -254,8 +254,8 @@ public class MainActivity extends Activity {
         Banner banner = new Banner();
         banner.setTitle("کافه یونچه");
         banner.setSubTitle("انواع پاستا و سوسیس‌تخم‌مرغ‌های لذیذ");
-        banner.setBannerUrl("http://uupload.ir/files/6oz8_3cf396ac-f45b-4ba9-8506-eca480a0d967.png");
-        banner.setBackgroundUrl("http://food.fnr.sndimg.com/content/dam/images/food/fullset/2011/2/4/1/RX-FNM_030111-Lighten-Up-012_s4x3.jpg.rend.hgtvcom.616.462.suffix/1382539856907.jpeg");
+        banner.setIconUrl("http://uupload.ir/files/6oz8_3cf396ac-f45b-4ba9-8506-eca480a0d967.png");
+        banner.setBannerUrl("http://food.fnr.sndimg.com/content/dam/images/food/fullset/2011/2/4/1/RX-FNM_030111-Lighten-Up-012_s4x3.jpg.rend.hgtvcom.616.462.suffix/1382539856907.jpeg");
         banner.setRate("۵");
         banner.setColorCode("#d8b700");
         return banner;

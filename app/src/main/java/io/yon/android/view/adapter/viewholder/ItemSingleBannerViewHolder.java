@@ -72,7 +72,7 @@ public class ItemSingleBannerViewHolder extends ViewHolder<Banner> {
         ViewCompat.setBackground(gradientContainer, getGradientDrawable(banner.getColorCode()));
 
         GlideApp.with(getContext())
-                .load(banner.getBackgroundUrl())
+                .load(banner.getBannerUrl())
                 .placeholder(placeHolder)
                 .centerCrop()
                 .transition(withCrossFade())
@@ -80,7 +80,7 @@ public class ItemSingleBannerViewHolder extends ViewHolder<Banner> {
 
         GlideApp.with(getContext())
                 .asBitmap()
-                .load(banner.getBannerUrl())
+                .load(banner.getIconUrl())
                 .placeholder(placeHolder)
                 .centerCrop()
                 .transform(new RoundedCornersTransformation(getContext(), 30, 0))

@@ -22,7 +22,7 @@ public class Banner extends Model {
     private int targetId = -1;
     private int targetListId = -1;
 
-    private String backgroundUrl;
+    private String iconUrl;
     private String colorCode;
 
     private String rate;
@@ -83,13 +83,13 @@ public class Banner extends Model {
         this.bannerUrl = bannerUrl;
     }
 
-    public String getBackgroundUrl() {
-        return backgroundUrl;
+    public String getIconUrl() {
+        return iconUrl;
     }
 
-    @JsonProperty("background_url")
-    public void setBackgroundUrl(String backgroundUrl) {
-        this.backgroundUrl = backgroundUrl;
+    @JsonProperty("icon_url")
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
     }
 
     public String getColorCode() {
