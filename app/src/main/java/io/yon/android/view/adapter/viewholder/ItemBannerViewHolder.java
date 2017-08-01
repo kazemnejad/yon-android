@@ -20,6 +20,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 
 public class ItemBannerViewHolder extends ViewHolder<Banner> {
 
+    private final ColorDrawable placeHolder;
     private ImageView banner;
     private TextView title;
     private TextView subTitle;
@@ -34,6 +35,7 @@ public class ItemBannerViewHolder extends ViewHolder<Banner> {
 
     public ItemBannerViewHolder(View itemView, Context context, RxBus bus) {
         super(itemView, context, bus);
+        placeHolder = new ColorDrawable(ContextCompat.getColor(getContext(), R.color.solidPlaceHolder));
     }
 
     @Override
@@ -48,10 +50,9 @@ public class ItemBannerViewHolder extends ViewHolder<Banner> {
         title.setText(b.getTitle());
         subTitle.setText(b.getSubTitle());
 
-        int color = ContextCompat.getColor(getContext(), R.color.solidPlaceHolder);
         GlideApp.with(getContext())
                 .load(b.getBannerUrl())
-                .placeholder(new ColorDrawable(color))
+                .placeholder(placeHolder)
                 .centerCrop()
                 .transition(withCrossFade())
                 .into(banner);

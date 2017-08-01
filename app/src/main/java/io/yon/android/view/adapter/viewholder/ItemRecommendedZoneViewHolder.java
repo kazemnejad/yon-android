@@ -21,7 +21,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 
 public class ItemRecommendedZoneViewHolder extends ViewHolder<Zone> {
 
-    private final int placeHolderColor;
+    private final ColorDrawable placeHolder;
     private RelativeLayout container;
     private TextView title, subTitle;
     private ImageView icon;
@@ -36,7 +36,7 @@ public class ItemRecommendedZoneViewHolder extends ViewHolder<Zone> {
 
     public ItemRecommendedZoneViewHolder(View itemView, Context context, RxBus bus) {
         super(itemView, context, bus);
-        placeHolderColor = ContextCompat.getColor(getContext(), R.color.solidPlaceHolder);
+        placeHolder = new ColorDrawable(ContextCompat.getColor(getContext(), R.color.solidPlaceHolder));
     }
 
     @Override
@@ -53,7 +53,7 @@ public class ItemRecommendedZoneViewHolder extends ViewHolder<Zone> {
 
         GlideApp.with(getContext())
                 .load(zone.getAvatarUrl())
-                .placeholder(new ColorDrawable(placeHolderColor))
+                .placeholder(placeHolder)
                 .centerCrop()
                 .transition(withCrossFade())
                 .into(icon);

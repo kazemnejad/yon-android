@@ -21,10 +21,9 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 
 public class ItemSimpleRestaurantViewHolder extends ViewHolder<Restaurant> {
 
+    private final ColorDrawable placeHolder;
     private ImageView icon;
-    private TextView title;
-    private TextView subTitle;
-    private TextView rate;
+    private TextView title, subTitle, rate;
 
     public static Factory<ItemSimpleRestaurantViewHolder> getFactory() {
         return (inflater, parent, context, bus) -> new ItemSimpleRestaurantViewHolder(
@@ -36,6 +35,7 @@ public class ItemSimpleRestaurantViewHolder extends ViewHolder<Restaurant> {
 
     public ItemSimpleRestaurantViewHolder(View itemView, Context context, RxBus bus) {
         super(itemView, context, bus);
+        placeHolder = new ColorDrawable(ContextCompat.getColor(getContext(), R.color.solidPlaceHolder));
     }
 
     @Override
@@ -52,10 +52,9 @@ public class ItemSimpleRestaurantViewHolder extends ViewHolder<Restaurant> {
         subTitle.setText(rest.getAddress());
         rate.setText(rest.getRate());
 
-        int color = ContextCompat.getColor(getContext(), R.color.solidPlaceHolder);
         GlideApp.with(getContext())
                 .load(rest.getAvatarUrl())
-                .placeholder(new ColorDrawable(color))
+                .placeholder(placeHolder)
                 .transition(withCrossFade())
                 .transform(new RoundedCornersTransformation(getContext(), 30, 0))
                 .into(icon);

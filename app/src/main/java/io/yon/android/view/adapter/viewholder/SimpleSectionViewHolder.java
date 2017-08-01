@@ -1,6 +1,7 @@
 package io.yon.android.view.adapter.viewholder;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
@@ -42,6 +43,8 @@ public class SimpleSectionViewHolder extends ViewHolder<SimpleSectionShocaseItem
             R.id.img_4,
     };
 
+    private final ColorDrawable placeHolder;
+
     private View[] containers;
     private TextView[] texts;
     private ImageView[] icons;
@@ -58,6 +61,7 @@ public class SimpleSectionViewHolder extends ViewHolder<SimpleSectionShocaseItem
 
     public SimpleSectionViewHolder(View itemView, Context context, RxBus bus) {
         super(itemView, context, bus);
+        placeHolder = new ColorDrawable(ContextCompat.getColor(getContext(), R.color.solidPlaceHolder));
     }
 
     @Override
@@ -86,10 +90,9 @@ public class SimpleSectionViewHolder extends ViewHolder<SimpleSectionShocaseItem
             containers[i].setVisibility(View.VISIBLE);
             texts[i].setText(rest.getName());
 
-            int color = ContextCompat.getColor(getContext(), R.color.solidPlaceHolder);
             GlideApp.with(getContext())
                     .load(rest.getAvatarUrl())
-                    .placeholder(color)
+                    .placeholder(placeHolder)
                     .transition(withCrossFade())
                     .transform(new RoundedCornersTransformation(getContext(), 30, 0))
                     .into(icons[i]);

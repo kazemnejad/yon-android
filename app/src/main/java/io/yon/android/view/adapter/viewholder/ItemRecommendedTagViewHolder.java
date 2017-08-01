@@ -21,7 +21,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 
 public class ItemRecommendedTagViewHolder extends ViewHolder<Tag> {
 
-    private final int placeHolderColor;
+    private final ColorDrawable placeHolder;
     private RelativeLayout container;
     private TextView title, subTitle;
     private ImageView icon;
@@ -36,7 +36,7 @@ public class ItemRecommendedTagViewHolder extends ViewHolder<Tag> {
 
     public ItemRecommendedTagViewHolder(View itemView, Context context, RxBus bus) {
         super(itemView, context, bus);
-        placeHolderColor = ContextCompat.getColor(getContext(), R.color.solidPlaceHolder);
+        placeHolder = new ColorDrawable(ContextCompat.getColor(getContext(), R.color.solidPlaceHolder));
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ItemRecommendedTagViewHolder extends ViewHolder<Tag> {
 
         GlideApp.with(getContext())
                 .load(tag.getAvatarUrl())
-                .placeholder(new ColorDrawable(placeHolderColor))
+                .placeholder(placeHolder)
                 .centerCrop()
                 .transition(withCrossFade())
                 .into(icon);
