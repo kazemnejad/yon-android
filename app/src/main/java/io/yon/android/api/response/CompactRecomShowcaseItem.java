@@ -19,7 +19,7 @@ public class CompactRecomShowcaseItem extends ShowcaseItem {
         return compactRecommendation;
     }
 
-    @JsonProperty("compact_recommendations")
+    @JsonProperty("recoms")
     public void setCompactRecommendation(List<RecommendationList> compactRecommendation) {
         this.compactRecommendation = compactRecommendation;
     }
