@@ -1,5 +1,7 @@
 package io.yon.android.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -17,6 +19,7 @@ public class RecommendationList extends Model {
         return title;
     }
 
+    @JsonProperty("title")
     public void setTitle(String title) {
         this.title = title;
     }
@@ -25,6 +28,7 @@ public class RecommendationList extends Model {
         return restaurants;
     }
 
+    @JsonProperty("restaurants")
     public void setRestaurants(List<Restaurant> restaurants) {
         this.restaurants = restaurants;
     }
