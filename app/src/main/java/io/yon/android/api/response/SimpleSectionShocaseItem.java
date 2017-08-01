@@ -1,20 +1,22 @@
-package io.yon.android.model;
+package io.yon.android.api.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
+import io.yon.android.model.Restaurant;
+
 /**
  * Created by amirhosein on 7/24/17.
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SimpleSection extends Model {
+public class SimpleSectionShocaseItem extends ShowcaseItem {
     private String title;
     private List<Restaurant> restaurants;
 
-    public SimpleSection() {}
+    public SimpleSectionShocaseItem() {}
 
     public String getTitle() {
         return title;
