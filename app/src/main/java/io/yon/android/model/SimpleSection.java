@@ -1,13 +1,17 @@
 package io.yon.android.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
  * Created by amirhosein on 7/24/17.
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SimpleSection extends Model {
-    private String title = "";
+    private String title;
     private List<Restaurant> restaurants;
 
     public SimpleSection() {}
@@ -16,6 +20,7 @@ public class SimpleSection extends Model {
         return title;
     }
 
+    @JsonProperty("title")
     public void setTitle(String title) {
         this.title = title;
     }
@@ -24,6 +29,7 @@ public class SimpleSection extends Model {
         return restaurants;
     }
 
+    @JsonProperty("restaurants")
     public void setRestaurants(List<Restaurant> restaurants) {
         this.restaurants = restaurants;
     }
