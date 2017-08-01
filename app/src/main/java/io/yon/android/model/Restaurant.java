@@ -27,7 +27,7 @@ public class Restaurant extends Model {
         return avatarUrl;
     }
 
-    @JsonProperty("avatarUrl")
+    @JsonProperty("avatar_url")
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
     }
