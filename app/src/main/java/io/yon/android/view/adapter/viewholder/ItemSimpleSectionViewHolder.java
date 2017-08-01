@@ -13,6 +13,8 @@ import io.yon.android.util.RxBus;
 import io.yon.android.view.GlideApp;
 import io.yon.android.view.RoundedCornersTransformation;
 
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
 /**
  * Created by amirhosein on 7/25/17.
  */
@@ -42,6 +44,7 @@ public class ItemSimpleSectionViewHolder extends RecyclerView.ViewHolder {
         GlideApp.with(context)
                 .load(restaurant.getAvatarUrl())
                 .placeholder(color)
+                .transition(withCrossFade())
                 .transform(new RoundedCornersTransformation(context, 30, 0))
                 .into(icon);
     }

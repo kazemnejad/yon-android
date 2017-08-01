@@ -12,6 +12,8 @@ import io.yon.android.model.Banner;
 import io.yon.android.util.RxBus;
 import io.yon.android.view.GlideApp;
 
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
 /**
  * Created by amirhosein on 7/22/17.
  */
@@ -51,6 +53,7 @@ public class ItemBannerViewHolder extends ViewHolder<Banner> {
                 .load(b.getBannerUrl())
                 .placeholder(new ColorDrawable(color))
                 .centerCrop()
+                .transition(withCrossFade())
                 .into(banner);
     }
 }

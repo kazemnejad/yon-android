@@ -14,10 +14,13 @@ import io.yon.android.model.Banner;
 import io.yon.android.model.RecommendationList;
 import io.yon.android.model.SimpleSection;
 import io.yon.android.model.Tag;
+import io.yon.android.model.Zone;
 import io.yon.android.util.RxBus;
 import io.yon.android.view.adapter.viewholder.BannersViewHolder;
 import io.yon.android.view.adapter.viewholder.CompactRecommendationsViewHolder;
+import io.yon.android.view.adapter.viewholder.ItemSingleBannerViewHolder;
 import io.yon.android.view.adapter.viewholder.RecommendedTags;
+import io.yon.android.view.adapter.viewholder.RecommendedZones;
 import io.yon.android.view.adapter.viewholder.SimpleSectionViewHolder;
 import io.yon.android.view.adapter.viewholder.ViewHolder;
 
@@ -31,6 +34,8 @@ public class ShowcaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     private static final int RECOMMENDATIONS = 1;
     private static final int SIMPLE_SECTION = 2;
     private static final int TAGS = 3;
+    private static final int SINGLE_BANNER = 4;
+    private static final int ZONES = 6;
 
     private ArrayList<Object> mData = new ArrayList<Object>();
     private RxBus bus;
@@ -59,6 +64,12 @@ public class ShowcaseAdapter extends RecyclerView.Adapter<ViewHolder> {
             case TAGS:
                 return RecommendedTags.getFactory().create(inflater, parent, context, bus);
 
+            case ZONES:
+                return RecommendedZones.getFactory().create(inflater, parent, context, bus);
+
+            case SINGLE_BANNER:
+                return ItemSingleBannerViewHolder.getFactory().create(inflater, parent, context, bus);
+
             case 5:
                 return new DummyViewHolder(inflater.inflate(R.layout.dummy_vh, parent, false), null);
         }
@@ -83,10 +94,16 @@ public class ShowcaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
             if (((List) item).size() > 0 && ((List) item).get(0) instanceof Tag)
                 return TAGS;
+
+            if (((List) item).size() > 0 && ((List) item).get(0) instanceof Zone)
+                return ZONES;
         }
 
         if (item instanceof SimpleSection)
             return SIMPLE_SECTION;
+
+        if (item instanceof Banner)
+            return SINGLE_BANNER;
 
         return 5;
     }
@@ -102,6 +119,10 @@ public class ShowcaseAdapter extends RecyclerView.Adapter<ViewHolder> {
             ((SimpleSectionViewHolder) holder).bindContent((SimpleSection) mData.get(position));
         else if (holder instanceof RecommendedTags)
             ((RecommendedTags) holder).bindContent((List<Tag>) mData.get(position));
+        else if (holder instanceof RecommendedZones)
+            ((RecommendedZones) holder).bindContent((List<Zone>) mData.get(position));
+        else if (holder instanceof ItemSingleBannerViewHolder)
+            ((ItemSingleBannerViewHolder) holder).bindContent((Banner) mData.get(position));
     }
 
     public static class DummyViewHolder extends ViewHolder<Object> {

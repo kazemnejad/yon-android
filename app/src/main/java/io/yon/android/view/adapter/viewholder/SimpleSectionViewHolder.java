@@ -13,6 +13,8 @@ import io.yon.android.util.RxBus;
 import io.yon.android.view.GlideApp;
 import io.yon.android.view.RoundedCornersTransformation;
 
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
 /**
  * Created by amirhosein on 7/24/17.
  */
@@ -88,6 +90,7 @@ public class SimpleSectionViewHolder extends ViewHolder<SimpleSection> {
             GlideApp.with(getContext())
                     .load(rest.getAvatarUrl())
                     .placeholder(color)
+                    .transition(withCrossFade())
                     .transform(new RoundedCornersTransformation(getContext(), 30, 0))
                     .into(icons[i]);
         }

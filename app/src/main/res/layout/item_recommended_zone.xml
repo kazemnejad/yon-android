@@ -14,7 +14,7 @@
         app:layout_widthPercent="100%"/>
 
     <View
-        android:background="@drawable/center_shadow"
+        android:background="@drawable/center_shadow_2"
         app:layout_aspectRatio="100%"
         app:layout_widthPercent="100%"/>
 
@@ -33,9 +33,9 @@
             android:shadowColor="#000000"
             android:shadowDx="0"
             android:shadowDy="1"
-            android:shadowRadius="5"
+            android:shadowRadius="2"
             android:textColor="@android:color/white"
-            android:textSize="23sp"
+            android:textSize="20sp"
             android:textStyle="bold"/>
 
         <TextView
@@ -49,7 +49,8 @@
             android:shadowDy="1"
             android:shadowRadius="5"
             android:textColor="@android:color/white"
-            android:textSize="15sp"/>
+            android:textSize="15sp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

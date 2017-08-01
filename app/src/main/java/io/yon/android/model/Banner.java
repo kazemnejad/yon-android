@@ -16,6 +16,12 @@ public class Banner extends Model {
     private int type = TYPE_URL;
     private String targetUrl = "";
     private int targetId = -1;
+    private int targetListId = -1;
+
+    private String backgroundUrl;
+    private String colorCode;
+
+    private String rate;
 
     public Banner() {}
 
@@ -65,5 +71,29 @@ public class Banner extends Model {
 
     public void setBannerUrl(String bannerUrl) {
         this.bannerUrl = bannerUrl;
+    }
+
+    public String getBackgroundUrl() {
+        return backgroundUrl;
+    }
+
+    public void setBackgroundUrl(String backgroundUrl) {
+        this.backgroundUrl = backgroundUrl;
+    }
+
+    public String getColorCode() {
+        return colorCode;
+    }
+
+    public void setColorCode(String colorCode) {
+        this.colorCode = colorCode;
+    }
+
+    public String getRate() {
+        return rate;
+    }
+
+    public void setRate(String rate) {
+        this.rate = rate;
     }
 }

@@ -18,7 +18,9 @@ import io.yon.android.model.RecommendationList;
 import io.yon.android.model.Restaurant;
 import io.yon.android.model.SimpleSection;
 import io.yon.android.model.Tag;
+import io.yon.android.model.Zone;
 import io.yon.android.util.RxBus;
+import io.yon.android.view.GlideApp;
 import io.yon.android.view.adapter.ShowcaseAdapter;
 import io.yon.android.view.widget.ShowcaseOnScrollListener;
 
@@ -59,6 +61,26 @@ public class MainActivity extends Activity {
                 return MainActivity.this.findViewById(id);
             }
         });
+
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                            GlideApp.with(MainActivity.this).resumeRequests();
+                        }
+                        if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                            GlideApp.with(MainActivity.this).pauseRequests();
+                        }
+                        super.onScrollStateChanged(recyclerView, newState);
+
+                    }
+                });
+            }
+        });
+        t.start();
     }
 
     private void fillDummyContent() {
@@ -67,7 +89,14 @@ public class MainActivity extends Activity {
         data.add(makeSimpleSection());
         data.add(makeRecommendations());
         data.add(makeRecommendedTags());
-        data.add("sss");
+        data.add(makeSingleBanner());
+        data.add(makeZones());
+        data.add(makeRecommendations());
+        data.add(makeSimpleSection());
+        data.add(makeSingleBanner());
+        data.add(makeSingleBanner());
+        data.add(makeRecommendedTags());
+        data.add(makeZones());
 
         recyclerView.setAdapter(new ShowcaseAdapter(this, new RxBus(), data));
     }
@@ -173,9 +202,9 @@ public class MainActivity extends Activity {
         String[] avatarUrls = {
                 "http://viztangocafe.com/wp-content/uploads/2015/06/food2.jpg",
                 "http://s.eatthis-cdn.com/media/images/ext/336492655/fast-food.jpg",
-                "https://s-media-cache-ak0.pinimg.com/originals/b5/1d/db/b51ddbf9ee7f29edcab76b12e1aded81.jpg",
+                "http://www.iranvisitor.com/images/content_images/persian-kebab-1.jpg",
                 "http://touristmeetstraveler.com/wp-content/uploads/sushi.jpg",
-                "http://www.daradasie.com/imgs/products/22/510x250_bad-fast-food-restaurants.jpg",
+                "http://lifecdn.dailyburn.com/life/wp-content/uploads/2014/10/Food-Tracker-4.jpg",
                 "https://media-cdn.tripadvisor.com/media/photo-s/04/37/06/36/rook-ruimte-smoking-room.jpg"
         };
 
@@ -189,6 +218,47 @@ public class MainActivity extends Activity {
         }
 
         return tags;
+    }
+
+    private List<Zone> makeZones() {
+        String[] names = {
+                "انقلاب",
+                "امیرآباد",
+                "ظالقانی",
+                "جمهوری",
+                "سگ‌دونی",
+                "بولشت‌دونی"
+        };
+
+        String[] avatarUrls = {
+                "http://uupload.ir/files/hhki_screenshot_from_2017-08-01_12-09-30.png",
+                "http://uupload.ir/files/xhi5_screenshot_from_2017-08-01_12-09-16.png",
+                "http://uupload.ir/files/0pba_screenshot_from_2017-08-01_12-09-05.png",
+                "http://uupload.ir/files/5o9f_screenshot_from_2017-08-01_12-08-53.png",
+                "http://uupload.ir/files/nq9z_screenshot_from_2017-08-01_12-08-41.png",
+                "http://uupload.ir/files/8m6g_screenshot_from_2017-08-01_12-08-29.png"
+        };
+        ArrayList<Zone> zones = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            Zone z = new Zone();
+            z.setName(names[i]);
+            z.setIconUrl(avatarUrls[i]);
+
+            zones.add(z);
+        }
+
+        return zones;
+    }
+
+    private Banner makeSingleBanner() {
+        Banner banner = new Banner();
+        banner.setTitle("کافه یونچه");
+        banner.setSubTitle("انواع پاستا و سوسیس‌تخم‌مرغ‌های لذیذ");
+        banner.setBannerUrl("http://uupload.ir/files/6oz8_3cf396ac-f45b-4ba9-8506-eca480a0d967.png");
+        banner.setBackgroundUrl("http://food.fnr.sndimg.com/content/dam/images/food/fullset/2011/2/4/1/RX-FNM_030111-Lighten-Up-012_s4x3.jpg.rend.hgtvcom.616.462.suffix/1382539856907.jpeg");
+        banner.setRate("۵");
+        banner.setColorCode("#d8b700");
+        return banner;
     }
 
     @Override
