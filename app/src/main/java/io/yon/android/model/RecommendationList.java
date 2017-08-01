@@ -1,5 +1,6 @@
 package io.yon.android.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
  * Created by amirhosein on 7/22/17.
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RecommendationList extends Model {
 
     private String title = "";
