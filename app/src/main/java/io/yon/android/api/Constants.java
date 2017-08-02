@@ -5,5 +5,5 @@ package io.yon.android.api;
  */
 
 public class Constants {
-    public final static String BaseUrl = "http://162.243.174.32:8080/";
+    public final static String BaseUrl = "http://162.243.174.32/";
 }

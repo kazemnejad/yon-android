@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 public class Config {
     private static final String MAIN = "main";
     private static final String USER = "user";
+    private static final String DATA_CACHE = "cache";
 
     private static SharedPreferences get(Context context, String name) {
         return context.getApplicationContext().getSharedPreferences(name, Context.MODE_PRIVATE);
@@ -17,6 +18,10 @@ public class Config {
 
     public static SharedPreferences get(Context context) {
         return get(context, MAIN);
+    }
+
+    public static SharedPreferences getCache(Context context) {
+        return get(context, DATA_CACHE);
     }
 
     public static SharedPreferences getUser(Context context) {
@@ -30,5 +35,7 @@ public class Config {
         public final static String LastName = "lname";
         public final static String Email = "email";
         public final static String Avatar = "avatar";
+
+        public final static String ShowCase = "showcase";
     }
 }

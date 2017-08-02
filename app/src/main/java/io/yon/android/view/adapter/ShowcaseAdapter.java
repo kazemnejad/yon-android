@@ -37,11 +37,11 @@ public class ShowcaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     private static final int SINGLE_BANNER = 4;
     private static final int ZONES = 6;
 
-    private ArrayList<Object> mData = new ArrayList<Object>();
+    private List<Object> mData = new ArrayList<>();
     private RxBus bus;
     private Context context;
 
-    public ShowcaseAdapter(Context context, RxBus bus, ArrayList<Object> data) {
+    public ShowcaseAdapter(Context context, RxBus bus, List<Object> data) {
         this.mData = data;
         this.bus = bus;
         this.context = context;
@@ -79,7 +79,7 @@ public class ShowcaseAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mData != null ? mData.size() : 0;
     }
 
     @Override
@@ -123,6 +123,11 @@ public class ShowcaseAdapter extends RecyclerView.Adapter<ViewHolder> {
             ((RecommendedZones) holder).bindContent((List<Zone>) mData.get(position));
         else if (holder instanceof ItemSingleBannerViewHolder)
             ((ItemSingleBannerViewHolder) holder).bindContent((Banner) mData.get(position));
+    }
+
+    public void setDataAndUpdate(List<Object> data) {
+        mData = data;
+        notifyDataSetChanged();
     }
 
     public static class DummyViewHolder extends ViewHolder<Object> {

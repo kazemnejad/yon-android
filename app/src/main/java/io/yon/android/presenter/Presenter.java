@@ -14,6 +14,5 @@ public abstract class Presenter extends AndroidViewModel {
         super(application);
     }
 
-    public void bindView(MvpView view) {
-    }
+    abstract public void bindView(MvpView view);
 }

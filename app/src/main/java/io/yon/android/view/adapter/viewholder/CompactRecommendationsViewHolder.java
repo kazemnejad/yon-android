@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -72,8 +71,6 @@ public class CompactRecommendationsViewHolder extends ViewHolder<List<Recommenda
     }
 
     protected void handleTabChange(int newTabPosition) {
-        Log.d("s", String.valueOf(newTabPosition));
-
         if (newTabPosition > lastTabPosition)
             tabNext(newTabPosition);
         else if (newTabPosition < lastTabPosition)
