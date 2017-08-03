@@ -24,7 +24,7 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
     private Observable<Lce<List<Object>>> fetchObservable;
     private Observable<Lce<List<Object>>> reFetchObservable;
 
-    private final boolean cacheWasAvailable;
+    private boolean cacheWasAvailable;
 
     public ShowcasePresenter(Application application) {
         super(application);
@@ -47,7 +47,7 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
     @Override
     public void fetchData() {
         if (fetchObservable == null) {
-            Observable<Lce<List<Object>>> showcase;
+            Observable<Lce<List<Object>>> showcase = null;
             if (cacheWasAvailable)
                 showcase = ContentRepository.getInstance().getShowcaseFromCache(getApplication());
             else
@@ -64,8 +64,17 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
                             if (lce.isLoading())
                                 view.showLoading();
                             else if (lce.hasError()) {
-                                view.showError(lce.getError());
+                                if (!cacheWasAvailable) {
+                                    view.showError(lce.getError());
+                                    return;
+                                }
+                                // remove wreak cache
+                                clearCache();
+
+                                // fallback to online solution
                                 fetchObservable = null;
+                                cacheWasAvailable = false;
+                                fetchData();
                             } else {
                                 view.showData(lce.getData());
                                 if (cacheWasAvailable)
@@ -102,5 +111,12 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
     protected void onCleared() {
         super.onCleared();
         view = null;
+    }
+
+    private void clearCache() {
+        Config.getCache(getApplication())
+                .edit()
+                .remove(Config.Field.ShowCase)
+                .apply();
     }
 }

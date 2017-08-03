@@ -5,11 +5,7 @@ import android.content.SharedPreferences;
 
 import com.orhanobut.logger.Logger;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +21,8 @@ import io.yon.android.api.response.SimpleSectionShowcaseItem;
 import io.yon.android.api.response.SingleBannerShowcaseItem;
 import io.yon.android.api.response.TagRecomShowcaseItem;
 import io.yon.android.api.response.ZoneRecomShowcaseItem;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 
 /**
  * Created by amirhosein on 8/2/17.
@@ -48,23 +46,29 @@ public class ContentRepository {
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error)
-                /*.map(lce -> !lce.hasError() || !lce.isLoading() ? Lce.data(saveDataToCache(pref, lce.getData())) : lce)*/
+                .map(lce -> !lce.hasError() || !lce.isLoading() ? Lce.data(saveDataToCache(pref, lce.getData())) : lce)
+                .compose(removeResponseWrapper())
                 .compose(polishData());
     }
 
     public Observable<Lce<List<Object>>> getShowcaseFromCache(Context context) {
-        return getHomePageFromCache(context.getApplicationContext())
+        return showcaseCache(context.getApplicationContext())
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error)
                 .compose(polishData());
     }
 
-    private Observable<ShowcaseResponse> getHomePageFromCache(Context context) {
+    private Observable<ShowcaseResponse> showcaseCache(Context context) {
         return Observable.create(e -> {
             try {
                 SharedPreferences pref = Config.get(context.getApplicationContext());
-                e.onNext(loadDataFromCache(pref));
+
+                ShowcaseResponse response = loadDataFromCache(pref);
+                if (response == null)
+                    throw new NullPointerException();
+
+                e.onNext(response);
                 e.onComplete();
             } catch (Exception exp) {
                 e.onError(exp);
@@ -72,14 +76,13 @@ public class ContentRepository {
         });
     }
 
-    private ShowcaseResponse saveDataToCache(SharedPreferences pref, ShowcaseResponse r) {
+    private Response<ResponseBody> saveDataToCache(SharedPreferences pref, Response<ResponseBody> r) {
+        if (r == null || !r.isSuccessful())
+            return r;
 
         try {
-            ByteArrayOutputStream bo = new ByteArrayOutputStream();
-            ObjectOutputStream so = new ObjectOutputStream(bo);
-            so.writeObject(r);
-            so.flush();
-            pref.edit().putString(Config.Field.ShowCase, bo.toString()).apply();
+            String resBody = r.body().string();
+            pref.edit().putString(Config.Field.ShowCase, resBody).apply();
         } catch (Exception e) {
             Logger.e(e, "Unable to save results to cache");
         }
@@ -88,10 +91,8 @@ public class ContentRepository {
     }
 
     private ShowcaseResponse loadDataFromCache(SharedPreferences pref) throws IOException, ClassNotFoundException {
-        byte b[] = pref.getString(Config.Field.ShowCase, "").getBytes();
-        ByteArrayInputStream bi = new ByteArrayInputStream(b);
-        ObjectInputStream si = new ObjectInputStream(bi);
-        return (ShowcaseResponse) si.readObject();
+        String resBody = pref.getString(Config.Field.ShowCase, "");
+        return WebService.getBodyFromJson(resBody, ShowcaseResponse.class);
     }
 
     private static ObservableTransformer<Lce<ShowcaseResponse>, Lce<List<Object>>> polishData() {
@@ -102,6 +103,23 @@ public class ContentRepository {
                 return Lce.loading();
             else
                 return Lce.data(convert(lce.getData()));
+        });
+    }
+
+    private static ObservableTransformer<Lce<Response<ResponseBody>>, Lce<ShowcaseResponse>> removeResponseWrapper() {
+        return upstream -> upstream.map(lce -> {
+            if (lce.hasError())
+                return Lce.error(lce.getError());
+            else if (lce.isLoading())
+                return Lce.loading();
+            else if (lce.getData() != null)
+                try {
+                    return Lce.data(WebService.getBodyFromJson(lce.getData().body().string(), ShowcaseResponse.class));
+                } catch (Exception exp) {
+                    return Lce.error(exp);
+                }
+
+            return Lce.error(new NullPointerException());
         });
     }
 

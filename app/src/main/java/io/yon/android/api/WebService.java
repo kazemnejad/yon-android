@@ -8,7 +8,7 @@ import io.yon.android.api.request.LoginRequest;
 import io.yon.android.api.request.RegisterRequest;
 import io.yon.android.api.response.AuthResponse;
 import io.yon.android.api.response.BasicResponse;
-import io.yon.android.api.response.ShowcaseResponse;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -64,11 +64,26 @@ public abstract class WebService {
 
     public static <T extends BasicResponse> T getErrorBody(Response<?> response, Class<T> clazz) {
         Converter<ResponseBody, T> converter = retrofit.responseBodyConverter(clazz, new Annotation[0]);
-
         T result;
 
         try {
             result = converter.convert(response.errorBody());
+        } catch (IOException e) {
+            return null;
+        }
+
+        return result;
+    }
+
+    public static <T extends BasicResponse> T getBodyFromJson(String content, Class<T> clazz) {
+        Converter<ResponseBody, T> converter = retrofit.responseBodyConverter(clazz, new Annotation[0]);
+        T result;
+
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        ResponseBody responseBody = ResponseBody.create(JSON, content);
+
+        try {
+            result = converter.convert(responseBody);
         } catch (IOException e) {
             return null;
         }
@@ -86,6 +101,6 @@ public abstract class WebService {
 
         // Content providers end-points
         @GET("home/mobile")
-        Observable<ShowcaseResponse> getHomePage(@Query("long") double longitude, @Query("latt") double latitude);
+        Observable<Response<ResponseBody>> getHomePage(@Query("long") double longitude, @Query("latt") double latitude);
     }
 }

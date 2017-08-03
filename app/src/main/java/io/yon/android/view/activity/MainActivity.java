@@ -1,6 +1,7 @@
 package io.yon.android.view.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -25,6 +26,7 @@ import io.yon.android.contract.ShowcaseContract;
 import io.yon.android.presenter.ShowcasePresenter;
 import io.yon.android.util.Auth;
 import io.yon.android.util.RxBus;
+import io.yon.android.view.GlideApp;
 import io.yon.android.view.adapter.ShowcaseAdapter;
 import io.yon.android.view.widget.ShowcaseOnScrollListener;
 
@@ -80,7 +82,7 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
         mRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-//        layoutManager.setItemPrefetchEnabled(true);
+        layoutManager.setItemPrefetchEnabled(true);
         mRecyclerView.setLayoutManager(layoutManager);
 
         mRecyclerView.addOnScrollListener(new ShowcaseOnScrollListener(this) {
@@ -90,23 +92,13 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
             }
         });
 
-        mAdapter = new ShowcaseAdapter(this, mClickEventBus, null);
-        mRecyclerView.setAdapter(mAdapter);
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2)
+            enableGlideBalance();
 
-//        new Thread(() -> {
-//            mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//                @Override
-//                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                    if (newState == RecyclerView.SCROLL_STATE_IDLE)
-//                        GlideApp.with(MainActivity.this).resumeRequests();
-//
-//                    if (newState == RecyclerView.SCROLL_STATE_DRAGGING)
-//                        GlideApp.with(MainActivity.this).pauseRequests();
-//
-//                    super.onScrollStateChanged(recyclerView, newState);
-//                }
-//            });
-//        }).start();
+        mAdapter = new ShowcaseAdapter(this, mClickEventBus, null);
+        mAdapter.setHasStableIds(true);
+
+        mRecyclerView.setAdapter(mAdapter);
 
         btnRetry.setOnClickListener(v -> presenter.fetchData());
 
@@ -179,5 +171,22 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
         swipeRefreshLayout.setVisibility(View.INVISIBLE);
         errorContainer.setVisibility(View.GONE);
         appBar.setVisibility(View.INVISIBLE);
+    }
+
+    private void enableGlideBalance() {
+        new Thread(() -> {
+            mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                        GlideApp.with(MainActivity.this).resumeRequests();
+
+                    if (newState == RecyclerView.SCROLL_STATE_DRAGGING)
+                        GlideApp.with(MainActivity.this).pauseRequests();
+
+                    super.onScrollStateChanged(recyclerView, newState);
+                }
+            });
+        }).start();
     }
 }
