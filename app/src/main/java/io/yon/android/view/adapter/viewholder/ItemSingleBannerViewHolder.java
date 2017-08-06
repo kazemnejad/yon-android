@@ -63,8 +63,8 @@ public class ItemSingleBannerViewHolder extends ViewHolder<Banner> {
     public void bindContent(Banner banner) {
         title.setText(banner.getTitle());
         subTitle.setText(banner.getSubTitle());
-        if (banner.getRate() != null) {
-            rate.setText(banner.getRate());
+        if (banner.getRate() != -1) {
+            rate.setText(banner.getRateLabel());
             rate.setVisibility(View.VISIBLE);
             star.setVisibility(View.VISIBLE);
         }

@@ -3,6 +3,8 @@ package io.yon.android.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.yon.android.util.calendar.LanguageUtils;
+
 /**
  * Created by amirhosein on 7/22/17.
  */
@@ -25,7 +27,8 @@ public class Banner extends Model {
     private String iconUrl;
     private String colorCode;
 
-    private String rate;
+    private float rate = -1;
+    private String rateLabel;
 
     public Banner() {}
 
@@ -101,12 +104,12 @@ public class Banner extends Model {
         this.colorCode = colorCode;
     }
 
-    public String getRate() {
+    public float getRate() {
         return rate;
     }
 
     @JsonProperty("rate")
-    public void setRate(String rate) {
+    public void setRate(float rate) {
         this.rate = rate;
     }
 
@@ -117,5 +120,12 @@ public class Banner extends Model {
     @JsonProperty("target_list_id")
     public void setTargetListId(int targetListId) {
         this.targetListId = targetListId;
+    }
+
+    public String getRateLabel() {
+        if (rateLabel == null)
+            rateLabel = LanguageUtils.getPersianNumbers(String.valueOf(rate));
+
+        return rateLabel;
     }
 }

@@ -46,7 +46,7 @@ public class ContentRepository {
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error)
-                .map(lce -> !lce.hasError() || !lce.isLoading() ? Lce.data(saveDataToCache(pref, lce.getData())) : lce)
+                /*.map(lce -> !lce.hasError() || !lce.isLoading() ? Lce.data(saveDataToCache(pref, lce.getData())) : lce)*/
                 .compose(removeResponseWrapper())
                 .compose(polishData());
     }

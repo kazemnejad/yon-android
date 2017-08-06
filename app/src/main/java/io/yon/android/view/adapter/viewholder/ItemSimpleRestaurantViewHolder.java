@@ -50,7 +50,7 @@ public class ItemSimpleRestaurantViewHolder extends ViewHolder<Restaurant> {
     public void bindContent(Restaurant rest) {
         title.setText(rest.getName());
         subTitle.setText(rest.getAddress());
-        rate.setText(rest.getRate());
+        rate.setText(rest.getRateLabel());
 
         GlideApp.with(getContext())
                 .load(rest.getAvatarUrl())
