@@ -103,12 +103,18 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
             addView(iv, params);
 
             if (isTablesClickable) {
+                float maskSize = Math.max(tableWidth, tableHeight);
+                LayoutParams selectableParams = new LayoutParams(
+                        (int) (unitSize * maskSize),
+                        (int) (unitSize * maskSize)
+                );
+
                 View view = makeSelectableBackground(table);
-                view.setTranslationX(marginLeft + getPosition(unitSize, table.getX(), tableWidth));
-                view.setTranslationY(marginTop + getPosition(unitSize, table.getY(), tableHeight));
+                view.setTranslationX(marginLeft + getPosition(unitSize, table.getX(), maskSize));
+                view.setTranslationY(marginTop + getPosition(unitSize, table.getY(), maskSize));
                 view.setTag(new Object[]{table, iv});
 
-                addView(view, params);
+                addView(view, selectableParams);
             }
         }
 
@@ -128,7 +134,7 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
         View view = new View(getContext());
         view.setClickable(true);
         view.setOnClickListener(this);
-        view.setBackgroundResource(R.drawable.selectable_item_background);
+        view.setBackgroundResource(R.drawable.round_button_light);
         view.setRotation(table.getAngle());
 
         return view;
@@ -206,7 +212,12 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
         };
 
         public static final int[] resources = {
-
+                R.drawable.table_square_2,
+                R.drawable.table_square_4,
+                R.drawable.table_square_6,
+                R.drawable.table_circle_2,
+                R.drawable.table_circle_4,
+                R.drawable.table_circle_8,
         };
 
         public static float height(int shape) {
@@ -227,8 +238,8 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
 
         public static int resources(int shape) {
             try {
-//                return resources[shape];
-                return R.color.solidPlaceHolder;
+                return resources[shape];
+//                return R.color.solidPlaceHolder;
             } catch (Exception exp) {
                 return R.color.solidPlaceHolder;
             }

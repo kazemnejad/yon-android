@@ -5,6 +5,7 @@ package io.yon.android.model;
  */
 
 public class Table extends Model {
+    private String name;
     private float x;
     private float y;
     private int shape;
@@ -51,5 +52,13 @@ public class Table extends Model {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
