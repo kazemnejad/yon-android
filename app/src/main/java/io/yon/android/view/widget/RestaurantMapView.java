@@ -7,9 +7,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.StyleRes;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -66,10 +68,24 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
         if (map.getTables() == null)
             return;
 
-        addTables();
+        if (ViewCompat.isLaidOut(this))
+            addTables();
+        else {
+            ViewTreeObserver vto = getViewTreeObserver();
+            if (vto.isAlive())
+                vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        ViewUtils.removeOnGlobalLayoutListener(getViewTreeObserver(), this);
+                        addTables();
+                    }
+                });
+        }
     }
 
     private void addTables() {
+        Logger.d("logg");
+
         // viewWidth is in px
         int viewWidth = getWidth();
         int viewHeight = getHeight();
@@ -190,7 +206,6 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
             Logger.e(exp, "Unable to cast tag to table");
         }
     }
-
 
     private static class TableConstants {
         private static final float[] widths = {
