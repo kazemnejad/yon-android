@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -87,5 +89,15 @@ public class ViewUtils {
 
     public static boolean isOnPortrait(Context context) {
         return !(context instanceof Activity) || context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+    }
+
+    public static void removeOnGlobalLayoutListener(ViewTreeObserver vto, ViewTreeObserver.OnGlobalLayoutListener listener) {
+        if (vto == null || !vto.isAlive())
+            return;
+
+        if (Build.VERSION.SDK_INT < 16)
+            vto.removeGlobalOnLayoutListener(listener);
+        else
+            vto.removeOnGlobalLayoutListener(listener);
     }
 }
