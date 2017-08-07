@@ -84,8 +84,6 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
     }
 
     private void addTables() {
-        Logger.d("logg");
-
         // viewWidth is in px
         int viewWidth = getWidth();
         int viewHeight = getHeight();
