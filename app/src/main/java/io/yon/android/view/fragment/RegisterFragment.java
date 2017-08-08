@@ -82,7 +82,7 @@ public class RegisterFragment extends Fragment implements Validator.ValidationLi
         presenter.bindView(this);
     }
 
-    private void findViews(View view) {
+    protected void findViews(View view) {
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
         btnRegister = (Button) view.findViewById(R.id.register);
