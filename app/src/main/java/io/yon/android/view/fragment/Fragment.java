@@ -5,6 +5,7 @@ import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,4 +38,16 @@ public abstract class Fragment extends android.support.v4.app.Fragment implement
     }
 
     protected void findViews(View v) {}
+
+    protected <T> T getParentActivity() {
+        FragmentActivity activity = getActivity();
+        if (activity == null)
+            return null;
+
+        try {
+            return (T) activity;
+        } catch (Exception exp) {
+            return null;
+        }
+    }
 }
