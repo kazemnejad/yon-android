@@ -1,5 +1,6 @@
 package io.yon.android.view.activity;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +25,7 @@ import android.widget.TextView;
 
 import io.yon.android.R;
 import io.yon.android.util.DrawerHelper;
+import io.yon.android.util.ViewUtils;
 import io.yon.android.view.widget.PopupMenu;
 
 /**
@@ -215,6 +218,15 @@ public abstract class Activity extends AppCompatActivity implements LifecycleReg
 
     protected View getRootView() {
         return rootView;
+    }
+
+    @SuppressLint("PrivateResource")
+    protected int getToolbarHeight() {
+        TypedValue tv = new TypedValue();
+        if (getTheme().resolveAttribute(R.attr.actionBarSize, tv, true))
+            return TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+        else
+            return ViewUtils.px(this, 56);
     }
 
     protected void forceEnableOptionMenu(@MenuRes int menuId) {

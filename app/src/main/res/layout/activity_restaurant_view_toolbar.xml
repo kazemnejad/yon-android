@@ -8,10 +8,13 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
         app:contentInsetEnd="0dp"
         app:contentInsetLeft="0dp"
         app:contentInsetRight="0dp"
-        app:contentInsetStart="0dp">
+        app:contentInsetStart="0dp"
+        app:layout_collapseMode="pin"
+        app:layout_scrollFlags="scroll|enterAlways">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -27,8 +30,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="20dp"
-                android:text="@string/app_name"
                 android:textColor="@android:color/white"
+                android:text="@string/app_name"
+                android:translationY="?attr/actionBarSize"
+                android:alpha="0"
                 android:textSize="20sp"/>
 
             <ImageButton
@@ -57,10 +62,20 @@
             <ImageButton
                 android:id="@+id/toolbar_icon_left"
                 style="@style/ToolbarButton"
-                android:src="@drawable/ic_search_24dp"
-                android:visibility="gone"/>
+                android:src="@drawable/ic_share_24dp"/>
 
         </LinearLayout>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/small_reserve"
+            style="@style/AccentColoredButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:minWidth="70dp"
+            android:text="روزو"
+            android:alpha="0"
+            android:translationY="?attr/actionBarSize"/>
 
     </android.support.v7.widget.Toolbar>
 

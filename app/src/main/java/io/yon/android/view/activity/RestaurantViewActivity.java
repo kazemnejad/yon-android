@@ -4,19 +4,33 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.support.v7.widget.AppCompatButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
 import io.yon.android.R;
 import io.yon.android.model.Map;
+import io.yon.android.model.Restaurant;
 import io.yon.android.model.Table;
+import io.yon.android.util.ViewUtils;
+import io.yon.android.view.GlideApp;
+import io.yon.android.view.RoundedCornersTransformation;
 import io.yon.android.view.fragment.RestaurantInfoFragment;
 import io.yon.android.view.fragment.RestaurantMenuFragment;
 import io.yon.android.view.fragment.RestaurantReviewFragment;
+import io.yon.android.view.widget.AppBarStateChangeListener;
+
+import static com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions.withCrossFade;
 
 /**
  * Created by amirhosein on 8/6/17.
@@ -24,11 +38,22 @@ import io.yon.android.view.fragment.RestaurantReviewFragment;
 
 public class RestaurantViewActivity extends Activity {
 
+    private Restaurant mRestaurant;
+
     private ViewPager mViewPager;
     private RestaurantViewPagesAdapter mAdapter;
 
-    public static void start(Context context) {
-        context.startActivity(new Intent(context, RestaurantViewActivity.class));
+    private TextView toolbarTitle;
+    private AppBarLayout appBar;
+    private AppCompatButton btnToolbarReserve;
+
+    private ImageView mBanner, mIcon;
+
+    public static void start(Context context, Restaurant restaurant) {
+        context.startActivity(
+                new Intent(context, RestaurantViewActivity.class)
+                        .putExtra("rest", Parcels.wrap(restaurant))
+        );
     }
 
     @Override
@@ -40,14 +65,34 @@ public class RestaurantViewActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mRestaurant = Parcels.unwrap(getIntent().getParcelableExtra("rest"));
+
         setDisplayHomeAsUpEnabled(true);
 
         initViews();
+
+        ImageView iv = (ImageView) findViewById(R.id.banner);
+        GlideApp.with(this)
+                .load("http://www.pizzaeast.com/system/files/032016/56fd2c58ebeeb56aa00d9df6/large/24.3.16_pizzaeast2052.jpg?1459432756")
+                .centerCrop()
+                .into(iv);
+
+        ImageView iv2 = (ImageView) findViewById(R.id.icon);
+        GlideApp.with(this)
+                .load("http://162.243.174.32/restaurant_avatars/1166.jpeg")
+                .centerCrop()
+                .transform(new RoundedCornersTransformation(this, 30, 0))
+                .into(iv2);
     }
 
     @Override
     protected void findViews() {
+        appBar = (AppBarLayout) findViewById(R.id.appbar);
+        toolbarTitle = (TextView) findViewById(R.id.toolbar_text_main);
+        btnToolbarReserve = (AppCompatButton) findViewById(R.id.small_reserve);
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
+        mBanner = (ImageView) findViewById(R.id.banner);
+        mIcon = (ImageView) findViewById(R.id.icon);
     }
 
     private void initViews() {
@@ -56,6 +101,52 @@ public class RestaurantViewActivity extends Activity {
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(2);
+
+        GlideApp.with(this)
+                .asBitmap()
+                .load(mRestaurant.getAvatarUrl())
+                .centerCrop()
+                .placeholder(R.color.solidPlaceHolder)
+                .transform(new RoundedCornersTransformation(this, 30, 0))
+                .transition(withCrossFade())
+                .into(mIcon);
+
+        GlideApp.with(this)
+                .asBitmap()
+                .load(mRestaurant.getBannerUrl())
+                .centerCrop()
+                .placeholder(R.color.colorPrimary)
+                .transition(withCrossFade())
+                .into(mBanner);
+
+        final int actionBarSize = getToolbarHeight();
+        appBar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                if (state == State.COLLAPSED) {
+                    btnToolbarReserve.animate()
+                            .translationY(0)
+                            .setInterpolator(new FastOutSlowInInterpolator())
+                            .alpha(1f)
+                            .setDuration(200)
+                            .setStartDelay(100)
+                            .start();
+
+                    toolbarTitle.animate()
+                            .translationY(0)
+                            .setInterpolator(new FastOutSlowInInterpolator())
+                            .alpha(1f)
+                            .setDuration(200)
+                            .start();
+                } else {
+                    btnToolbarReserve.setTranslationY(ViewUtils.px(RestaurantViewActivity.this, actionBarSize));
+                    btnToolbarReserve.setAlpha(0f);
+
+                    toolbarTitle.setTranslationY(actionBarSize);
+                    toolbarTitle.setAlpha(0f);
+                }
+            }
+        });
     }
 
     private Map createMap() {
