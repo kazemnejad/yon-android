@@ -33,6 +33,7 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
     private int maxUnitSize = 0;
     private boolean isTablesClickable = false;
     private OnTableClickListener onTableClickListener;
+    private boolean isDrawQueued = false;
 
     public RestaurantMapView(@NonNull Context context) {
         super(context);
@@ -76,8 +77,10 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
                 vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        ViewUtils.removeOnGlobalLayoutListener(getViewTreeObserver(), this);
-                        addTables();
+                        if (getWidth() != 0) {
+                            ViewUtils.removeOnGlobalLayoutListener(getViewTreeObserver(), this);
+                            addTables();
+                        }
                     }
                 });
         }
