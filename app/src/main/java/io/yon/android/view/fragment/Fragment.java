@@ -36,5 +36,5 @@ public abstract class Fragment extends android.support.v4.app.Fragment implement
         return -1;
     }
 
-    protected abstract void findViews(View v);
+    protected void findViews(View v) {}
 }
