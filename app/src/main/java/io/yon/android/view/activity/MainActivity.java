@@ -22,6 +22,7 @@ import java.util.List;
 import io.yon.android.Config;
 import io.yon.android.R;
 import io.yon.android.contract.ShowcaseContract;
+    import io.yon.android.model.Restaurant;
 import io.yon.android.presenter.ShowcasePresenter;
 import io.yon.android.util.Auth;
 import io.yon.android.util.RxBus;
@@ -114,7 +115,7 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.create_new:
-                RestaurantViewActivity.start(this);
+                RestaurantViewActivity.start(this, new Restaurant());
                 return true;
 
             case R.id.open:

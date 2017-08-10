@@ -4,6 +4,12 @@
     <color name="colorPrimaryDark">#9b0000</color>
     <color name="colorAccent">#ffb300</color>
 
+    <color name="black_87">#dd000000</color>
+    <color name="black_54">#89000000</color>
+
+    <color name="white_87">#ddffffff</color>
+    <color name="white_54">#89ffffff</color>
+
     <color name="authActivityBackgroundColor">#f9f9f9</color>
     <color name="mainActivityBackgroundColor">#eeeeee</color>
 
@@ -15,10 +21,7 @@
     <color name="selectable_item_background_color_highlight_press">#77979797</color>
     <color name="selectable_item_background_color_highlight_focus">#cce4e4e4</color>
 
-    <color name="black_87">#dd000000</color>
-    <color name="black_54">#89000000</color>
-
-    <color name="white_87">#ddffffff</color>
-    <color name="white_54">#89ffffff</color>
+    <color name="tag_label_background_color">#01579B</color>
+    <color name="tag_label_background_color_pressed">#002f54</color>
 
 </resources>
