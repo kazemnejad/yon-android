@@ -107,7 +107,7 @@ public class RestaurantViewActivity extends Activity {
     }
 
     private void initViews() {
-        mAdapter = new RestaurantViewPagesAdapter(this, getSupportFragmentManager());
+        mAdapter = new RestaurantViewPagesAdapter(this, getSupportFragmentManager(), mRestaurant);
 
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(mAdapter);
@@ -120,19 +120,19 @@ public class RestaurantViewActivity extends Activity {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state == State.COLLAPSED) {
-                    btnToolbarReserve.animate()
-                            .translationY(0)
-                            .setInterpolator(new FastOutSlowInInterpolator())
-                            .alpha(1f)
-                            .setDuration(200)
-                            .setStartDelay(100)
-                            .start();
-
                     toolbarTitle.animate()
                             .translationY(0)
                             .setInterpolator(new FastOutSlowInInterpolator())
                             .alpha(1f)
                             .setDuration(200)
+                            .start();
+
+                    btnToolbarReserve.animate()
+                            .translationY(0)
+                            .setInterpolator(new FastOutSlowInInterpolator())
+                            .alpha(1f)
+                            .setDuration(200)
+                            .setStartDelay(80)
                             .start();
                 } else {
                     btnToolbarReserve.setTranslationY(ViewUtils.px(RestaurantViewActivity.this, actionBarSize));
@@ -192,7 +192,7 @@ public class RestaurantViewActivity extends Activity {
         return m;
     }
 
-    public Restaurant createRestaurant(){
+    public Restaurant createRestaurant() {
         Restaurant r = new Restaurant();
         r.setName(getString(R.string.app_name));
         r.setRate(3.4f);
@@ -223,11 +223,16 @@ public class RestaurantViewActivity extends Activity {
         private String menuFragmentTitle;
         private String reviewFragmentTitle;
 
-        public RestaurantViewPagesAdapter(Context context,FragmentManager fm) {
+        private Restaurant mRestaurant;
+
+        public RestaurantViewPagesAdapter(Context context, FragmentManager fm, Restaurant restaurant) {
             super(fm);
+
             infoFragmentTitle = context.getString(R.string.info);
             menuFragmentTitle = context.getString(R.string.restaurant_menu);
             reviewFragmentTitle = context.getString(R.string.review);
+
+            mRestaurant = restaurant;
         }
 
         @Override
@@ -235,19 +240,22 @@ public class RestaurantViewActivity extends Activity {
             switch (position) {
                 case 0:
                     if (reviewFragment == null)
-                        reviewFragment = RestaurantReviewFragment.create();
+                        reviewFragment = RestaurantReviewFragment.create()
+                                .setRestaurant(mRestaurant);
 
                     return reviewFragment;
 
                 case 1:
                     if (menuFragment == null)
-                        menuFragment = RestaurantMenuFragment.create();
+                        menuFragment = RestaurantMenuFragment.create()
+                                .setRestaurant(mRestaurant);
 
                     return menuFragment;
 
                 case 2:
                     if (infoFragment == null)
-                        infoFragment = RestaurantInfoFragment.create();
+                        infoFragment = RestaurantInfoFragment.create()
+                                .setRestaurant(mRestaurant);
 
                     return infoFragment;
             }
