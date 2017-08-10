@@ -18,6 +18,8 @@ public class Restaurant extends Model {
     String avatarUrl;
     float rate = -1;
     String rateLabel;
+    float price = -1;
+    String priceLabel;
     String address;
     String bannerUrl;
 
@@ -46,6 +48,7 @@ public class Restaurant extends Model {
     @JsonProperty("rate")
     public void setRate(float rate) {
         this.rate = rate;
+        this.priceLabel = null;
     }
 
     public String getAddress() {
@@ -70,5 +73,21 @@ public class Restaurant extends Model {
 
     public void setBannerUrl(String bannerUrl) {
         this.bannerUrl = bannerUrl;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+        this.priceLabel = null;
+    }
+
+    public String getPriceLabel() {
+        if (priceLabel == null)
+            priceLabel = LanguageUtils.getPersianNumbers(String.valueOf(price));
+
+        return priceLabel;
     }
 }

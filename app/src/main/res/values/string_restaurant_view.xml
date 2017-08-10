@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="info">رستوران</string>
+    <string name="restaurant_menu">منو</string>
+    <string name="review">نظرات</string>
+</resources>

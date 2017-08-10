@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -41,6 +42,7 @@ public class RestaurantViewActivity extends Activity {
     private Restaurant mRestaurant;
 
     private ViewPager mViewPager;
+    private TabLayout tabLayout;
     private RestaurantViewPagesAdapter mAdapter;
 
     private TextView toolbarTitle;
@@ -48,6 +50,7 @@ public class RestaurantViewActivity extends Activity {
     private AppCompatButton btnToolbarReserve;
 
     private ImageView mBanner, mIcon;
+    private TextView title, subTitle, rateLabel, priceLabel;
 
     public static void start(Context context, Restaurant restaurant) {
         context.startActivity(
@@ -65,21 +68,23 @@ public class RestaurantViewActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mRestaurant = Parcels.unwrap(getIntent().getParcelableExtra("rest"));
+//        mRestaurant = Parcels.unwrap(getIntent().getParcelableExtra("rest"));
+        mRestaurant = createRestaurant();
 
         setDisplayHomeAsUpEnabled(true);
 
         initViews();
+        fillViewWithOfflineContent();
 
         ImageView iv = (ImageView) findViewById(R.id.banner);
         GlideApp.with(this)
-                .load("http://www.pizzaeast.com/system/files/032016/56fd2c58ebeeb56aa00d9df6/large/24.3.16_pizzaeast2052.jpg?1459432756")
+                .load(mRestaurant.getBannerUrl())
                 .centerCrop()
                 .into(iv);
 
         ImageView iv2 = (ImageView) findViewById(R.id.icon);
         GlideApp.with(this)
-                .load("http://162.243.174.32/restaurant_avatars/1166.jpeg")
+                .load(mRestaurant.getAvatarUrl())
                 .centerCrop()
                 .transform(new RoundedCornersTransformation(this, 30, 0))
                 .into(iv2);
@@ -91,33 +96,24 @@ public class RestaurantViewActivity extends Activity {
         toolbarTitle = (TextView) findViewById(R.id.toolbar_text_main);
         btnToolbarReserve = (AppCompatButton) findViewById(R.id.small_reserve);
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+
         mBanner = (ImageView) findViewById(R.id.banner);
         mIcon = (ImageView) findViewById(R.id.icon);
+        title = (TextView) findViewById(R.id.title);
+        subTitle = (TextView) findViewById(R.id.sub_title);
+        rateLabel = (TextView) findViewById(R.id.rate);
+        priceLabel = (TextView) findViewById(R.id.price_Label);
     }
 
     private void initViews() {
-        mAdapter = new RestaurantViewPagesAdapter(getSupportFragmentManager());
+        mAdapter = new RestaurantViewPagesAdapter(this, getSupportFragmentManager());
 
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(2);
 
-        GlideApp.with(this)
-                .asBitmap()
-                .load(mRestaurant.getAvatarUrl())
-                .centerCrop()
-                .placeholder(R.color.solidPlaceHolder)
-                .transform(new RoundedCornersTransformation(this, 30, 0))
-                .transition(withCrossFade())
-                .into(mIcon);
-
-        GlideApp.with(this)
-                .asBitmap()
-                .load(mRestaurant.getBannerUrl())
-                .centerCrop()
-                .placeholder(R.color.colorPrimary)
-                .transition(withCrossFade())
-                .into(mBanner);
+        tabLayout.setupWithViewPager(mViewPager);
 
         final int actionBarSize = getToolbarHeight();
         appBar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
@@ -147,6 +143,34 @@ public class RestaurantViewActivity extends Activity {
                 }
             }
         });
+
+
+    }
+
+    private void fillViewWithOfflineContent() {
+        title.setText(mRestaurant.getName());
+        toolbarTitle.setText(mRestaurant.getName());
+        subTitle.setText("ایتالیایی، هندی");
+        rateLabel.setText(mRestaurant.getRateLabel());
+        priceLabel.setText(mRestaurant.getPriceLabel());
+
+
+        GlideApp.with(this)
+                .asBitmap()
+                .load(mRestaurant.getAvatarUrl())
+                .centerCrop()
+                .placeholder(R.color.solidPlaceHolder)
+                .transform(new RoundedCornersTransformation(this, 30, 0))
+                .transition(withCrossFade())
+                .into(mIcon);
+
+        GlideApp.with(this)
+                .asBitmap()
+                .load(mRestaurant.getBannerUrl())
+                .centerCrop()
+                .placeholder(R.color.colorPrimary)
+                .transition(withCrossFade())
+                .into(mBanner);
     }
 
     private Map createMap() {
@@ -168,6 +192,17 @@ public class RestaurantViewActivity extends Activity {
         return m;
     }
 
+    public Restaurant createRestaurant(){
+        Restaurant r = new Restaurant();
+        r.setName(getString(R.string.app_name));
+        r.setRate(3.4f);
+        r.setPrice(4.9f);
+        r.setAvatarUrl("http://162.243.174.32/restaurant_avatars/1166.jpeg");
+        r.setBannerUrl("http://www.pizzaeast.com/system/files/032016/56fd2c58ebeeb56aa00d9df6/large/24.3.16_pizzaeast2052.jpg?1459432756");
+
+        return r;
+    }
+
     private Table makeTable(float x, float y) {
         Table t = new Table();
         t.setX(x);
@@ -184,8 +219,15 @@ public class RestaurantViewActivity extends Activity {
         private RestaurantMenuFragment menuFragment;
         private RestaurantReviewFragment reviewFragment;
 
-        public RestaurantViewPagesAdapter(FragmentManager fm) {
+        private String infoFragmentTitle;
+        private String menuFragmentTitle;
+        private String reviewFragmentTitle;
+
+        public RestaurantViewPagesAdapter(Context context,FragmentManager fm) {
             super(fm);
+            infoFragmentTitle = context.getString(R.string.info);
+            menuFragmentTitle = context.getString(R.string.restaurant_menu);
+            reviewFragmentTitle = context.getString(R.string.review);
         }
 
         @Override
@@ -216,6 +258,22 @@ public class RestaurantViewActivity extends Activity {
         @Override
         public int getCount() {
             return 3;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return reviewFragmentTitle;
+
+                case 1:
+                    return menuFragmentTitle;
+
+                case 2:
+                    return infoFragmentTitle;
+            }
+
+            return "";
         }
 
         public RestaurantInfoFragment getInfoFragment() {
