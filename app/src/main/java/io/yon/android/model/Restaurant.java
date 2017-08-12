@@ -26,6 +26,7 @@ public class Restaurant extends Model {
     String address;
     String bannerUrl;
     List<Tag> tags;
+    List<Map> maps;
 
     public int getId() {
         return id;
@@ -109,5 +110,13 @@ public class Restaurant extends Model {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public List<Map> getMaps() {
+        return maps;
+    }
+
+    public void setMaps(List<Map> maps) {
+        this.maps = maps;
     }
 }

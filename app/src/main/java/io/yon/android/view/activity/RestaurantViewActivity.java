@@ -173,25 +173,6 @@ public class RestaurantViewActivity extends Activity {
                 .into(mBanner);
     }
 
-    private Map createMap() {
-        Map m = new Map();
-        m.setWidth(4.6f);
-        m.setHeight(2.5f);
-
-        ArrayList<Table> tables = new ArrayList<>();
-        tables.add(makeTable(0.5f, 0.5f));
-        tables.add(makeTable(1.7f, 0.5f));
-        tables.add(makeTable(2.9f, 0.5f));
-        tables.add(makeTable(4.1f, 0.5f));
-        Table t = makeTable(0.5f, 2f);
-        t.setAngle(45);
-        tables.add(t);
-
-        m.setTables(tables);
-
-        return m;
-    }
-
     public Restaurant createRestaurant() {
         Restaurant r = new Restaurant();
         r.setName(getString(R.string.app_name));
@@ -201,16 +182,6 @@ public class RestaurantViewActivity extends Activity {
         r.setBannerUrl("http://www.pizzaeast.com/system/files/032016/56fd2c58ebeeb56aa00d9df6/large/24.3.16_pizzaeast2052.jpg?1459432756");
 
         return r;
-    }
-
-    private Table makeTable(float x, float y) {
-        Table t = new Table();
-        t.setX(x);
-        t.setY(y);
-        t.setShape(1);
-//        t.setAngle(45f);
-
-        return t;
     }
 
     private static class RestaurantViewPagesAdapter extends FragmentStatePagerAdapter {
