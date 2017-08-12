@@ -7,23 +7,24 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import io.yon.android.R;
+import io.yon.android.api.Constants;
 import io.yon.android.contract.RestaurantContract;
 import io.yon.android.model.Map;
 import io.yon.android.model.Restaurant;
 import io.yon.android.model.Tag;
 import io.yon.android.presenter.RestaurantPresenter;
 import io.yon.android.util.ViewUtils;
+import io.yon.android.view.GlideApp;
 import io.yon.android.view.adapter.RestaurantMapPagerAdapter;
+
+import static com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions.withCrossFade;
 
 /**
  * Created by amirhosein on 8/8/17.
@@ -36,6 +37,7 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
     private FlexboxLayout tagsContainer;
     private ViewPager mapsContainer;
     private TabLayout mapSwitcher;
+    private ImageView staticMap;
 
     private RestaurantPresenter presenter;
     private int maxUnitSize;
@@ -75,6 +77,7 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
         tagsContainer = (FlexboxLayout) v.findViewById(R.id.tags_container);
         mapsContainer = (ViewPager) v.findViewById(R.id.maps_container);
         mapSwitcher = (TabLayout) v.findViewById(R.id.restaurant_maps_switcher);
+        staticMap = (ImageView) v.findViewById(R.id.static_map);
     }
 
     @Override
@@ -133,6 +136,24 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
             mapsContainer.setCurrentItem(mRestaurant.getMaps().size() - 1);
             mapSwitcher.setupWithViewPager(mapsContainer);
         }
+
+        if (mRestaurant.getLatitude() != -1 && mRestaurant.getLongitude() != -1)
+            GlideApp.with(this)
+                    .asBitmap()
+                    .load(mRestaurant.getMapImageUrl())
+                    .centerCrop()
+                    .transition(withCrossFade())
+                    .into(staticMap);
+    }
+
+    protected String getMapImageUrl(double lng, double lat) {
+        String url = Constants.GoogleStaticMapUrl;
+        url += "?scale=2";
+        url += "&language=fa";
+        url += "&markers=|" + String.valueOf(lng) + "," + String.valueOf(lat);
+        url += "&key=" + Constants.GoogleStaticMapKey;
+
+        return url;
     }
 
     private float getMapViewHeight(Map map) {

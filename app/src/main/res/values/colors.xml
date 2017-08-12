@@ -21,7 +21,7 @@
     <color name="selectable_item_background_color_highlight_press">#77979797</color>
     <color name="selectable_item_background_color_highlight_focus">#cce4e4e4</color>
 
-    <color name="tag_label_background_color">#01579B</color>
-    <color name="tag_label_background_color_pressed">#002f54</color>
+    <color name="tag_label_background_color">#00b2e9</color>
+    <color name="tag_label_background_color_pressed">#006180</color>
 
 </resources>

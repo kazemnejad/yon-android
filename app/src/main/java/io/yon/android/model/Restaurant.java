@@ -7,6 +7,7 @@ import org.parceler.Parcel;
 
 import java.util.List;
 
+import io.yon.android.api.Constants;
 import io.yon.android.util.calendar.LanguageUtils;
 
 /**
@@ -25,6 +26,8 @@ public class Restaurant extends Model {
     String priceLabel;
     String address;
     String bannerUrl;
+    double longitude = -1;
+    double latitude = -1;
     List<Tag> tags;
     List<Map> maps;
 
@@ -118,5 +121,31 @@ public class Restaurant extends Model {
 
     public void setMaps(List<Map> maps) {
         this.maps = maps;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getMapImageUrl() {
+        String url = Constants.GoogleStaticMapUrl;
+        url += "?scale=2&size=500x500";
+        url += "&language=fa";
+        url += "&markers=|" + String.valueOf(longitude) + "," + String.valueOf(latitude);
+        url += "&key=" + Constants.GoogleStaticMapKey;
+
+        return url;
     }
 }

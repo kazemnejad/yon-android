@@ -64,6 +64,9 @@ public class RestaurantRepository {
         maps.add(createMap("محوطه باز"));
         r.setMaps(maps);
 
+        r.setLongitude(35.70252);
+        r.setLatitude(51.3958805);
+
         return r;
     }
 

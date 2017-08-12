@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="15dp"
             android:layout_marginRight="@dimen/material_step_1_margin"
             android:layout_marginTop="@dimen/material_step_1_margin"
             android:gravity="right"
@@ -53,9 +53,9 @@
             android:id="@+id/maps_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="5dp"
+            android:background="#012f54"
             android:paddingBottom="5dp"
-            android:background="#012f54"/>
+            android:paddingTop="5dp"/>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -78,6 +78,24 @@
                 app:tabTextColor="@color/white_54"/>
         </FrameLayout>
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="@dimen/material_step_1_margin"
+            android:layout_marginTop="20dp"
+            android:gravity="right"
+            android:text="@string/restaurant_info"
+            android:textColor="@color/black_54"
+            android:textSize="17sp"/>
+
+        <ImageView
+            android:id="@+id/static_map"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="2dp"/>
 
     </LinearLayout>
 

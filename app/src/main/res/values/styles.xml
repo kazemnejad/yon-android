@@ -23,7 +23,7 @@
     </style>
 
     <style name="AppTheme.RestaurantViewActivity" parent="AppTheme.DrawerActivity">
-
+        <item name="android:windowBackground">@android:color/white</item>
     </style>
 
     <style name="ToolbarButton">

@@ -37,7 +37,7 @@
 
         <activity
             android:name=".view.activity.RestaurantViewActivity"
-            android:theme="@style/AppTheme.MainActivity">
+            android:theme="@style/AppTheme.RestaurantViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
