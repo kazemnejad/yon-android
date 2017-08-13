@@ -17,6 +17,13 @@ import android.view.ViewGroup;
 public abstract class Fragment extends android.support.v4.app.Fragment implements LifecycleRegistryOwner {
     LifecycleRegistry mLifecycleRegistry = new LifecycleRegistry(this);
 
+    public static <T extends Fragment> T setArguments(T fragment, Bundle bundle) {
+        if (fragment != null)
+            fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
     @Override
     public LifecycleRegistry getLifecycle() {
         return mLifecycleRegistry;

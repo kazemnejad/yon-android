@@ -175,6 +175,7 @@ public class RestaurantViewActivity extends Activity {
 
     public Restaurant createRestaurant() {
         Restaurant r = new Restaurant();
+        r.setId(5);
         r.setName(getString(R.string.app_name));
         r.setRate(3.4f);
         r.setPrice(4.9f);
@@ -225,8 +226,7 @@ public class RestaurantViewActivity extends Activity {
 
                 case 2:
                     if (infoFragment == null)
-                        infoFragment = RestaurantInfoFragment.create()
-                                .setRestaurant(mRestaurant);
+                        infoFragment = RestaurantInfoFragment.create(mRestaurant);
 
                     return infoFragment;
             }

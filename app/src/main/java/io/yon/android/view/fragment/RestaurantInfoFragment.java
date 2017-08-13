@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
 
+import org.parceler.Parcels;
+
 import io.yon.android.R;
 import io.yon.android.api.Constants;
 import io.yon.android.contract.RestaurantContract;
@@ -47,8 +49,12 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
     private RestaurantPresenter presenter;
     private int maxUnitSize;
 
-    public static RestaurantInfoFragment create() {
-        return new RestaurantInfoFragment();
+    public static RestaurantInfoFragment create(Restaurant restaurant) {
+        RestaurantInfoFragment infoFragment = new RestaurantInfoFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("rest", Parcels.wrap(restaurant));
+        infoFragment.setArguments(bundle);
+        return infoFragment;
     }
 
     public RestaurantInfoFragment setRestaurant(Restaurant mRestaurant) {
@@ -65,6 +71,8 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        mRestaurant = Parcels.unwrap(getArguments().getParcelable("rest"));
+
         this.maxUnitSize = ViewUtils.px(getContext(), 60);
 
         initView();
@@ -72,11 +80,8 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
         presenter = ViewModelProviders.of(this).get(RestaurantPresenter.class);
         presenter.bindView(this);
 
-//        if (mRestaurant != null && mRestaurant.getId() != -1)
-        if (mRestaurant != null)
+        if (mRestaurant != null && mRestaurant.getId() != -1)
             presenter.loadRestaurant(mRestaurant.getId());
-        else
-            presenter.loadRestaurant(-1);
     }
 
     @Override

@@ -41,6 +41,7 @@ public class RestaurantRepository {
 
     private static Restaurant createRestaurant() {
         Restaurant r = new Restaurant();
+        r.setId(5);
         r.setName("رستوران");
         r.setRate(3.4f);
         r.setPrice(4.9f);
