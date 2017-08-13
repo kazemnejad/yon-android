@@ -7,8 +7,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
@@ -34,10 +36,13 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
 
     private Restaurant mRestaurant;
 
+    private ProgressBar progressBar;
+    private LinearLayout mainContentContainer, errorContainer;
     private FlexboxLayout tagsContainer;
     private ViewPager mapsContainer;
     private TabLayout mapSwitcher;
     private ImageView staticMap;
+    private TextView tvAddress, btnDirections, tvPhoneNumber, tvPriceRange, tvParkingSpace, tvOpeningHour, tvDescription;
 
     private RestaurantPresenter presenter;
     private int maxUnitSize;
@@ -70,19 +75,36 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
 //        if (mRestaurant != null && mRestaurant.getId() != -1)
         if (mRestaurant != null)
             presenter.loadRestaurant(mRestaurant.getId());
+        else
+            presenter.loadRestaurant(-1);
     }
 
     @Override
     protected void findViews(View v) {
+        progressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
+        mainContentContainer = (LinearLayout) v.findViewById(R.id.main_content_container);
+        errorContainer = (LinearLayout) v.findViewById(R.id.error_container);
+
         tagsContainer = (FlexboxLayout) v.findViewById(R.id.tags_container);
+
         mapsContainer = (ViewPager) v.findViewById(R.id.maps_container);
         mapSwitcher = (TabLayout) v.findViewById(R.id.restaurant_maps_switcher);
+
         staticMap = (ImageView) v.findViewById(R.id.static_map);
+        tvAddress = (TextView) v.findViewById(R.id.address);
+        btnDirections = (TextView) v.findViewById(R.id.btn_direction);
+
+        tvPhoneNumber = (TextView) v.findViewById(R.id.phone);
+        tvPriceRange = (TextView) v.findViewById(R.id.price_range);
+        tvParkingSpace = (TextView) v.findViewById(R.id.parking_space);
+        tvOpeningHour = (TextView) v.findViewById(R.id.open_hours);
+        tvDescription = (TextView) v.findViewById(R.id.description);
     }
 
     @Override
     public void showLoading() {
-
+        clearVisibilities();
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -92,8 +114,10 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
 
     @Override
     public void showRestaurant(Restaurant restaurant) {
+        clearVisibilities();
         mRestaurant = restaurant;
         fillUpRestaurantContent();
+        mainContentContainer.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -104,6 +128,12 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
 
     private void initView() {
 
+    }
+
+    protected void clearVisibilities() {
+        progressBar.setVisibility(View.INVISIBLE);
+        errorContainer.setVisibility(View.INVISIBLE);
+        mainContentContainer.setVisibility(View.INVISIBLE);
     }
 
     protected void fillUpRestaurantContent() {
@@ -144,6 +174,14 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
                     .centerCrop()
                     .transition(withCrossFade())
                     .into(staticMap);
+
+        tvAddress.setText(mRestaurant.getAddress());
+
+        tvPhoneNumber.setText(mRestaurant.getInfo().get("phone"));
+        tvPriceRange.setText(mRestaurant.getInfo().get("price_range"));
+        tvParkingSpace.setText(mRestaurant.getInfo().get("parking_space"));
+        tvOpeningHour.setText(mRestaurant.getInfo().get("opening_hour"));
+        tvDescription.setText(mRestaurant.getInfo().get("desc"));
     }
 
     protected String getMapImageUrl(double lng, double lat) {

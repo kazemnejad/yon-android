@@ -6,97 +6,305 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:gravity="right"
-        android:orientation="vertical">
+        android:descendantFocusability="blocksDescendants">
 
-        <TextView
+        <ProgressBar
+            android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="@dimen/material_step_1_margin"
-            android:layout_marginTop="@dimen/material_step_1_margin"
-            android:gravity="right"
-            android:text="@string/special_features"
-            android:textColor="@color/black_54"
-            android:textSize="17sp"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="200dp"/>
 
-        <com.google.android.flexbox.FlexboxLayout
-            android:id="@+id/tags_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            app:alignContent="stretch"
-            app:alignItems="stretch"
-            app:flexDirection="row_reverse"
-            app:flexWrap="wrap"/>
-
-        <TextView
+        <LinearLayout
+            android:id="@+id/error_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginBottom="15dp"
-            android:layout_marginRight="@dimen/material_step_1_margin"
-            android:layout_marginTop="@dimen/material_step_1_margin"
-            android:gravity="right"
-            android:text="@string/tables_map"
-            android:textColor="@color/black_54"
-            android:textSize="17sp"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="200dp"
+            android:orientation="vertical"
+            android:visibility="invisible">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/maps_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#2e2e2e"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"/>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#2e2e2e">
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/restaurant_maps_switcher"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal"
-                app:tabGravity="fill"
-                app:tabIndicatorHeight="0dp"
-                app:tabMode="scrollable"
-                app:tabPaddingBottom="4dp"
-                app:tabPaddingTop="4dp"
-                app:tabSelectedTextColor="@color/white_87"
-                app:tabTextAppearance="@style/RestaurantMapSwitcherTextStyle"
-                app:tabTextColor="@color/white_54"/>
-        </FrameLayout>
+                android:text="@string/unable_to_connect_to_server"
+                android:textSize="18sp"/>
 
+            <Button
+                android:id="@+id/btn_retry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:text="@string/retry"/>
 
-        <TextView
-            android:layout_width="wrap_content"
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/main_content_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="@dimen/material_step_1_margin"
-            android:layout_marginTop="20dp"
             android:gravity="right"
-            android:text="@string/restaurant_info"
-            android:textColor="@color/black_54"
-            android:textSize="17sp"/>
+            android:orientation="vertical"
+            android:visibility="invisible">
 
-        <ImageView
-            android:id="@+id/static_map"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginTop="2dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="@dimen/material_step_1_margin"
+                android:layout_marginTop="@dimen/material_step_1_margin"
+                android:gravity="right"
+                android:text="@string/special_features"
+                android:textColor="@color/black_54"
+                android:textSize="17sp"/>
 
-    </LinearLayout>
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/tags_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                app:flexDirection="row_reverse"
+                app:flexWrap="wrap"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="@dimen/material_step_1_margin"
+                android:layout_marginTop="@dimen/material_step_1_margin"
+                android:gravity="right"
+                android:text="@string/tables_map"
+                android:textColor="@color/black_54"
+                android:textSize="17sp"/>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/maps_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#2e2e2e"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#2e2e2e">
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/restaurant_maps_switcher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    app:tabGravity="fill"
+                    app:tabIndicatorHeight="0dp"
+                    app:tabMode="scrollable"
+                    app:tabPaddingBottom="4dp"
+                    app:tabPaddingTop="4dp"
+                    app:tabSelectedTextColor="@color/white_87"
+                    app:tabTextAppearance="@style/RestaurantMapSwitcherTextStyle"
+                    app:tabTextColor="@color/white_54"/>
+            </FrameLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="@dimen/material_step_1_margin"
+                android:layout_marginTop="20dp"
+                android:gravity="right"
+                android:text="@string/restaurant_info"
+                android:textColor="@color/black_54"
+                android:textSize="17sp"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp">
+
+                <ImageView
+                    android:id="@+id/static_map"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="2dp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@color/mainActivityBackgroundColor">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/btn_direction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/direction_btn_background"
+                    android:clickable="true"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/ic_directions_24dp"
+                    android:gravity="left"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="6dp"
+                    android:paddingTop="6dp"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:text="@string/directions"
+                    android:textColor="@android:color/white"
+                    android:textSize="17sp"
+                    android:textStyle="bold"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="@dimen/material_step_1_margin"
+                    android:gravity="right"
+                    android:text="تهران، سعاد‌ت‌آباد، پیام"
+                    android:textColor="@color/black_54"
+                    android:textSize="14sp"/>
+            </FrameLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp">
+
+                <io.yon.android.view.widget.TextViewCompatTint
+                    android:id="@+id/label_phone"
+                    style="@style/InfoLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:drawableRight="@drawable/ic_phone_black_24dp"
+                    android:drawableTint="@color/colorPrimary"
+                    app:drawableTint="@color/colorPrimary"
+                    android:text="@string/phone"
+                    />
+
+                <TextView
+                    android:id="@+id/phone"
+                    style="@style/InfoItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/label_phone"
+                    android:layout_toLeftOf="@+id/label_phone"
+                    android:text="۰۲۱ ۲۲۱۱ ۱۱۹۶"/>
+
+                <io.yon.android.view.widget.TextViewCompatTint
+                    android:id="@+id/label_price"
+                    style="@style/InfoLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/label_phone"
+                    android:drawableRight="@drawable/ic_attach_money_black_24dp"
+                    android:drawableTint="@color/colorPrimary"
+                    android:text="@string/price"/>
+
+                <TextView
+                    android:id="@+id/price_range"
+                    style="@style/InfoItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/label_price"
+                    android:layout_toLeftOf="@+id/label_price"/>
+
+                <io.yon.android.view.widget.TextViewCompatTint
+                    android:id="@+id/label_parking_space"
+                    style="@style/InfoLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/label_price"
+                    android:drawableRight="@drawable/ic_local_parking_24dp"
+                    android:drawableTint="@color/colorPrimary"
+                    android:layout_marginRight="4dp"
+                    android:text="@string/parking_space"/>
+
+                <TextView
+                    android:id="@+id/parking_space"
+                    style="@style/InfoItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/label_parking_space"
+                    android:layout_toLeftOf="@+id/label_parking_space"/>
+
+
+                <io.yon.android.view.widget.TextViewCompatTint
+                    android:id="@+id/label_open_hours"
+                    style="@style/InfoLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/label_parking_space"
+                    android:layout_marginRight="0dp"
+                    android:drawableRight="@drawable/ic_access_time_24dp"
+                    android:drawableTint="@color/colorPrimary"
+                    android:text="@string/open_hours"/>
+
+                <TextView
+                    android:id="@+id/open_hours"
+                    style="@style/InfoItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/label_open_hours"
+                    android:layout_marginRight="50dp"
+                    android:gravity="right"
+                    android:lineSpacingExtra="10dp"
+                    android:paddingLeft="@dimen/material_step_1_margin"/>
+
+                <io.yon.android.view.widget.TextViewCompatTint
+                    android:id="@+id/label_description"
+                    style="@style/InfoLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/open_hours"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="0dp"
+                    android:drawableRight="@drawable/ic_access_time_24dp"
+                    android:drawableTint="@color/colorPrimary"
+                    android:text="@string/description"/>
+
+                <TextView
+                    android:id="@+id/description"
+                    style="@style/InfoItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/label_description"
+                    android:layout_marginRight="50dp"
+                    android:gravity="right"
+                    android:lineSpacingExtra="4dp"
+                    android:paddingLeft="@dimen/material_step_1_margin"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
 
 </android.support.v4.widget.NestedScrollView>

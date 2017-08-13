@@ -30,6 +30,7 @@ public class Restaurant extends Model {
     double latitude = -1;
     List<Tag> tags;
     List<Map> maps;
+    java.util.Map<String, String> info;
 
     public int getId() {
         return id;
@@ -147,5 +148,13 @@ public class Restaurant extends Model {
         url += "&key=" + Constants.GoogleStaticMapKey;
 
         return url;
+    }
+
+    public java.util.Map<String, String> getInfo() {
+        return info;
+    }
+
+    public void setInfo(java.util.Map<String, String> info) {
+        this.info = info;
     }
 }

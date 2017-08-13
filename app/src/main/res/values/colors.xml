@@ -24,4 +24,8 @@
     <color name="tag_label_background_color">#00b2e9</color>
     <color name="tag_label_background_color_pressed">#006180</color>
 
+    <color name="direction_btn_background_color">#4E87EC</color>
+    <color name="direction_btn_background_color_pressed">#264274</color>
+
+
 </resources>

@@ -5,4 +5,15 @@
     <string name="review">نظرات</string>
     <string name="tables_map">نقشه‌ی میزها</string>
     <string name="restaurant_info">اطلاعات رستوران</string>
+    <string name="directions">مسیریابی</string>
+    <string name="phone">تلفن</string>
+    <string name="price">قیمت</string>
+    <string name="open_hours">ساعات کاری</string>
+    <string name="open_hours_dummy">
+        "صبح: ۱۰:۳۰ تا ۱۲:۴۵\n"
+        "ظهر: ۱۳:۳۰ تا ۱۷:۲۰\n"
+        "شب: ۱۷:۰۰ تا ۲۳:۰۰\n"
+    </string>
+    <string name="parking_space">پارکینگ</string>
+    <string name="description">توضیحات</string>
 </resources>
