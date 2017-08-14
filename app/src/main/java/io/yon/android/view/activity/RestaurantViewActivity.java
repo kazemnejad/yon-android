@@ -219,8 +219,7 @@ public class RestaurantViewActivity extends Activity {
 
                 case 1:
                     if (menuFragment == null)
-                        menuFragment = RestaurantMenuFragment.create()
-                                .setRestaurant(mRestaurant);
+                        menuFragment = RestaurantMenuFragment.create(mRestaurant);
 
                     return menuFragment;
 

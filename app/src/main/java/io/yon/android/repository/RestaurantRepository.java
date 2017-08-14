@@ -1,13 +1,16 @@
 package io.yon.android.repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.yon.android.R;
+import io.yon.android.model.Eatable;
 import io.yon.android.model.Map;
+import io.yon.android.model.MenuSection;
 import io.yon.android.model.Restaurant;
 import io.yon.android.model.Table;
 import io.yon.android.model.Tag;
@@ -38,6 +41,13 @@ public class RestaurantRepository {
                 .onErrorReturn(Lce::error);
     }
 
+    public Observable<Lce<List<MenuSection>>> getRestaurantMenu(int restaurantId) {
+        return Observable.just(createMenu())
+                .delay(1700, TimeUnit.MILLISECONDS)
+                .map(Lce::data)
+                .startWith(Lce.loading())
+                .onErrorReturn(Lce::error);
+    }
 
     private static Restaurant createRestaurant() {
         Restaurant r = new Restaurant();
@@ -118,4 +128,39 @@ public class RestaurantRepository {
 
         return t;
     }
+
+    private static List<MenuSection> createMenu() {
+        List<String> in1 = Arrays.asList("گوشت", "قارج", "پنیر", "گوجه");
+        List<String> in2 = Arrays.asList("سوسیس", "کالباس", "گربه");
+        List<String> in3 = Arrays.asList("گربه پا به ماه", "سوسیس", "زباله", "سس");
+
+        Eatable e1 = new Eatable("پیتزای مخصوص", 7000, 4.3f, "https://www.reyhoon.com/images/foods/1400/%D8%A8%DB%8C%DA%A9%D9%86-%D8%A8%D8%B1%D9%87.jpg", in1);
+        Eatable e2 = new Eatable("برگر دبل", 21400, 3.9f, "https://www.reyhoon.com/images/foods/1400/%D8%A8%DB%8C%DA%A9%D9%86-%D9%85%D8%AE%D8%B5%D9%88%D8%B5.jpg", in2);
+        Eatable e3 = new Eatable("ساندویچ گوشت اعلا", 33600, 4.1f, "https://www.reyhoon.com/images/foods/1400/%D8%B3%D8%A7%D9%86%D8%AF%D9%88%DB%8C%DA%86-%D9%85%D8%AE%D9%84%D9%88%D8%B7.jpg", in3);
+
+        ArrayList<MenuSection> menu = new ArrayList<>();
+
+        MenuSection ms = new MenuSection();
+        ms.setEatables(Arrays.asList(e1, e2, e3));
+        ms.setName("غذای اصلی");
+        menu.add(ms);
+
+        ms = new MenuSection();
+        ms.setEatables(Arrays.asList(e2, e3));
+        ms.setName("پیش‌غذا");
+        menu.add(ms);
+
+        ms = new MenuSection();
+        ms.setEatables(Arrays.asList(e1, e3, e2));
+        ms.setName("دسر‌ها");
+        menu.add(ms);
+
+        ms = new MenuSection();
+        ms.setEatables(Collections.singletonList(e2));
+        ms.setName("نوشیدنی");
+        menu.add(ms);
+
+        return menu;
+    }
+
 }

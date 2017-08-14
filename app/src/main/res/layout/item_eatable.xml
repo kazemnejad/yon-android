@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/restaurant_menu_item_height"
+    android:paddingRight="8dp">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="@dimen/restaurant_menu_item_height"
+        android:layout_height="@dimen/restaurant_menu_item_height"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:padding="8dp"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="14dp"
+        android:layout_toLeftOf="@+id/icon"
+        android:textColor="@color/black_87"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/title"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/black_54"/>
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/currency"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/material_step_1_margin"
+        android:text="@string/toman"
+        android:visibility="invisible"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"/>
+
+</RelativeLayout>

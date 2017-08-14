@@ -4,8 +4,11 @@ import android.app.Application;
 
 import com.waylonbrown.lifecycleawarerx.LifecycleBinder;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import io.yon.android.contract.RestaurantContract;
+import io.yon.android.model.MenuSection;
 import io.yon.android.model.Restaurant;
 import io.yon.android.repository.Lce;
 import io.yon.android.repository.RestaurantRepository;
@@ -21,6 +24,7 @@ public class RestaurantPresenter extends Presenter implements RestaurantContract
     private RestaurantContract.View view;
 
     private Observable<Lce<Restaurant>> restaurantObservable;
+    private Observable<Lce<List<MenuSection>>> menuObservable;
 
     public RestaurantPresenter(Application application) {
         super(application);
@@ -61,7 +65,30 @@ public class RestaurantPresenter extends Presenter implements RestaurantContract
 
     @Override
     public void loadRestaurantMenu(int id) {
+        if (menuObservable == null)
+            menuObservable = RestaurantRepository.getInstance()
+                    .getRestaurantMenu(id)
+                    .compose(RxUtils.applySchedulers())
+                    .cache();
 
+        menuObservable.takeWhile(LifecycleBinder.notDestroyed(view))
+                .compose(LifecycleBinder.subscribeWhenReady(view, new Lce.Observer<>(
+                        lce -> {
+                            if (lce.isLoading())
+                                view.showLoading();
+                            else if (lce.hasError())
+                                view.showError(lce.getError());
+                            else
+                                view.showRestaurantMenu(lce.getData());
+                        }
+                )));
+    }
+
+    public void loadRestaurantMenu(int id, boolean skipCache) {
+        if (skipCache)
+            menuObservable = null;
+
+        loadRestaurantMenu(id);
     }
 
     @Override

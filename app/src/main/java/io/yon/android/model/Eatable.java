@@ -4,7 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import org.parceler.Parcel;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
+
+import io.yon.android.util.calendar.LanguageUtils;
 
 /**
  * Created by amirhosein on 8/13/2017 AD.
@@ -20,6 +25,9 @@ public class Eatable extends Model {
     List<String> ingredients;
     List<String> pictureAlbum;
     List<Tag> tags;
+
+    private String ingredientsStr;
+    private String priceStr;
 
     public Eatable() {}
 
@@ -93,5 +101,36 @@ public class Eatable extends Model {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public String getIngredientsStr() {
+        if (ingredientsStr == null) {
+            if (ingredients == null || ingredients.size() == 0) {
+                ingredientsStr = "";
+                return ingredientsStr;
+            }
+
+            StringBuilder builder = new StringBuilder();
+            String prefix = "";
+            for (String ingredient : ingredients) {
+                builder.append(prefix);
+                prefix = "،";
+                builder.append(ingredient);
+            }
+
+            ingredientsStr = builder.toString();
+        }
+
+        return ingredientsStr;
+    }
+
+    public String getPriceStr() {
+        if (priceStr == null) {
+            String preFormat = new DecimalFormat("#,###").format(price);
+            priceStr = LanguageUtils.getPersianNumbers(preFormat);
+        }
+//            priceStr = NumberFormat.getNumberInstance(new Locale.Builder().setLanguageTag("ar-SA-u-nu-arab").build())
+//                    .format(price);
+        return priceStr;
     }
 }
