@@ -48,9 +48,10 @@ public class RestaurantPresenter extends Presenter implements RestaurantContract
                         lce -> {
                             if (lce.isLoading())
                                 view.showLoading();
-                            else if (lce.hasError())
+                            else if (lce.hasError()) {
+                                restaurantObservable = null;
                                 view.showError(lce.getError());
-                            else
+                            } else
                                 view.showRestaurant(lce.getData());
                         }
                 )));
@@ -76,9 +77,10 @@ public class RestaurantPresenter extends Presenter implements RestaurantContract
                         lce -> {
                             if (lce.isLoading())
                                 view.showLoading();
-                            else if (lce.hasError())
+                            else if (lce.hasError()) {
+                                menuObservable = null;
                                 view.showError(lce.getError());
-                            else
+                            } else
                                 view.showRestaurantMenu(lce.getData());
                         }
                 )));

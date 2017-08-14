@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -48,6 +49,7 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
     private TabLayout mapSwitcher;
     private ImageView staticMap;
     private TextView tvAddress, btnDirections, tvPhoneNumber, tvPriceRange, tvParkingSpace, tvOpeningHour, tvDescription;
+    private Button btnRetry;
 
     private RestaurantPresenter presenter;
     private int maxUnitSize;
@@ -76,7 +78,7 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
 
         mRestaurant = Parcels.unwrap(getArguments().getParcelable("rest"));
 
-        this.maxUnitSize = ViewUtils.px(getContext(), 60);
+        maxUnitSize = ViewUtils.px(getContext(), 60);
 
         initView();
 
@@ -92,6 +94,7 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
         progressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
         mainContentContainer = (LinearLayout) v.findViewById(R.id.main_content_container);
         errorContainer = (LinearLayout) v.findViewById(R.id.error_container);
+        btnRetry = (Button) v.findViewById(R.id.btn_retry);
 
         tagsContainer = (FlexboxLayout) v.findViewById(R.id.tags_container);
 
@@ -135,7 +138,7 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
     public void showRestaurantReview() {}
 
     private void initView() {
-
+        btnRetry.setOnClickListener(view -> presenter.loadRestaurant(mRestaurant.getId()));
     }
 
     protected void clearVisibilities() {

@@ -77,6 +77,7 @@ public class RestaurantMenuFragment extends Fragment implements RestaurantContra
     private void initViews() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new StickyHeaderLayoutManager());
+        btnRetry.setOnClickListener(view -> presenter.loadRestaurantMenu(mRestaurant.getId()));
     }
 
     @Override
