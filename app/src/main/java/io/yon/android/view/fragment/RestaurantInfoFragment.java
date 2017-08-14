@@ -17,10 +17,13 @@ import com.google.android.flexbox.FlexboxLayout;
 
 import org.parceler.Parcels;
 
+import java.util.List;
+
 import io.yon.android.R;
 import io.yon.android.api.Constants;
 import io.yon.android.contract.RestaurantContract;
 import io.yon.android.model.Map;
+import io.yon.android.model.MenuSection;
 import io.yon.android.model.Restaurant;
 import io.yon.android.model.Tag;
 import io.yon.android.presenter.RestaurantPresenter;
@@ -126,7 +129,7 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
     }
 
     @Override
-    public void showRestaurantMenu() {}
+    public void showRestaurantMenu(List<MenuSection> menu) {}
 
     @Override
     public void showRestaurantReview() {}
