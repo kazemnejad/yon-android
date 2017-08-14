@@ -16,7 +16,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="200dp"/>
+            android:layout_marginTop="200dp"
+            android:visibility="invisible"/>
 
         <LinearLayout
             android:id="@+id/error_container"
@@ -198,8 +199,8 @@
                     android:layout_alignParentRight="true"
                     android:drawableRight="@drawable/ic_phone_black_24dp"
                     android:drawableTint="@color/colorPrimary"
-                    app:drawableTint="@color/colorPrimary"
                     android:text="@string/phone"
+                    app:drawableTint="@color/colorPrimary"
                     />
 
                 <TextView
@@ -237,9 +238,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/label_price"
+                    android:layout_marginRight="4dp"
                     android:drawableRight="@drawable/ic_local_parking_24dp"
                     android:drawableTint="@color/colorPrimary"
-                    android:layout_marginRight="4dp"
                     android:text="@string/parking_space"/>
 
                 <TextView
