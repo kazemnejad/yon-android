@@ -6,6 +6,7 @@ import org.parceler.Parcel;
 
 import java.util.TimeZone;
 
+import io.yon.android.util.calendar.LanguageUtils;
 import io.yon.android.util.calendar.PersianCalendar;
 
 /**
@@ -82,9 +83,10 @@ public class UserReview extends Model {
                 return datetimeStr;
             }
 
-            PersianCalendar persianCalendar = new PersianCalendar(datetime);
+            PersianCalendar persianCalendar = new PersianCalendar(datetime * 1000L);
             persianCalendar.setTimeZone(TimeZone.getTimeZone("Asia/Tehran"));
-            datetimeStr = persianCalendar.getPersianLongDate();
+//            datetimeStr = persianCalendar.getPersianLongDate();
+            datetimeStr = LanguageUtils.getPersianNumbers(persianCalendar.getPersianShortDate());
         }
 
         return datetimeStr;

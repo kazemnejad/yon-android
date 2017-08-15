@@ -101,6 +101,8 @@
     <string name="nearby_zones">منطقه‌های اطراف</string>
     <string name="retry">تلاش دوباره</string>
     <string name="toman">تومان</string>
+    <string name="by">توسط</string>
+    <string name="on">در</string>
 
 
 </resources>
