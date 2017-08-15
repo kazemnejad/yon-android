@@ -27,6 +27,7 @@ import io.yon.android.model.Map;
 import io.yon.android.model.MenuSection;
 import io.yon.android.model.Restaurant;
 import io.yon.android.model.Tag;
+import io.yon.android.model.UserReview;
 import io.yon.android.presenter.RestaurantPresenter;
 import io.yon.android.util.ViewUtils;
 import io.yon.android.view.GlideApp;
@@ -135,7 +136,7 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
     public void showRestaurantMenu(List<MenuSection> menu) {}
 
     @Override
-    public void showRestaurantReview() {}
+    public void showRestaurantReview(List<UserReview> userReviews) {}
 
     private void initView() {
         btnRetry.setOnClickListener(view -> presenter.loadRestaurant(mRestaurant.getId()));

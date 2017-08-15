@@ -20,6 +20,7 @@ import io.yon.android.R;
 import io.yon.android.contract.RestaurantContract;
 import io.yon.android.model.MenuSection;
 import io.yon.android.model.Restaurant;
+import io.yon.android.model.UserReview;
 import io.yon.android.presenter.RestaurantPresenter;
 import io.yon.android.view.adapter.RestaurantMenuAdapter;
 
@@ -105,7 +106,7 @@ public class RestaurantMenuFragment extends Fragment implements RestaurantContra
     public void showRestaurant(Restaurant restaurant) {}
 
     @Override
-    public void showRestaurantReview() {}
+    public void showRestaurantReview(List<UserReview> reviews) {}
 
     protected void clearVisibilities() {
         progressBar.setVisibility(View.INVISIBLE);

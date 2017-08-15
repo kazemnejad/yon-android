@@ -4,6 +4,7 @@ import java.util.List;
 
 import io.yon.android.model.MenuSection;
 import io.yon.android.model.Restaurant;
+import io.yon.android.model.UserReview;
 import io.yon.android.view.MvpView;
 
 /**
@@ -28,6 +29,6 @@ public class RestaurantContract extends Contract {
 
         void showRestaurantMenu(List<MenuSection> menu);
 
-        void showRestaurantReview();
+        void showRestaurantReview(List<UserReview> reviews);
     }
 }

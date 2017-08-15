@@ -10,6 +10,7 @@ import io.reactivex.Observable;
 import io.yon.android.contract.RestaurantContract;
 import io.yon.android.model.MenuSection;
 import io.yon.android.model.Restaurant;
+import io.yon.android.model.UserReview;
 import io.yon.android.repository.Lce;
 import io.yon.android.repository.RestaurantRepository;
 import io.yon.android.util.RxUtils;
@@ -25,6 +26,7 @@ public class RestaurantPresenter extends Presenter implements RestaurantContract
 
     private Observable<Lce<Restaurant>> restaurantObservable;
     private Observable<Lce<List<MenuSection>>> menuObservable;
+    private Observable<Lce<List<UserReview>>> reviewObservable;
 
     public RestaurantPresenter(Application application) {
         super(application);
@@ -95,7 +97,24 @@ public class RestaurantPresenter extends Presenter implements RestaurantContract
 
     @Override
     public void loadRestaurantReview(int id) {
+        if (reviewObservable == null)
+            reviewObservable = RestaurantRepository.getInstance()
+                    .getRestaurantUserReviews(id)
+                    .compose(RxUtils.applySchedulers())
+                    .cache();
 
+        reviewObservable.takeWhile(LifecycleBinder.notDestroyed(view))
+                .compose(LifecycleBinder.subscribeWhenReady(view, new Lce.Observer<>(
+                        lce -> {
+                            if (lce.isLoading())
+                                view.showLoading();
+                            else if (lce.hasError()) {
+                                reviewObservable = null;
+                                view.showError(lce.getError());
+                            } else
+                                view.showRestaurantReview(lce.getData());
+                        }
+                )));
     }
 
     @Override

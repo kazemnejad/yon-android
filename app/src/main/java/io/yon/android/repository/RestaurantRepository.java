@@ -14,6 +14,7 @@ import io.yon.android.model.MenuSection;
 import io.yon.android.model.Restaurant;
 import io.yon.android.model.Table;
 import io.yon.android.model.Tag;
+import io.yon.android.model.UserReview;
 
 /**
  * Created by amirhosein on 8/10/2017 AD.
@@ -44,6 +45,14 @@ public class RestaurantRepository {
     public Observable<Lce<List<MenuSection>>> getRestaurantMenu(int restaurantId) {
         return Observable.just(createMenu())
                 .delay(1700, TimeUnit.MILLISECONDS)
+                .map(Lce::data)
+                .startWith(Lce.loading())
+                .onErrorReturn(Lce::error);
+    }
+
+    public Observable<Lce<List<UserReview>>> getRestaurantUserReviews(int restaurantId) {
+        return Observable.just(createUserReviews())
+                .delay(2400, TimeUnit.MILLISECONDS)
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);
@@ -161,6 +170,19 @@ public class RestaurantRepository {
         menu.add(ms);
 
         return menu;
+    }
+
+    private static List<UserReview> createUserReviews() {
+        ArrayList<UserReview> reviews = new ArrayList<>();
+        reviews.add(new UserReview("اصغر", "کیفیت غذا بسیار داغون بود.", 1.4f, 2312321));
+        reviews.add(new UserReview("تقی", "هممم!", 4.5f, 2312321));
+        reviews.add(new UserReview("نقی", "مممم!", 4.0f, 2312321));
+        reviews.add(new UserReview("مموتی", "سینه‌ی مرغشونو لولو برده بود:|", 2.6f, 2312321));
+        reviews.add(new UserReview("ترامپ", "با مموتی قرار شد یه دیوار درستی بخوریم.", 0f, 2312321));
+        reviews.add(new UserReview("نتانیاهو", "ترامپ قراره دنگ منم بده *ـــ*", 3.2f, 2312321));
+        reviews.add(new UserReview("شاهزاده عربستان", "آقا این پیش‌خدمتش خیلی دافه 3>", 5f, 2312321));
+
+        return reviews;
     }
 
 }

@@ -212,9 +212,8 @@ public class RestaurantViewActivity extends Activity {
             switch (position) {
                 case 0:
                     if (reviewFragment == null)
-                        reviewFragment = RestaurantReviewFragment.create()
-                                .setRestaurant(mRestaurant);
-
+                        reviewFragment = RestaurantReviewFragment.create(mRestaurant);
+                    
                     return reviewFragment;
 
                 case 1:
