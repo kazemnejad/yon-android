@@ -12,7 +12,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.DrawerActivity"></style>
+    <style name="AppTheme.DrawerActivity"/>
 
     <style name="AppTheme.AuthActivity">
         <item name="android:windowBackground">@color/authActivityBackgroundColor</item>
@@ -24,6 +24,10 @@
 
     <style name="AppTheme.RestaurantViewActivity" parent="AppTheme.DrawerActivity">
         <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.ReservationActivity">
+
     </style>
 
     <style name="ToolbarButton">
