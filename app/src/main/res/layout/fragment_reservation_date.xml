@@ -1,21 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginTop="@dimen/material_step_1_margin"
+        android:clipToPadding="false"
+        android:paddingLeft="@dimen/material_step_1_margin"
+        android:paddingRight="@dimen/material_step_1_margin"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/recycler_view"
+        android:layout_marginTop="50dp">
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/material_step_1_margin"
-            android:layout_marginRight="@dimen/material_step_1_margin"/>
-    </LinearLayout>
+            android:layout_height="1dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@color/colorPrimary"/>
 
-</android.support.v4.widget.NestedScrollView>
+        <FrameLayout
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:background="#fafafa">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/first"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:alpha="0"
+                android:textSize="16sp"
+                android:translationY="-5dp"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/second"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="16sp"/>
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/btn_go_select_time"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="@dimen/material_step_1_margin"
+        android:layout_marginLeft="@dimen/material_step_1_margin"
+        android:text="@string/select_time"
+        android:textColor="@color/colorPrimary"/>
+
+
+</RelativeLayout>

@@ -42,6 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.yon.android.R;
+import io.yon.android.util.ViewUtils;
 import io.yon.android.util.calendar.CalenderViewUtils;
 import io.yon.android.util.calendar.LanguageUtils;
 import io.yon.android.util.calendar.PersianCalendar;
@@ -350,7 +351,7 @@ public abstract class MonthView extends View {
             }
         }
 
-        mRowHeight = 102;
+        mRowHeight = ViewUtils.px(getContext(), 52);
         if (params.containsKey(VIEW_PARAMS_SELECTED_DAY)) {
             mSelectedDay = params.get(VIEW_PARAMS_SELECTED_DAY);
         }

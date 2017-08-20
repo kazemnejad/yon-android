@@ -1,5 +1,6 @@
 package io.yon.android.view.activity;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +10,9 @@ import android.support.v4.view.ViewPager;
 import java.util.ArrayList;
 
 import io.yon.android.R;
+import io.yon.android.model.Reservation;
 import io.yon.android.model.Restaurant;
+import io.yon.android.presenter.ReservationPresenter;
 import io.yon.android.view.adapter.MonthAdapter;
 import io.yon.android.view.adapter.ReservationPagesAdapter;
 
@@ -17,11 +20,13 @@ import io.yon.android.view.adapter.ReservationPagesAdapter;
  * Created by amirhosein on 8/19/2017 AD.
  */
 
-public class ReservationActivity extends Activity {
+public class ReservationActivity extends Activity implements ReservationBuilderController {
 
     private Restaurant mRestaurant;
-    private MonthAdapter adapter;
+    private ReservationPagesAdapter adapter;
     private ViewPager viewPager;
+
+    private ReservationPresenter presenter;
 
     public static void start(Context context, Restaurant restaurant) {
         context.startActivity(new Intent(context, ReservationActivity.class)
@@ -48,7 +53,17 @@ public class ReservationActivity extends Activity {
         setDisplayHomeAsUpEnabled(true);
         setTitle(mRestaurant.getName());
 
+        presenter = ViewModelProviders.of(this).get(ReservationPresenter.class);
+
         initViews();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (viewPager.getCurrentItem() == ReservationPresenter.Step.DateSelect)
+            super.onBackPressed();
+        else
+            previous();
     }
 
     @Override
@@ -56,7 +71,31 @@ public class ReservationActivity extends Activity {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
     }
 
+    @Override
+    public void next() {
+        int currentStep = presenter.getCurrentStep();
+        if (currentStep < 1)
+            return;
+
+        presenter.setCurrentStep(--currentStep);
+        viewPager.setCurrentItem(--currentStep, true);
+    }
+
+    @Override
+    public void previous() {
+        int currentStep = presenter.getCurrentStep();
+        if (currentStep > 4)
+            return;
+
+        presenter.setCurrentStep(++currentStep);
+        viewPager.setCurrentItem(++currentStep, true);
+    }
+
     public void initViews() {
-        viewPager.setAdapter(new ReservationPagesAdapter(getSupportFragmentManager()));
+        adapter = new ReservationPagesAdapter(getSupportFragmentManager());
+
+        viewPager.setOffscreenPageLimit(4);
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(1);
     }
 }

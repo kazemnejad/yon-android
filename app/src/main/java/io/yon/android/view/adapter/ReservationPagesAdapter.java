@@ -4,7 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import io.yon.android.presenter.ReservationPresenter.Step;
 import io.yon.android.view.fragment.ReservationDateFragment;
+import io.yon.android.view.fragment.ReservationTimeFragment;
 
 /**
  * Created by amirhosein on 8/20/2017 AD.
@@ -12,6 +14,7 @@ import io.yon.android.view.fragment.ReservationDateFragment;
 
 public class ReservationPagesAdapter extends FragmentStatePagerAdapter {
     private ReservationDateFragment dateFragment;
+    private ReservationTimeFragment timeFragment;
 
     public ReservationPagesAdapter(FragmentManager fm) {
         super(fm);
@@ -20,17 +23,24 @@ public class ReservationPagesAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0:
+            case Step.DateSelect:
                 if (dateFragment == null)
                     dateFragment = new ReservationDateFragment();
 
                 return dateFragment;
+
+            case Step.TimeSelect:
+                if (timeFragment == null)
+                    timeFragment = new ReservationTimeFragment();
+
+                return timeFragment;
         }
+
         return null;
     }
 
     @Override
     public int getCount() {
-        return 1;
+        return 2;
     }
 }

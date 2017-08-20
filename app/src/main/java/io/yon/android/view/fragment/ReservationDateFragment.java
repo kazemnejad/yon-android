@@ -1,21 +1,27 @@
 package io.yon.android.view.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-
-import com.orhanobut.logger.Logger;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.TimeZone;
 
 import io.yon.android.R;
+import io.yon.android.presenter.ReservationPresenter;
+import io.yon.android.presenter.RestaurantPresenter;
+import io.yon.android.util.ViewUtils;
+import io.yon.android.util.calendar.LanguageUtils;
 import io.yon.android.util.calendar.PersianCalendar;
-import io.yon.android.util.calendar.TimeZones;
+import io.yon.android.view.activity.ReservationActivity;
+import io.yon.android.view.activity.ReservationBuilderController;
 import io.yon.android.view.adapter.MonthAdapter;
 import io.yon.android.view.widget.date.CalendarDay;
 import io.yon.android.view.widget.date.DatePickerController;
@@ -25,11 +31,23 @@ import io.yon.android.view.widget.date.DatePickerController;
  */
 
 public class ReservationDateFragment extends Fragment implements DatePickerController {
+
     private RecyclerView recyclerView;
     private MonthAdapter adapter;
 
+    private TextView firstSelectedDay;
+    private TextView secondSelectedDay;
+
+    private Button btnSelectTime;
+
+    private int translationDistance;
+
+    private String lastSelectedDayLabel;
+
     final private PersianCalendar today = new PersianCalendar(System.currentTimeMillis());
 
+    private ReservationBuilderController mController;
+    private ReservationPresenter presenter;
 
     @Override
     protected int getResourceLayoutId() {
@@ -40,12 +58,18 @@ public class ReservationDateFragment extends Fragment implements DatePickerContr
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        mController = getParentActivity();
+        presenter = ViewModelProviders.of(getActivity()).get(ReservationPresenter.class);
+
         initView();
     }
 
     @Override
     protected void findViews(View v) {
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
+        firstSelectedDay = (TextView) v.findViewById(R.id.first);
+        secondSelectedDay = (TextView) v.findViewById(R.id.second);
+        btnSelectTime = (Button) v.findViewById(R.id.btn_go_select_time);
     }
 
     private void initView() {
@@ -58,6 +82,20 @@ public class ReservationDateFragment extends Fragment implements DatePickerContr
         recyclerView.setAdapter(adapter);
 
         new LinearSnapHelper().attachToRecyclerView(recyclerView);
+
+        PersianCalendar selectedDay = presenter.getSelectedDateTime();
+        if (selectedDay == null) {
+            presenter.setSelectedDateTime(today);
+            selectedDay = presenter.getSelectedDateTime();
+        }
+
+        adapter.setSelectedDay(new CalendarDay(selectedDay.getPersianYear(), selectedDay.getPersianMonth(), selectedDay.getPersianDay()));
+        lastSelectedDayLabel = LanguageUtils.getPersianNumbers(selectedDay.getPersianLongDate());
+        secondSelectedDay.setText(lastSelectedDayLabel);
+
+        translationDistance = ViewUtils.px(getContext(), 50);
+
+        btnSelectTime.setOnClickListener(v -> mController.next());
     }
 
     @Override
@@ -70,6 +108,10 @@ public class ReservationDateFragment extends Fragment implements DatePickerContr
         CalendarDay selectedDay = new CalendarDay(year, month, day);
         adapter.setSelectedDay(selectedDay);
         adapter.notifyDataSetChanged();
+
+        PersianCalendar selectedDayCalender = new PersianCalendar();
+        selectedDayCalender.setPersianDate(year, month, day);
+        selectDay(selectedDayCalender);
     }
 
     @Override
@@ -126,7 +168,7 @@ public class ReservationDateFragment extends Fragment implements DatePickerContr
     public PersianCalendar getMaxDate() {
         PersianCalendar nextMonth = new PersianCalendar(System.currentTimeMillis());
         nextMonth.setTimeZone(TimeZone.getTimeZone("Asia/Tehran"));
-        nextMonth.addPersianDate(Calendar.MONTH, 2);
+        nextMonth.add(PersianCalendar.MONTH, 2);
 
         return nextMonth;
     }
@@ -139,11 +181,40 @@ public class ReservationDateFragment extends Fragment implements DatePickerContr
     private PersianCalendar[] getNextTwoMonth() {
         PersianCalendar nextMonth = new PersianCalendar(System.currentTimeMillis());
         nextMonth.setTimeZone(TimeZone.getTimeZone("Asia/Tehran"));
-        nextMonth.addPersianDate(Calendar.MONTH, 1);
+        nextMonth.add(PersianCalendar.MONTH, 1);
 
         return new PersianCalendar[]{
                 today,
                 nextMonth
         };
+    }
+
+    public void selectDay(PersianCalendar day) {
+        presenter.setSelectedDateTime(day);
+
+        animateSelectedDayLabel(LanguageUtils.getPersianNumbers(day.getPersianLongDate()));
+        lastSelectedDayLabel = LanguageUtils.getPersianNumbers(day.getPersianLongDate());
+    }
+
+    public void animateSelectedDayLabel(String selectedDayLabel) {
+        firstSelectedDay.setTranslationY(-translationDistance);
+        firstSelectedDay.setAlpha(0);
+        firstSelectedDay.setText(selectedDayLabel);
+
+        secondSelectedDay.setTranslationY(0);
+        secondSelectedDay.setAlpha(1f);
+        secondSelectedDay.setText(lastSelectedDayLabel);
+
+        firstSelectedDay.animate()
+                .alpha(1f)
+                .translationY(0)
+                .setDuration(300)
+                .setInterpolator(new AccelerateDecelerateInterpolator());
+
+        secondSelectedDay.animate()
+                .alpha(0f)
+                .translationY(translationDistance)
+                .setDuration(300)
+                .setInterpolator(new AccelerateDecelerateInterpolator());
     }
 }

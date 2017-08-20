@@ -14,7 +14,6 @@ public class Reservation extends Model {
     Table table;
     long datetime = -1;
     int guestCount = 0;
-    int currentStep = Step.DateSelect;
 
     public Reservation() {}
 
@@ -40,21 +39,5 @@ public class Reservation extends Model {
 
     public void setGuestCount(int guestCount) {
         this.guestCount = guestCount;
-    }
-
-    public int getCurrentStep() {
-        return currentStep;
-    }
-
-    public void setCurrentStep(int currentStep) {
-        this.currentStep = currentStep;
-    }
-
-    public static class Step {
-        public static final int DateSelect = 367;
-        public static final int TimeSelect = 932;
-        public static final int TableSelect = 213;
-        public static final int GuestCount = 239;
-        public static final int Final = 328;
     }
 }
