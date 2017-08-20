@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mohamadamin.persianmaterialdatetimepicker.multidate;
+package io.yon.android.view.widget.date;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -35,18 +35,16 @@ import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import com.mohamadamin.persianmaterialdatetimepicker.R;
-import com.mohamadamin.persianmaterialdatetimepicker.TypefaceHelper;
-import com.mohamadamin.persianmaterialdatetimepicker.Utils;
-import com.mohamadamin.persianmaterialdatetimepicker.multidate.MonthAdapter.CalendarDay;
-import com.mohamadamin.persianmaterialdatetimepicker.utils.LanguageUtils;
-import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+
+import io.yon.android.R;
+import io.yon.android.util.calendar.CalenderViewUtils;
+import io.yon.android.util.calendar.LanguageUtils;
+import io.yon.android.util.calendar.PersianCalendar;
 
 /**
  * A calendar-like view displaying a specified month and the appropriate selectable day numbers
@@ -77,7 +75,6 @@ public abstract class MonthView extends View {
      * through {@link Calendar#SATURDAY}.
      */
     public static final String VIEW_PARAMS_SELECTED_DAY = "selected_day";
-    public static final String VIEW_PARAMS_SELECTED_DAYS = "selected_days";
     /**
      * Which day the week should start on. {@link Calendar#SUNDAY} through
      * {@link Calendar#SATURDAY}.
@@ -98,7 +95,7 @@ public abstract class MonthView extends View {
      */
     public static final String VIEW_PARAMS_SHOW_WK_NUM = "show_wk_num";
 
-    protected static int DEFAULT_HEIGHT = 32;
+    protected static int DEFAULT_HEIGHT = 42;
     protected static int MIN_HEIGHT = 10;
     protected static final int DEFAULT_SELECTED_DAY = -1;
     protected static final int DEFAULT_WEEK_START = Calendar.SATURDAY;
@@ -153,7 +150,6 @@ public abstract class MonthView extends View {
     protected boolean mHasToday = false;
     // Which day is selected [0-6] or -1 if no day is selected
     protected int mSelectedDay = -1;
-    protected ArrayList<Integer> mSelectedDays = new ArrayList<>();
     // Which day is today [0-6] or -1 if no day is today
     protected int mToday = DEFAULT_SELECTED_DAY;
     // Which day of the week to start on [0-6]
@@ -203,13 +199,12 @@ public abstract class MonthView extends View {
         mMonthTitleTypeface = res.getString(R.string.mdtp_sans_serif);
 
         boolean darkTheme = mController != null && mController.isThemeDark();
-        if(darkTheme) {
+        if (darkTheme) {
             mDayTextColor = res.getColor(R.color.mdtp_date_picker_text_normal_dark_theme);
             mMonthDayTextColor = res.getColor(R.color.mdtp_date_picker_month_day_dark_theme);
             mDisabledDayTextColor = res.getColor(R.color.mdtp_date_picker_text_disabled_dark_theme);
             mHighlightedDayTextColor = res.getColor(R.color.mdtp_date_picker_text_highlighted_dark_theme);
-        }
-        else {
+        } else {
             mDayTextColor = res.getColor(R.color.mdtp_date_picker_text_normal);
             mMonthDayTextColor = res.getColor(R.color.mdtp_date_picker_month_day);
             mDisabledDayTextColor = res.getColor(R.color.mdtp_date_picker_text_disabled);
@@ -310,7 +305,7 @@ public abstract class MonthView extends View {
         mMonthDayLabelPaint.setAntiAlias(true);
         mMonthDayLabelPaint.setTextSize(MONTH_DAY_LABEL_TEXT_SIZE);
         mMonthDayLabelPaint.setColor(mMonthDayTextColor);
-        mMonthDayLabelPaint.setTypeface(TypefaceHelper.get(getContext(),"Roboto-Medium"));
+//        mMonthDayLabelPaint.setTypeface(TypefaceHelper.get(getContext(), "Roboto-Medium"));
         mMonthDayLabelPaint.setStyle(Style.FILL);
         mMonthDayLabelPaint.setTextAlign(Align.CENTER);
         mMonthDayLabelPaint.setFakeBoldText(true);
@@ -340,29 +335,29 @@ public abstract class MonthView extends View {
      * {@link #VIEW_PARAMS_HEIGHT} for more info on parameters.
      *
      * @param params A map of the new parameters, see
-     *            {@link #VIEW_PARAMS_HEIGHT}
+     *               {@link #VIEW_PARAMS_HEIGHT}
      */
-    public void setMonthParams(HashMap<String, Object> params) {
+    public void setMonthParams(HashMap<String, Integer> params) {
         if (!params.containsKey(VIEW_PARAMS_MONTH) && !params.containsKey(VIEW_PARAMS_YEAR)) {
             throw new InvalidParameterException("You must specify month and year for this view");
         }
         setTag(params);
         // We keep the current value for any params not present
         if (params.containsKey(VIEW_PARAMS_HEIGHT)) {
-            mRowHeight = (int) params.get(VIEW_PARAMS_HEIGHT);
+            mRowHeight = params.get(VIEW_PARAMS_HEIGHT);
             if (mRowHeight < MIN_HEIGHT) {
                 mRowHeight = MIN_HEIGHT;
             }
         }
+
+        mRowHeight = 102;
         if (params.containsKey(VIEW_PARAMS_SELECTED_DAY)) {
-            mSelectedDay = (int) params.get(VIEW_PARAMS_SELECTED_DAY);
+            mSelectedDay = params.get(VIEW_PARAMS_SELECTED_DAY);
         }
-        if (params.containsKey(VIEW_PARAMS_SELECTED_DAYS)) {
-            mSelectedDays = (ArrayList<Integer>) params.get(VIEW_PARAMS_SELECTED_DAYS);
-        }
+
         // Allocate space for caching the day numbers and focus values
-        mMonth = (int) params.get(VIEW_PARAMS_MONTH);
-        mYear = (int) params.get(VIEW_PARAMS_YEAR);
+        mMonth = params.get(VIEW_PARAMS_MONTH);
+        mYear = params.get(VIEW_PARAMS_YEAR);
 
         // Figure out what day today is
         //final Time today = new Time(Time.getCurrentTimezone());
@@ -375,12 +370,12 @@ public abstract class MonthView extends View {
         mDayOfWeekStart = mPersianCalendar.get(Calendar.DAY_OF_WEEK);
 
         if (params.containsKey(VIEW_PARAMS_WEEK_START)) {
-            mWeekStart = (int) params.get(VIEW_PARAMS_WEEK_START);
+            mWeekStart = params.get(VIEW_PARAMS_WEEK_START);
         } else {
             mWeekStart = Calendar.SATURDAY;
         }
 
-        mNumCells = Utils.getDaysInMonth(mMonth, mYear);
+        mNumCells = CalenderViewUtils.getDaysInMonth(mMonth, mYear);
         for (int i = 0; i < mNumCells; i++) {
             final int day = i + 1;
             if (sameDay(day, today)) {
@@ -448,7 +443,7 @@ public abstract class MonthView extends View {
     private String getMonthAndYearString() {
         mStringBuilder.setLength(0);
         return LanguageUtils.getPersianNumbers(
-                mPersianCalendar.getPersianMonthName()  + " " + mPersianCalendar.getPersianYear());
+                mPersianCalendar.getPersianMonthName() + " " + mPersianCalendar.getPersianYear());
     }
 
     protected void drawMonthTitle(Canvas canvas) {
@@ -483,12 +478,12 @@ public abstract class MonthView extends View {
         final float dayWidthHalf = (mWidth - mEdgePadding * 2) / (mNumDays * 2.0f);
         int j = findDayOffset();
         for (int dayNumber = 1; dayNumber <= mNumCells; dayNumber++) {
-            final int x = (int)((2 * j + 1) * dayWidthHalf + mEdgePadding);
+            final int x = (int) ((2 * j + 1) * dayWidthHalf + mEdgePadding);
 
             int yRelativeToDay = (mRowHeight + MINI_DAY_NUMBER_TEXT_SIZE) / 2 - DAY_SEPARATOR_WIDTH;
 
-            final int startX = (int)(x - dayWidthHalf);
-            final int stopX = (int)(x + dayWidthHalf);
+            final int startX = (int) (x - dayWidthHalf);
+            final int stopX = (int) (x + dayWidthHalf);
             final int startY = y - yRelativeToDay;
             final int stopY = startY + mRowHeight;
 
@@ -505,19 +500,19 @@ public abstract class MonthView extends View {
     /**
      * This method should draw the month day.  Implemented by sub-classes to allow customization.
      *
-     * @param canvas  The canvas to draw on
-     * @param year  The year of this month day
+     * @param canvas The canvas to draw on
+     * @param year   The year of this month day
      * @param month  The month of this month day
-     * @param day  The day number of this month day
-     * @param x  The default x position to draw the day number
-     * @param y  The default y position to draw the day number
-     * @param startX  The left boundary of the day number rect
+     * @param day    The day number of this month day
+     * @param x      The default x position to draw the day number
+     * @param y      The default y position to draw the day number
+     * @param startX The left boundary of the day number rect
      * @param stopX  The right boundary of the day number rect
-     * @param startY  The top boundary of the day number rect
+     * @param startY The top boundary of the day number rect
      * @param stopY  The bottom boundary of the day number rect
      */
     public abstract void drawMonthDay(Canvas canvas, int year, int month, int day,
-            int x, int y, int startX, int stopX, int startY, int stopY);
+                                      int x, int y, int startX, int stopX, int startY, int stopY);
 
     protected int findDayOffset() {
         return (mDayOfWeekStart < mWeekStart ? (mDayOfWeekStart + mNumDays) : mDayOfWeekStart)
@@ -596,8 +591,7 @@ public abstract class MonthView extends View {
 
         if (isBeforeMin(year, month, day)) {
             return true;
-        }
-        else if (isAfterMax(year, month, day)) {
+        } else if (isAfterMax(year, month, day)) {
             return true;
         }
 
@@ -607,12 +601,12 @@ public abstract class MonthView extends View {
     private boolean isSelectable(int year, int month, int day) {
         PersianCalendar[] selectableDays = mController.getSelectableDays();
         for (PersianCalendar c : selectableDays) {
-            if(year < c.getPersianYear()) break;
-            if(year > c.getPersianYear()) continue;
-            if(month < c.getPersianMonth()) break;
-            if(month > c.getPersianMonth()) continue;
-            if(day < c.getPersianDay()) break;
-            if(day > c.getPersianDay()) continue;
+            if (year < c.getPersianYear()) break;
+            if (year > c.getPersianYear()) continue;
+            if (month < c.getPersianMonth()) break;
+            if (month > c.getPersianMonth()) continue;
+            if (day < c.getPersianDay()) break;
+            if (day > c.getPersianDay()) continue;
             return true;
         }
         return false;
@@ -682,14 +676,14 @@ public abstract class MonthView extends View {
      */
     protected boolean isHighlighted(int year, int month, int day) {
         PersianCalendar[] highlightedDays = mController.getHighlightedDays();
-        if(highlightedDays == null) return false;
+        if (highlightedDays == null) return false;
         for (PersianCalendar c : highlightedDays) {
-            if(year < c.getPersianYear()) break;
-            if(year > c.getPersianYear()) continue;
-            if(month < c.getPersianMonth()) break;
-            if(month > c.getPersianMonth()) continue;
-            if(day < c.getPersianDay()) break;
-            if(day > c.getPersianDay()) continue;
+            if (year < c.getPersianYear()) break;
+            if (year > c.getPersianYear()) continue;
+            if (month < c.getPersianMonth()) break;
+            if (month > c.getPersianMonth()) continue;
+            if (day < c.getPersianDay()) break;
+            if (day > c.getPersianDay()) continue;
             return true;
         }
         return false;
@@ -697,7 +691,7 @@ public abstract class MonthView extends View {
 
     /**
      * @return The date that has accessibility focus, or {@code null} if no date
-     *         has focus
+     * has focus
      */
     public CalendarDay getAccessibilityFocus() {
         final int day = mTouchHelper.getFocusedVirtualView();
@@ -720,7 +714,7 @@ public abstract class MonthView extends View {
      *
      * @param day The date which should receive focus
      * @return {@code false} if the date is not valid for this month view, or
-     *         {@code true} if the date received focus
+     * {@code true} if the date received focus
      */
     public boolean restoreAccessibilityFocus(CalendarDay day) {
         if ((day.year != mYear) || (day.month != mMonth) || (day.day > mNumCells)) {
@@ -781,7 +775,7 @@ public abstract class MonthView extends View {
 
         @Override
         protected void onPopulateNodeForVirtualView(int virtualViewId,
-                AccessibilityNodeInfoCompat node) {
+                                                    AccessibilityNodeInfoCompat node) {
             getItemBounds(virtualViewId, mTempRect);
 
             node.setContentDescription(getItemDescription(virtualViewId));
@@ -796,7 +790,7 @@ public abstract class MonthView extends View {
 
         @Override
         protected boolean onPerformActionForVirtualView(int virtualViewId, int action,
-                Bundle arguments) {
+                                                        Bundle arguments) {
             switch (action) {
                 case AccessibilityNodeInfo.ACTION_CLICK:
                     onDayClick(virtualViewId);
@@ -809,7 +803,7 @@ public abstract class MonthView extends View {
         /**
          * Calculates the bounding rectangle of a given time object.
          *
-         * @param day The day to calculate bounds for
+         * @param day  The day to calculate bounds for
          * @param rect The rectangle in which to store the bounds
          */
         protected void getItemBounds(int day, Rect rect) {
@@ -849,7 +843,7 @@ public abstract class MonthView extends View {
     /**
      * Handles callbacks when the user clicks on a time object.
      */
-    interface OnDayClickListener {
+    public interface OnDayClickListener {
         void onDayClick(MonthView view, CalendarDay day);
     }
 }

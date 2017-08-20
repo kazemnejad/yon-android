@@ -15,7 +15,7 @@
      limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+           xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item name="mdtp_circle_radius_multiplier" format="float" type="string">0.82</item>
     <item name="mdtp_circle_radius_multiplier_24HourMode" format="float" type="string">0.85</item>
@@ -49,8 +49,8 @@
     <dimen name="mdtp_done_button_height">42dp</dimen>
 
     <dimen name="mdtp_month_list_item_header_height">56dp</dimen>
-    <dimen name="mdtp_month_day_label_text_size">12sp</dimen>
-    <dimen name="mdtp_day_number_select_circle_radius">16dp</dimen>
+    <dimen name="mdtp_month_day_label_text_size">15sp</dimen>
+    <dimen name="mdtp_day_number_select_circle_radius">18dp</dimen>
     <dimen name="mdtp_month_select_circle_radius">45dp</dimen>
     <dimen name="mdtp_selected_date_year_size">25dp</dimen>
     <dimen name="mdtp_selected_date_day_size">70dp</dimen>
@@ -58,7 +58,7 @@
     <dimen name="mdtp_date_picker_header_text_size">12dp</dimen>
     <dimen name="mdtp_time_picker_header_text_size">12sp</dimen>
     <dimen name="mdtp_month_label_size">14sp</dimen>
-    <dimen name="mdtp_day_number_size">12sp</dimen>
+    <dimen name="mdtp_day_number_size">18sp</dimen>
     <dimen name="mdtp_year_label_height">64dp</dimen>
     <dimen name="mdtp_year_label_text_size">22dp</dimen>
 

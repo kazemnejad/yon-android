@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mohamadamin.persianmaterialdatetimepicker.date;
+package io.yon.android.view.widget.date;
 
 import android.content.Context;
 import android.content.res.Resources;

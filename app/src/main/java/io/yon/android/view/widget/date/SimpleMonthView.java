@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package com.mohamadamin.persianmaterialdatetimepicker.multidate;
+package io.yon.android.view.widget.date;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 
-import com.mohamadamin.persianmaterialdatetimepicker.utils.LanguageUtils;
+import io.yon.android.util.calendar.LanguageUtils;
+
 
 public class SimpleMonthView extends MonthView {
 
@@ -31,15 +32,10 @@ public class SimpleMonthView extends MonthView {
 
     @Override
     public void drawMonthDay(Canvas canvas, int year, int month, int day,
-            int x, int y, int startX, int stopX, int startY, int stopY) {
-        boolean flag = false;
-        for (int selectedDays : mSelectedDays) {
-            if (day == selectedDays) {
-                canvas.drawCircle(x, y - (MINI_DAY_NUMBER_TEXT_SIZE / 3), DAY_SELECTED_CIRCLE_SIZE,
-                        mSelectedCirclePaint);
-                flag = true;
-                break;
-            }
+                             int x, int y, int startX, int stopX, int startY, int stopY) {
+        if (mSelectedDay == day) {
+            canvas.drawCircle(x, y - (MINI_DAY_NUMBER_TEXT_SIZE / 3), DAY_SELECTED_CIRCLE_SIZE,
+                    mSelectedCirclePaint);
         }
 
         if (isHighlighted(year, month, day)) {
@@ -51,11 +47,9 @@ public class SimpleMonthView extends MonthView {
         // If we have a mindate or maxdate, gray out the day number if it's outside the range.
         if (isOutOfRange(year, month, day)) {
             mMonthNumPaint.setColor(mDisabledDayTextColor);
-        }
-        else if (flag) {
+        } else if (mSelectedDay == day) {
             mMonthNumPaint.setColor(mSelectedDayTextColor);
-        }
-        else if (mHasToday && mToday == day) {
+        } else if (mHasToday && mToday == day) {
             mMonthNumPaint.setColor(mTodayNumberColor);
         } else {
             mMonthNumPaint.setColor(isHighlighted(year, month, day) ? mHighlightedDayTextColor : mDayTextColor);

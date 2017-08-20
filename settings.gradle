@@ -1,1 +1,1 @@
-include ':app', ':support-design', ':persianmaterialdatetimepicker'
+include ':app', ':support-design'

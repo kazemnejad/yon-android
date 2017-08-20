@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package com.mohamadamin.persianmaterialdatetimepicker.multidate;
+package io.yon.android.view.widget.date;
 
-import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
-import java.util.ArrayList;
+import io.yon.android.util.calendar.PersianCalendar;
 
 /**
  * Controller class to communicate among the various components of the date picker dialog.
@@ -27,15 +26,13 @@ public interface DatePickerController {
 
     void onYearSelected(int year);
 
-    void onDaysOfMonthSelected(ArrayList<PersianCalendar> selectedDays);
+    void onDayOfMonthSelected(int year, int month, int day);
 
-    void registerOnDateChangedListener(MultiDatePickerDialog.OnDateChangedListener listener);
+    void registerOnDateChangedListener(OnDateChangedListener listener);
 
-    void unregisterOnDateChangedListener(MultiDatePickerDialog.OnDateChangedListener listener);
+    void unregisterOnDateChangedListener(OnDateChangedListener listener);
 
-    ArrayList<PersianCalendar> getSelectedDays();
-
-    void setSelectedDays(ArrayList<PersianCalendar> selectedDays);
+    CalendarDay getSelectedDay();
 
     boolean isThemeDark();
     
@@ -49,11 +46,14 @@ public interface DatePickerController {
 
     int getMaxYear();
 
-    int getSelectedYear();
-
     PersianCalendar getMinDate();
 
     PersianCalendar getMaxDate();
 
     void tryVibrate();
+
+    public interface OnDateChangedListener {
+
+        void onDateChanged();
+    }
 }
