@@ -7,13 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 
-import java.util.ArrayList;
-
 import io.yon.android.R;
-import io.yon.android.model.Reservation;
 import io.yon.android.model.Restaurant;
 import io.yon.android.presenter.ReservationPresenter;
-import io.yon.android.view.adapter.MonthAdapter;
 import io.yon.android.view.adapter.ReservationPagesAdapter;
 
 /**
@@ -26,7 +22,7 @@ public class ReservationActivity extends Activity implements ReservationBuilderC
     private ReservationPagesAdapter adapter;
     private ViewPager viewPager;
 
-    private ReservationPresenter presenter;
+    private ReservationPresenter mPresenter;
 
     public static void start(Context context, Restaurant restaurant) {
         context.startActivity(new Intent(context, ReservationActivity.class)
@@ -53,7 +49,7 @@ public class ReservationActivity extends Activity implements ReservationBuilderC
         setDisplayHomeAsUpEnabled(true);
         setTitle(mRestaurant.getName());
 
-        presenter = ViewModelProviders.of(this).get(ReservationPresenter.class);
+        mPresenter = ViewModelProviders.of(this).get(ReservationPresenter.class);
 
         initViews();
     }
@@ -73,22 +69,22 @@ public class ReservationActivity extends Activity implements ReservationBuilderC
 
     @Override
     public void next() {
-        int currentStep = presenter.getCurrentStep();
-        if (currentStep < 1)
+        int currentStep = mPresenter.getCurrentStep();
+        if (currentStep == 0)
             return;
 
-        presenter.setCurrentStep(--currentStep);
-        viewPager.setCurrentItem(--currentStep, true);
+        mPresenter.setCurrentStep(currentStep - 1);
+        viewPager.setCurrentItem(currentStep - 1, true);
     }
 
     @Override
     public void previous() {
-        int currentStep = presenter.getCurrentStep();
-        if (currentStep > 4)
+        int currentStep = mPresenter.getCurrentStep();
+        if (currentStep == ReservationPresenter.Step.DateSelect)
             return;
 
-        presenter.setCurrentStep(++currentStep);
-        viewPager.setCurrentItem(++currentStep, true);
+        mPresenter.setCurrentStep(currentStep + 1);
+        viewPager.setCurrentItem(currentStep + 1, true);
     }
 
     public void initViews() {
@@ -96,6 +92,6 @@ public class ReservationActivity extends Activity implements ReservationBuilderC
 
         viewPager.setOffscreenPageLimit(4);
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(mPresenter.getCurrentStep());
     }
 }

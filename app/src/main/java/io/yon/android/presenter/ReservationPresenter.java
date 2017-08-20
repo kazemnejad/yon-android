@@ -45,10 +45,10 @@ public class ReservationPresenter extends Presenter implements ReservationContra
     }
 
     public static class Step {
-        public static final int DateSelect = 1;
-        public static final int TimeSelect = 0;
+        public static final int DateSelect = 2;
+        public static final int TimeSelect = 1;
         public static final int TableSelect = 213;
-        public static final int GuestCount = 239;
+        public static final int GuestCount = 0;
         public static final int Final = 328;
     }
 }

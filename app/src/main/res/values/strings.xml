@@ -103,6 +103,8 @@
     <string name="toman">تومان</string>
     <string name="by">توسط</string>
     <string name="on">در</string>
+    <string name="next_step">مرحله‌ی بعد</string>
+    <string name="previous_step">مرحله‌ی قبل</string>
 
 
 </resources>
