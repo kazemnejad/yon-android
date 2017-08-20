@@ -28,17 +28,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mohamadamin.persianmaterialdatetimepicker.R;
-import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog.OnDateChangedListener;
-import com.mohamadamin.persianmaterialdatetimepicker.utils.LanguageUtils;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import io.yon.android.R;
+import io.yon.android.util.calendar.LanguageUtils;
 
 /**
  * Displays a selectable list of years.
  */
-public class YearPickerView extends ListView implements OnItemClickListener, OnDateChangedListener {
+public class YearPickerView extends ListView implements OnItemClickListener, DatePickerController.OnDateChangedListener {
     private static final String TAG = "YearPickerView";
 
     private final DatePickerController mController;
