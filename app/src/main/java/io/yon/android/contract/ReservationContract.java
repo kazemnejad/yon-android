@@ -16,6 +16,10 @@ public class ReservationContract extends Contract {
         void setSelectedDateTime(PersianCalendar dateTime);
 
         PersianCalendar getSelectedDateTime();
+
+        void setGuestCount(int guestCount);
+
+        int getGuestCount();
     }
 
     public interface ViewTime extends MvpView {

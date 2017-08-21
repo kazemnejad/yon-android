@@ -14,6 +14,8 @@ public class ReservationPresenter extends Presenter implements ReservationContra
 
     private PersianCalendar selectedDateTime;
     private int currentStep = Step.DateSelect;
+    private int guestCount = -1;
+    private int lastGuestCountAdapterPosition = -1;
 
     public ReservationPresenter(Application application) {
         super(application);
@@ -37,6 +39,24 @@ public class ReservationPresenter extends Presenter implements ReservationContra
     @Override
     public PersianCalendar getSelectedDateTime() {
         return selectedDateTime;
+    }
+
+    @Override
+    public void setGuestCount(int guestCount) {
+        this.guestCount = guestCount;
+    }
+
+    @Override
+    public int getGuestCount() {
+        return guestCount;
+    }
+
+    public int getLastGuestCountAdapterPosition() {
+        return lastGuestCountAdapterPosition;
+    }
+
+    public void setLastGuestCountAdapterPosition(int lastGuestCountAdapterPosition) {
+        this.lastGuestCountAdapterPosition = lastGuestCountAdapterPosition;
     }
 
     @Override
