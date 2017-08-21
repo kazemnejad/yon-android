@@ -9,10 +9,10 @@ import android.support.annotation.RequiresApi;
 import android.support.annotation.StyleRes;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,7 +39,7 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
     private boolean isDrawQueued = false;
     private HashMap<String, Boolean> forbiddenTables;
 
-    private View selectedView = null;
+    private View selectedTableView = null;
     private Table selectedTable;
 
     public RestaurantMapView(@NonNull Context context) {
@@ -150,7 +150,7 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
 
                 addView(view, selectableParams);
 
-                if (selectedTable != null && selectedView == null && selectedTable.getId().equals(table.getId()))
+                if (selectedTable != null && selectedTableView == null && selectedTable.getId().equals(table.getId()))
                     addMaskOnTopOf(view, table.getAngle());
             }
         }
@@ -250,19 +250,29 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
     private void addMaskOnTopOf(View view, float angle) {
         View mask = new View(getContext());
         mask.setLayoutParams(view.getLayoutParams());
-        mask.setBackgroundResource(R.color.solidPlaceHolder);
+        mask.setBackgroundResource(R.drawable.selected_table_background);
         mask.setRotation(angle);
         mask.setTranslationY(view.getTranslationY());
         mask.setTranslationX(view.getTranslationX());
-
+        mask.setAlpha(0f);
         addView(mask);
 
-        selectedView = mask;
+        mask.animate()
+                .alpha(1f)
+                .setDuration(100)
+                .setInterpolator(new AccelerateDecelerateInterpolator());
+
+        selectedTableView = mask;
     }
 
     public void removeTableSelection() {
-        if (selectedView != null)
-            removeView(selectedView);
+        if (selectedTableView != null) {
+            selectedTableView.animate()
+                    .alpha(0f)
+                    .setDuration(100)
+                    .setInterpolator(new AccelerateDecelerateInterpolator());
+            removeView(selectedTableView);
+        }
     }
 
     private View findViewByTable(Table table) {
