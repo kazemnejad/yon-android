@@ -107,12 +107,15 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
                 getContext(),
                 mPresenter.getRestaurant().getMaps(),
                 forbiddenTables,
-                this
+                this,
+                mPresenter.getSelectedTable()
         );
         mapsContainer.setAdapter(adapter);
         mapsContainer.setCurrentItem(mPresenter.getRestaurant().getMaps().size() - 1);
 
         mapSwitcher.setupWithViewPager(mapsContainer);
+
+        updateNextButton();
     }
 
     protected void initView() {
@@ -120,7 +123,7 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
         btnNext.setOnClickListener(v -> mController.next());
         btnPrevious.setOnClickListener(v -> mController.previous());
 
-        ViewUtils.setButtonEnabled(btnNext, false);
+        updateNextButton();
     }
 
     protected void clearVisibilities() {

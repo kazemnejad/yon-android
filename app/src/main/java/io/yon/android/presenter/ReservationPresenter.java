@@ -64,6 +64,7 @@ public class ReservationPresenter extends Presenter implements
     @Override
     public void setGuestCount(int guestCount) {
         this.guestCount = guestCount;
+        this.selectedTable = null;
         loadForbiddenTables();
     }
 

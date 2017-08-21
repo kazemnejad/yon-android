@@ -11,6 +11,7 @@ import java.util.List;
 
 import io.yon.android.R;
 import io.yon.android.model.Map;
+import io.yon.android.model.Table;
 import io.yon.android.view.widget.RestaurantMapView;
 
 /**
@@ -23,6 +24,7 @@ public class RestaurantMapPagerAdapter extends PagerAdapter {
     private Context context;
     private HashMap<String, Boolean> forbiddenTables;
     private RestaurantMapView.OnTableClickListener listener;
+    private Table selectedTable;
 
     public RestaurantMapPagerAdapter(Context context, List<Map> maps) {
         this.context = context;
@@ -37,6 +39,11 @@ public class RestaurantMapPagerAdapter extends PagerAdapter {
     public RestaurantMapPagerAdapter(Context context, List<Map> maps, HashMap<String, Boolean> forbiddenTables, RestaurantMapView.OnTableClickListener listener) {
         this(context, maps, forbiddenTables);
         this.listener = listener;
+    }
+
+    public RestaurantMapPagerAdapter(Context context, List<Map> maps, HashMap<String, Boolean> forbiddenTables, RestaurantMapView.OnTableClickListener listener, Table selectedTable) {
+        this(context, maps, forbiddenTables, listener);
+        this.selectedTable = selectedTable;
     }
 
     @Override
@@ -56,7 +63,7 @@ public class RestaurantMapPagerAdapter extends PagerAdapter {
         Map map = maps.get(position);
         RestaurantMapView mapView = (RestaurantMapView) inflater.inflate(R.layout.item_restaurantr_map, container, false);
         mapView.setOnTableClickListener(listener);
-        mapView.setMap(map, forbiddenTables);
+        mapView.setMap(map, forbiddenTables, selectedTable);
 
         container.addView(mapView);
 

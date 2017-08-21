@@ -40,6 +40,7 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
     private HashMap<String, Boolean> forbiddenTables;
 
     private View selectedView = null;
+    private Table selectedTable;
 
     public RestaurantMapView(@NonNull Context context) {
         super(context);
@@ -97,6 +98,11 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
         setMap(map);
     }
 
+    public void setMap(Map map, HashMap<String, Boolean> forbiddenTables, Table selectedTable) {
+        this.selectedTable = selectedTable;
+        setMap(map, forbiddenTables);
+    }
+
     private void addTables() {
         // viewWidth is in px
         int viewWidth = getWidth();
@@ -143,6 +149,9 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
                 view.setTag(new Object[]{table, iv});
 
                 addView(view, selectableParams);
+
+                if (selectedTable != null && selectedView == null && selectedTable.getId().equals(table.getId()))
+                    addMaskOnTopOf(view, table.getAngle());
             }
         }
 
@@ -154,6 +163,7 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
         iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
         iv.setImageResource(TableConstants.resources(table.getShape()));
         iv.setRotation(table.getAngle());
+
         if (!isTableAvailable(table))
             iv.setAlpha(0.5f);
 
@@ -167,9 +177,6 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
         view.setBackgroundResource(R.drawable.round_button_light);
         view.setRotation(table.getAngle());
         view.setId(table.getId().hashCode());
-
-        Log.d("ss", String.valueOf(table.getId()));
-        Log.d("ss", String.valueOf(view.getId()));
 
         return view;
     }
@@ -230,20 +237,27 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
     }
 
     public void setTableSelected(Table table) {
+        selectedTable = table;
+
+        if (!ViewCompat.isLaidOut(this))
+            return;
+
         View view = findViewByTable(table);
-        if (view != null) {
-            View mask = new View(getContext());
-            mask.setLayoutParams(view.getLayoutParams());
-            mask.setBackgroundResource(R.color.solidPlaceHolder);
-            mask.setRotation(table.getAngle());
-            mask.setTranslationY(view.getTranslationY());
-            mask.setTranslationX(view.getTranslationX());
+        if (view != null)
+            addMaskOnTopOf(view, table.getAngle());
+    }
 
-            removeView(selectedView);
-            addView(mask);
+    private void addMaskOnTopOf(View view, float angle) {
+        View mask = new View(getContext());
+        mask.setLayoutParams(view.getLayoutParams());
+        mask.setBackgroundResource(R.color.solidPlaceHolder);
+        mask.setRotation(angle);
+        mask.setTranslationY(view.getTranslationY());
+        mask.setTranslationX(view.getTranslationX());
 
-            selectedView = mask;
-        }
+        addView(mask);
+
+        selectedView = mask;
     }
 
     public void removeTableSelection() {
