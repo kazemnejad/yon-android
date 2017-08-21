@@ -139,6 +139,7 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
         btnPrevious.setOnClickListener(v -> mController.previous());
 
         cbSkipTableSelection.setOnCheckedChangeListener(this::handleSkipTableSelection);
+        skipTableSelectionLabel.setOnClickListener(v -> cbSkipTableSelection.setChecked(!cbSkipTableSelection.isChecked()));
 
         mapsContainer.setAllowScrolling(true);
 
@@ -147,12 +148,7 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
 
     @Override
     public void onClick(RestaurantMapView mapView, View v, Table table) {
-        if (cbSkipTableSelection.isChecked())
-            return;
-
-        mapView.removeTableSelection();
-        if (lastSelectedTableMapView != null)
-            lastSelectedTableMapView.removeTableSelection();
+        removeAllSelectedTables();
 
         Table lastSelectedTable = mPresenter.getSelectedTable();
         if (lastSelectedTable == null || !lastSelectedTable.getId().equals(table.getId())) {
@@ -162,7 +158,6 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
             mPresenter.setSelectedTable(null);
         }
 
-        lastSelectedTableMapView = mapView;
         updateNextButton();
     }
 
@@ -202,9 +197,7 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
         if (!skip) {
             disabler.setVisibility(View.INVISIBLE);
         } else {
-            if (lastSelectedTableMapView != null)
-                lastSelectedTableMapView.removeTableSelection();
-
+            removeAllSelectedTables();
             mPresenter.setSelectedTable(null);
             disabler.setVisibility(View.VISIBLE);
             alphaAmount = 0.5f;
@@ -224,5 +217,16 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
                 .setInterpolator(new AccelerateDecelerateInterpolator());
 
         updateNextButton();
+    }
+
+    protected void removeAllSelectedTables() {
+        if (mapsContainer == null)
+            return;
+        
+        for (int i = 0; i < mapsContainer.getChildCount(); i++) {
+            View child = mapsContainer.getChildAt(i);
+            if (child instanceof RestaurantMapView)
+                ((RestaurantMapView) child).removeTableSelection();
+        }
     }
 }
