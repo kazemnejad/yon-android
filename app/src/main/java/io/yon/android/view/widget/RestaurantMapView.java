@@ -9,6 +9,7 @@ import android.support.annotation.RequiresApi;
 import android.support.annotation.StyleRes;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -37,6 +38,8 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
     private OnTableClickListener onTableClickListener;
     private boolean isDrawQueued = false;
     private HashMap<String, Boolean> forbiddenTables;
+
+    private View selectedView = null;
 
     public RestaurantMapView(@NonNull Context context) {
         super(context);
@@ -163,6 +166,10 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
         view.setOnClickListener(this);
         view.setBackgroundResource(R.drawable.round_button_light);
         view.setRotation(table.getAngle());
+        view.setId(table.getId().hashCode());
+
+        Log.d("ss", String.valueOf(table.getId()));
+        Log.d("ss", String.valueOf(view.getId()));
 
         return view;
     }
@@ -216,10 +223,47 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
 
         try {
             Object[] tag = (Object[]) v.getTag();
-            onTableClickListener.onClick((ImageView) tag[1], (Table) tag[0]);
+            onTableClickListener.onClick(this, (ImageView) tag[1], (Table) tag[0]);
         } catch (Exception exp) {
             Logger.e(exp, "Unable to cast tag to table");
         }
+    }
+
+    public void setTableSelected(Table table) {
+        View view = findViewByTable(table);
+        if (view != null) {
+            View mask = new View(getContext());
+            mask.setLayoutParams(view.getLayoutParams());
+            mask.setBackgroundResource(R.color.solidPlaceHolder);
+            mask.setRotation(table.getAngle());
+            mask.setTranslationY(view.getTranslationY());
+            mask.setTranslationX(view.getTranslationX());
+
+            removeView(selectedView);
+            addView(mask);
+
+            selectedView = mask;
+        }
+    }
+
+    public void removeTableSelection() {
+        if (selectedView != null)
+            removeView(selectedView);
+    }
+
+    private View findViewByTable(Table table) {
+        for (int i = 0; i < getChildCount(); i++) {
+            View v = getChildAt(i);
+            try {
+                Object[] tag = (Object[]) v.getTag();
+                Table viewTable = (Table) tag[0];
+                if (viewTable.getId().equals(table.getId()))
+                    return v;
+            } catch (Exception ignored) {
+            }
+        }
+
+        return null;
     }
 
     private static class TableConstants {
@@ -277,6 +321,6 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
     }
 
     public interface OnTableClickListener {
-        void onClick(View v, Table table);
+        void onClick(RestaurantMapView mapView, View v, Table table);
     }
 }

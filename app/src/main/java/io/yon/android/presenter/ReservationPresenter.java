@@ -9,6 +9,7 @@ import java.util.HashMap;
 import io.reactivex.Observable;
 import io.yon.android.contract.ReservationContract;
 import io.yon.android.model.Restaurant;
+import io.yon.android.model.Table;
 import io.yon.android.repository.Lce;
 import io.yon.android.repository.ReservationRepository;
 import io.yon.android.util.RxUtils;
@@ -23,11 +24,12 @@ public class ReservationPresenter extends Presenter implements
         ReservationContract.Presenter,
         ReservationContract.ForbiddenTablesPresenter {
 
+    private Restaurant restaurant;
     private PersianCalendar selectedDateTime;
     private int currentStep = Step.DateSelect;
     private int guestCount = -1;
     private int lastGuestCountAdapterPosition = -1;
-    private Restaurant restaurant;
+    private Table selectedTable = null;
 
     private long forbiddenTableLastRequestTime;
 
@@ -84,6 +86,14 @@ public class ReservationPresenter extends Presenter implements
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    public Table getSelectedTable() {
+        return selectedTable;
+    }
+
+    public void setSelectedTable(Table selectedTable) {
+        this.selectedTable = selectedTable;
     }
 
     @Override

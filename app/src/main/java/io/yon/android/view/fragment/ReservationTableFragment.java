@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -42,6 +43,9 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
 
     private ReservationPresenter mPresenter;
     private ReservationBuilderController mController;
+
+    private RestaurantMapView lastSelectedTableMapView;
+    private ImageView lastSelectedTable;
 
     @Override
     protected int getResourceLayoutId() {
@@ -147,7 +151,24 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
     }
 
     @Override
-    public void onClick(View v, Table table) {
+    public void onClick(RestaurantMapView mapView, View v, Table table) {
+        mapView.removeTableSelection();
+        if (lastSelectedTableMapView != null)
+            lastSelectedTableMapView.removeTableSelection();
 
+        Table lastSelectedTable = mPresenter.getSelectedTable();
+        if (lastSelectedTable == null || !lastSelectedTable.getId().equals(table.getId())) {
+            mapView.setTableSelected(table);
+            mPresenter.setSelectedTable(table);
+        } else {
+            mPresenter.setSelectedTable(null);
+        }
+
+        lastSelectedTableMapView = mapView;
+        updateNextButton();
+    }
+
+    private void updateNextButton() {
+        ViewUtils.setButtonEnabled(btnNext, mPresenter.getSelectedTable() != null);
     }
 }

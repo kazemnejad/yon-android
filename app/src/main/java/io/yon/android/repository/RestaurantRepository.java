@@ -117,7 +117,7 @@ public class RestaurantRepository {
         ArrayList<Table> tables = new ArrayList<>();
         tables.add(makeTable("table1",0.5f, 0.5f));
         tables.add(makeTable("table0",1.7f, 0.5f));
-        tables.add(makeTable("",2.9f, 0.5f));
+        tables.add(makeTable("table99",2.9f, 0.5f));
         tables.add(makeTable("table5",4.1f, 0.5f));
 
         Table t2 = makeTable("table8", 4.1f, 2f);
@@ -125,7 +125,7 @@ public class RestaurantRepository {
         t2.setCount(8);
         tables.add(t2);
 
-        Table t = makeTable("",0.5f, 2f);
+        Table t = makeTable("table88",0.5f, 2f);
         t.setAngle(45);
         tables.add(t);
 
