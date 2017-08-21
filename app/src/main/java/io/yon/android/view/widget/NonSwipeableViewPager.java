@@ -10,6 +10,9 @@ import android.view.MotionEvent;
  */
 
 public class NonSwipeableViewPager extends ViewPager {
+
+    private boolean allowScrolling = false;
+
     public NonSwipeableViewPager(Context context) {
         super(context);
     }
@@ -18,13 +21,17 @@ public class NonSwipeableViewPager extends ViewPager {
         super(context, attrs);
     }
 
+    public void setAllowScrolling(boolean allowScrolling) {
+        this.allowScrolling = allowScrolling;
+    }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-        return false;
+        return allowScrolling && super.onInterceptTouchEvent(event);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return false;
+        return allowScrolling && super.onTouchEvent(event);
     }
 }
