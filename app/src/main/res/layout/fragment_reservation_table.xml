@@ -38,7 +38,7 @@
 
     </LinearLayout>
 
-    <android.support.v4.view.ViewPager
+    <io.yon.android.view.widget.NonSwipeableViewPager
         android:id="@+id/maps_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,6 +71,31 @@
             app:tabTextColor="@color/white_54"/>
     </FrameLayout>
 
+    <FrameLayout
+        android:id="@+id/disabler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:visibility="invisible"/>
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/checkbox_skip_table_selection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/restaurant_maps_switcher_container"
+        android:layout_marginRight="@dimen/material_step_1_margin"
+        android:layout_marginTop="16dp"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/checkbox_skip_table_selection_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/checkbox_skip_table_selection"
+        android:layout_marginTop="6dp"
+        android:layout_toLeftOf="@+id/checkbox_skip_table_selection"
+        android:clickable="true"
+        android:text="@string/reservation_without_table_selection"/>
 
     <Button
         android:id="@+id/btn_next"

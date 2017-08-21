@@ -106,6 +106,7 @@
     <string name="next_step">مرحله‌ی بعد</string>
     <string name="previous_step">مرحله‌ی قبل</string>
     <string name="finish">پایان</string>
+    <string name="reservation_without_table_selection">انجام رزرو بدون انتخاب میز</string>
 
 
 </resources>

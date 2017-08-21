@@ -7,12 +7,16 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +29,7 @@ import io.yon.android.presenter.ReservationPresenter;
 import io.yon.android.util.ViewUtils;
 import io.yon.android.view.activity.ReservationBuilderController;
 import io.yon.android.view.adapter.RestaurantMapPagerAdapter;
+import io.yon.android.view.widget.NonSwipeableViewPager;
 import io.yon.android.view.widget.RestaurantMapView;
 
 /**
@@ -38,8 +43,11 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
     private LinearLayout errorContainer;
     private FrameLayout mapSwitcherContainer;
     private Button btnRetry, btnPrevious, btnNext;
-    private ViewPager mapsContainer;
+    private NonSwipeableViewPager mapsContainer;
     private TabLayout mapSwitcher;
+    private CheckBox cbSkipTableSelection;
+    private TextView skipTableSelectionLabel;
+    private FrameLayout disabler;
 
     private ReservationPresenter mPresenter;
     private ReservationBuilderController mController;
@@ -72,11 +80,14 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
         progressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
         errorContainer = (LinearLayout) v.findViewById(R.id.error_container);
         btnRetry = (Button) v.findViewById(R.id.btn_retry);
-        mapsContainer = (ViewPager) v.findViewById(R.id.maps_container);
+        mapsContainer = (NonSwipeableViewPager) v.findViewById(R.id.maps_container);
         mapSwitcher = (TabLayout) v.findViewById(R.id.restaurant_maps_switcher);
         mapSwitcherContainer = (FrameLayout) v.findViewById(R.id.restaurant_maps_switcher_container);
         btnNext = (Button) v.findViewById(R.id.btn_next);
         btnPrevious = (Button) v.findViewById(R.id.btn_previous);
+        cbSkipTableSelection = (CheckBox) v.findViewById(R.id.checkbox_skip_table_selection);
+        skipTableSelectionLabel = (TextView) v.findViewById(R.id.checkbox_skip_table_selection_text);
+        disabler = (FrameLayout) v.findViewById(R.id.disabler);
     }
 
     @Override
@@ -103,6 +114,10 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
         params.height = (int) mapsContainerHeight + ViewUtils.px(getContext(), 30);
         mapsContainer.setLayoutParams(params);
 
+        params = (RelativeLayout.LayoutParams) disabler.getLayoutParams();
+        params.height = (int) (mapsContainerHeight + ViewUtils.px(getContext(), 86));
+        disabler.setLayoutParams(params);
+
         RestaurantMapPagerAdapter adapter = new RestaurantMapPagerAdapter(
                 getContext(),
                 mPresenter.getRestaurant().getMaps(),
@@ -123,6 +138,31 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
         btnNext.setOnClickListener(v -> mController.next());
         btnPrevious.setOnClickListener(v -> mController.previous());
 
+        cbSkipTableSelection.setOnCheckedChangeListener(this::handleSkipTableSelection);
+
+        mapsContainer.setAllowScrolling(true);
+
+        updateNextButton();
+    }
+
+    @Override
+    public void onClick(RestaurantMapView mapView, View v, Table table) {
+        if (cbSkipTableSelection.isChecked())
+            return;
+
+        mapView.removeTableSelection();
+        if (lastSelectedTableMapView != null)
+            lastSelectedTableMapView.removeTableSelection();
+
+        Table lastSelectedTable = mPresenter.getSelectedTable();
+        if (lastSelectedTable == null || !lastSelectedTable.getId().equals(table.getId())) {
+            mapView.setTableSelected(table);
+            mPresenter.setSelectedTable(table);
+        } else {
+            mPresenter.setSelectedTable(null);
+        }
+
+        lastSelectedTableMapView = mapView;
         updateNextButton();
     }
 
@@ -153,25 +193,36 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
         return unitSize * map.getHeight();
     }
 
-    @Override
-    public void onClick(RestaurantMapView mapView, View v, Table table) {
-        mapView.removeTableSelection();
-        if (lastSelectedTableMapView != null)
-            lastSelectedTableMapView.removeTableSelection();
-
-        Table lastSelectedTable = mPresenter.getSelectedTable();
-        if (lastSelectedTable == null || !lastSelectedTable.getId().equals(table.getId())) {
-            mapView.setTableSelected(table);
-            mPresenter.setSelectedTable(table);
-        } else {
-            mPresenter.setSelectedTable(null);
-        }
-
-        lastSelectedTableMapView = mapView;
-        updateNextButton();
+    private void updateNextButton() {
+        ViewUtils.setButtonEnabled(btnNext, mPresenter.getSelectedTable() != null || cbSkipTableSelection.isChecked());
     }
 
-    private void updateNextButton() {
-        ViewUtils.setButtonEnabled(btnNext, mPresenter.getSelectedTable() != null);
+    private void handleSkipTableSelection(CompoundButton button, boolean skip) {
+        float alphaAmount = 1.0f;
+        if (!skip) {
+            disabler.setVisibility(View.INVISIBLE);
+        } else {
+            if (lastSelectedTableMapView != null)
+                lastSelectedTableMapView.removeTableSelection();
+
+            mPresenter.setSelectedTable(null);
+            disabler.setVisibility(View.VISIBLE);
+            alphaAmount = 0.5f;
+        }
+
+        mapsContainer.animate()
+                .alpha(alphaAmount)
+                .setDuration(100)
+                .setInterpolator(new AccelerateDecelerateInterpolator());
+        mapSwitcherContainer.animate()
+                .alpha(alphaAmount)
+                .setDuration(100)
+                .setInterpolator(new AccelerateDecelerateInterpolator());
+        mapSwitcher.animate()
+                .alpha(alphaAmount)
+                .setDuration(100)
+                .setInterpolator(new AccelerateDecelerateInterpolator());
+
+        updateNextButton();
     }
 }
