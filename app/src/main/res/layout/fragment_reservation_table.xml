@@ -1,7 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"/>
+
+    <LinearLayout
+        android:id="@+id/error_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/unable_to_connect_to_server"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/btn_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:text="@string/retry"/>
+
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/maps_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2e2e2e"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:visibility="invisible"/>
+
+    <FrameLayout
+        android:id="@+id/restaurant_maps_switcher_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/maps_container"
+        android:background="#2e2e2e"
+        android:visibility="invisible">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/restaurant_maps_switcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            app:tabGravity="fill"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="scrollable"
+            app:tabPaddingBottom="4dp"
+            app:tabPaddingTop="4dp"
+            app:tabSelectedTextColor="@color/white_87"
+            app:tabTextAppearance="@style/RestaurantMapSwitcherTextStyle"
+            app:tabTextColor="@color/white_54"/>
+    </FrameLayout>
+
+
+</RelativeLayout>

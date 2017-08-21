@@ -1,5 +1,7 @@
 package io.yon.android.contract;
 
+import java.util.HashMap;
+
 import io.yon.android.util.calendar.PersianCalendar;
 import io.yon.android.view.MvpView;
 
@@ -22,7 +24,19 @@ public class ReservationContract extends Contract {
         int getGuestCount();
     }
 
-    public interface ViewTime extends MvpView {
+    public interface TableAvailabilitiesPresenter {
+        void loadTableAvailabilities();
+    }
 
+    public interface TimeView extends MvpView {
+
+    }
+
+    public interface TableView extends MvpView {
+        void showLoading();
+
+        void showError(Throwable e);
+
+        void showTableAvailabilities(HashMap<String, Boolean> availabilities);
     }
 }

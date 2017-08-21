@@ -5,6 +5,7 @@ package io.yon.android.model;
  */
 
 public class Table extends Model {
+    private String id;
     private String name;
     private float x;
     private float y;
@@ -13,6 +14,18 @@ public class Table extends Model {
     private int count;
 
     public Table() {}
+
+    public Table(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public float getX() {
         return x;

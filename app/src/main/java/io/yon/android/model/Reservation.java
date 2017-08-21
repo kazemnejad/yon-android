@@ -17,6 +17,12 @@ public class Reservation extends Model {
 
     public Reservation() {}
 
+    public Reservation(Table table, long datetime, int guestCount) {
+        this.table = table;
+        this.datetime = datetime;
+        this.guestCount = guestCount;
+    }
+
     public Table getTable() {
         return table;
     }

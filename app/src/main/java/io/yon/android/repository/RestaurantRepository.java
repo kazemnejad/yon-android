@@ -58,7 +58,7 @@ public class RestaurantRepository {
                 .onErrorReturn(Lce::error);
     }
 
-    private static Restaurant createRestaurant() {
+    public static Restaurant createRestaurant() {
         Restaurant r = new Restaurant();
         r.setId(5);
         r.setName("رستوران");

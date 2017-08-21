@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import io.yon.android.R;
 import io.yon.android.model.Restaurant;
 import io.yon.android.presenter.ReservationPresenter;
+import io.yon.android.repository.RestaurantRepository;
 import io.yon.android.view.adapter.ReservationPagesAdapter;
 
 /**
@@ -39,17 +40,14 @@ public class ReservationActivity extends Activity implements ReservationBuilderC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mRestaurant = new Restaurant();
-        mRestaurant.setId(5);
-        mRestaurant.setName(getString(R.string.app_name));
-        mRestaurant.setRate(3.4f);
-        mRestaurant.setPrice(4.9f);
+        mRestaurant = RestaurantRepository.createRestaurant();
 //        mRestaurant = Parcels.unwrap(getIntent().getParcelableExtra("rest"));
 
         setDisplayHomeAsUpEnabled(true);
         setTitle(mRestaurant.getName());
 
         mPresenter = ViewModelProviders.of(this).get(ReservationPresenter.class);
+        mPresenter.setRestaurant(mRestaurant);
 
         initViews();
     }
