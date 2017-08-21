@@ -8,12 +8,16 @@ import android.os.Build;
 import android.os.IBinder;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+
+import io.yon.android.R;
 
 /**
  * Created by amirhosein on 6/1/17.
@@ -99,5 +103,13 @@ public class ViewUtils {
             vto.removeGlobalOnLayoutListener(listener);
         else
             vto.removeOnGlobalLayoutListener(listener);
+    }
+
+    public static void setButtonEnabled(Button btn, boolean enable) {
+        int color = ContextCompat.getColor(btn.getContext(),
+                enable ? R.color.colorPrimary : R.color.black_38
+        );
+        btn.setEnabled(enable);
+        btn.setTextColor(color);
     }
 }

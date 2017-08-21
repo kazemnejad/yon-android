@@ -73,7 +73,7 @@ public class ReservationGuestCountFragment extends Fragment {
         Adapter<Integer, ItemGuestCountViewHolder> adapter = new Adapter<>(getContext(), guestCountOptions, bus, ItemGuestCountViewHolder.getFactory());
         recyclerView.setAdapter(adapter);
 
-        setButtonEnabled(btnNext, mPresenter.getGuestCount() != -1);
+        ViewUtils.setButtonEnabled(btnNext, mPresenter.getGuestCount() != -1);
         if (mPresenter.getLastGuestCountAdapterPosition() != -1)
             updateSelectedOption(mPresenter.getLastGuestCountAdapterPosition());
     }
@@ -99,7 +99,7 @@ public class ReservationGuestCountFragment extends Fragment {
         mPresenter.setLastGuestCountAdapterPosition(adapterPosition);
         mPresenter.setGuestCount(guestCountOptions.get(adapterPosition));
 
-        setButtonEnabled(btnNext, true);
+        ViewUtils.setButtonEnabled(btnNext, true);
     }
 
     private void updateSelectedOption(int adapterPosition) {
@@ -114,13 +114,5 @@ public class ReservationGuestCountFragment extends Fragment {
                         }
                     }
                 });
-    }
-
-    private void setButtonEnabled(Button btn, boolean enable) {
-        int color = ContextCompat.getColor(getContext(),
-                enable ? R.color.colorPrimary : R.color.black_38
-        );
-        btn.setEnabled(enable);
-        btn.setTextColor(color);
     }
 }

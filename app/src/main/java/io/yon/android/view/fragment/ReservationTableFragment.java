@@ -36,7 +36,7 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
     private ProgressBar progressBar;
     private LinearLayout errorContainer;
     private FrameLayout mapSwitcherContainer;
-    private Button btnRetry;
+    private Button btnRetry, btnPrevious, btnNext;
     private ViewPager mapsContainer;
     private TabLayout mapSwitcher;
 
@@ -71,6 +71,8 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
         mapsContainer = (ViewPager) v.findViewById(R.id.maps_container);
         mapSwitcher = (TabLayout) v.findViewById(R.id.restaurant_maps_switcher);
         mapSwitcherContainer = (FrameLayout) v.findViewById(R.id.restaurant_maps_switcher_container);
+        btnNext = (Button) v.findViewById(R.id.btn_next);
+        btnPrevious = (Button) v.findViewById(R.id.btn_previous);
     }
 
     @Override
@@ -111,6 +113,10 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
 
     protected void initView() {
         btnRetry.setOnClickListener(v -> mPresenter.loadForbiddenTables());
+        btnNext.setOnClickListener(v -> mController.next());
+        btnPrevious.setOnClickListener(v -> mController.previous());
+
+        ViewUtils.setButtonEnabled(btnNext, false);
     }
 
     protected void clearVisibilities() {

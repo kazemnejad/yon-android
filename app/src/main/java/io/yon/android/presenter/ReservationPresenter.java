@@ -29,6 +29,8 @@ public class ReservationPresenter extends Presenter implements
     private int lastGuestCountAdapterPosition = -1;
     private Restaurant restaurant;
 
+    private long forbiddenTableLastRequestTime;
+
     private ReservationContract.TableView tableView;
 
     private Observable<Lce<HashMap<String, Boolean>>> forbiddenObservable;
@@ -99,17 +101,24 @@ public class ReservationPresenter extends Presenter implements
                     .compose(RxUtils.applySchedulers())
                     .cache();
 
+        final long requestTime = System.currentTimeMillis();
+        forbiddenTableLastRequestTime = requestTime;
+
         forbiddenObservable.takeWhile(LifecycleBinder.notDestroyed(tableView))
                 .compose(LifecycleBinder.subscribeWhenReady(tableView, new Lce.Observer<>(
                         lce -> {
+                            if (requestTime < forbiddenTableLastRequestTime)
+                                return;
+
                             if (lce.isLoading())
                                 tableView.showLoading();
                             else if (lce.hasError()) {
                                 forbiddenObservable = null;
                                 tableView.showError(lce.getError());
                             } else {
-                                addTablesWithSmallerCapacity(lce.getData());
-                                tableView.showForbiddenTables(lce.getData());
+                                HashMap<String, Boolean> forbiddenTables = new HashMap<>(lce.getData());
+                                addTablesWithSmallerCapacity(forbiddenTables);
+                                tableView.showForbiddenTables(forbiddenTables);
                             }
                         }
                 )));
