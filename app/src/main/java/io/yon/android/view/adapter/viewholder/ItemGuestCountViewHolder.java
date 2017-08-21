@@ -1,13 +1,8 @@
 package io.yon.android.view.adapter.viewholder;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -48,6 +43,9 @@ public class ItemGuestCountViewHolder extends ViewHolder<Integer> implements Vie
 
     @Override
     public void onClick(View view) {
+        if (guestCountLabel.isSelected())
+            return;
+
         setSelected(guestCountLabel, true);
         getBus().send(getAdapterPosition());
     }
