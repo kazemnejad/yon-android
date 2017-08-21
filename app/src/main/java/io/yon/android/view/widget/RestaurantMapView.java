@@ -19,6 +19,8 @@ import android.widget.RelativeLayout;
 
 import com.orhanobut.logger.Logger;
 
+import java.util.HashMap;
+
 import io.yon.android.R;
 import io.yon.android.model.Map;
 import io.yon.android.model.Table;
@@ -34,6 +36,7 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
     private boolean isTablesClickable = false;
     private OnTableClickListener onTableClickListener;
     private boolean isDrawQueued = false;
+    private HashMap<String, Boolean> forbiddenTables;
 
     public RestaurantMapView(@NonNull Context context) {
         super(context);
@@ -86,6 +89,11 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
         }
     }
 
+    public void setMap(Map map, HashMap<String, Boolean> forbiddenTables) {
+        this.forbiddenTables = forbiddenTables;
+        setMap(map);
+    }
+
     private void addTables() {
         // viewWidth is in px
         int viewWidth = getWidth();
@@ -119,7 +127,7 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
 
             addView(iv, params);
 
-            if (isTablesClickable) {
+            if (isTablesClickable && isTableAvailable(table)) {
                 float maskSize = Math.max(tableWidth, tableHeight);
                 LayoutParams selectableParams = new LayoutParams(
                         (int) (unitSize * maskSize),
@@ -143,6 +151,8 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
         iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
         iv.setImageResource(TableConstants.resources(table.getShape()));
         iv.setRotation(table.getAngle());
+        if (!isTableAvailable(table))
+            iv.setAlpha(0.5f);
 
         return iv;
     }
@@ -155,6 +165,10 @@ public class RestaurantMapView extends FrameLayout implements View.OnClickListen
         view.setRotation(table.getAngle());
 
         return view;
+    }
+
+    private boolean isTableAvailable(Table table) {
+        return this.forbiddenTables == null || !this.forbiddenTables.containsKey(table.getId());
     }
 
     private int getPosition(float unitSize, float pos, float length) {

@@ -21,7 +21,7 @@ import io.yon.android.view.MvpView;
 
 public class ReservationPresenter extends Presenter implements
         ReservationContract.Presenter,
-        ReservationContract.TableAvailabilitiesPresenter {
+        ReservationContract.ForbiddenTablesPresenter {
 
     private PersianCalendar selectedDateTime;
     private int currentStep = Step.DateSelect;
@@ -31,7 +31,7 @@ public class ReservationPresenter extends Presenter implements
 
     private ReservationContract.TableView tableView;
 
-    private Observable<Lce<HashMap<String, Boolean>>> availabilitiesObservable;
+    private Observable<Lce<HashMap<String, Boolean>>> forbiddenObservable;
 
     public ReservationPresenter(Application application) {
         super(application);
@@ -60,6 +60,7 @@ public class ReservationPresenter extends Presenter implements
     @Override
     public void setGuestCount(int guestCount) {
         this.guestCount = guestCount;
+        loadForbiddenTables();
     }
 
     @Override
@@ -84,47 +85,57 @@ public class ReservationPresenter extends Presenter implements
     }
 
     @Override
-    public void bindView(MvpView view) {
-
-    }
+    public void bindView(MvpView view) {}
 
     public void bindTableView(ReservationContract.TableView view) {
         tableView = view;
     }
 
     @Override
-    protected void onCleared() {
-        super.onCleared();
-        tableView = null;
-    }
-
-    @Override
-    public void loadTableAvailabilities() {
-        if (availabilitiesObservable == null)
-            availabilitiesObservable = ReservationRepository.getInstance()
-                    .getTableAvailabilities()
+    public void loadForbiddenTables() {
+        if (forbiddenObservable == null)
+            forbiddenObservable = ReservationRepository.getInstance()
+                    .getForbiddenTables()
                     .compose(RxUtils.applySchedulers())
                     .cache();
 
-        availabilitiesObservable.takeWhile(LifecycleBinder.notDestroyed(tableView))
+        forbiddenObservable.takeWhile(LifecycleBinder.notDestroyed(tableView))
                 .compose(LifecycleBinder.subscribeWhenReady(tableView, new Lce.Observer<>(
                         lce -> {
                             if (lce.isLoading())
                                 tableView.showLoading();
                             else if (lce.hasError()) {
-                                availabilitiesObservable = null;
+                                forbiddenObservable = null;
                                 tableView.showError(lce.getError());
-                            } else
-                                tableView.showTableAvailabilities(lce.getData());
+                            } else {
+                                addTablesWithSmallerCapacity(lce.getData());
+                                tableView.showForbiddenTables(lce.getData());
+                            }
                         }
                 )));
     }
 
-    public void loadTableAvailabilities(boolean skipCache) {
+    public void loadForbiddenTables(boolean skipCache) {
         if (skipCache)
-            availabilitiesObservable = null;
+            forbiddenObservable = null;
 
-        loadTableAvailabilities();
+        loadForbiddenTables();
+    }
+
+    private void addTablesWithSmallerCapacity(HashMap<String, Boolean> forbiddenTable) {
+        restaurant.getMaps()
+                .forEach(map -> map.getTables()
+                        .forEach(table -> {
+                            if (table.getCount() < getGuestCount())
+                                forbiddenTable.put(table.getId(), true);
+                        }));
+
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        tableView = null;
     }
 
     public static class Step {

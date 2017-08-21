@@ -19,16 +19,18 @@ import java.util.List;
 import io.yon.android.R;
 import io.yon.android.contract.ReservationContract;
 import io.yon.android.model.Map;
+import io.yon.android.model.Table;
 import io.yon.android.presenter.ReservationPresenter;
 import io.yon.android.util.ViewUtils;
 import io.yon.android.view.activity.ReservationBuilderController;
 import io.yon.android.view.adapter.RestaurantMapPagerAdapter;
+import io.yon.android.view.widget.RestaurantMapView;
 
 /**
  * Created by amirhosein on 8/19/2017 AD.
  */
 
-public class ReservationTableFragment extends Fragment implements ReservationContract.TableView {
+public class ReservationTableFragment extends Fragment implements ReservationContract.TableView, RestaurantMapView.OnTableClickListener {
     private int maxUnitSize;
 
     private ProgressBar progressBar;
@@ -58,7 +60,7 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
 
         initView();
 
-        mPresenter.loadTableAvailabilities();
+        mPresenter.loadForbiddenTables();
     }
 
     @Override
@@ -84,7 +86,7 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
     }
 
     @Override
-    public void showTableAvailabilities(HashMap<String, Boolean> availabilities) {
+    public void showForbiddenTables(HashMap<String, Boolean> forbiddenTables) {
         clearVisibilities();
 
         mapsContainer.setVisibility(View.VISIBLE);
@@ -95,7 +97,12 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
         params.height = (int) mapsContainerHeight + ViewUtils.px(getContext(), 30);
         mapsContainer.setLayoutParams(params);
 
-        RestaurantMapPagerAdapter adapter = new RestaurantMapPagerAdapter(getContext(), mPresenter.getRestaurant().getMaps());
+        RestaurantMapPagerAdapter adapter = new RestaurantMapPagerAdapter(
+                getContext(),
+                mPresenter.getRestaurant().getMaps(),
+                forbiddenTables,
+                this
+        );
         mapsContainer.setAdapter(adapter);
         mapsContainer.setCurrentItem(mPresenter.getRestaurant().getMaps().size() - 1);
 
@@ -103,7 +110,7 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
     }
 
     protected void initView() {
-        btnRetry.setOnClickListener(v -> mPresenter.loadTableAvailabilities());
+        btnRetry.setOnClickListener(v -> mPresenter.loadForbiddenTables());
     }
 
     protected void clearVisibilities() {
@@ -131,5 +138,10 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
         float unitSize = Math.min(k, maxUnitSize);
 
         return unitSize * map.getHeight();
+    }
+
+    @Override
+    public void onClick(View v, Table table) {
+
     }
 }

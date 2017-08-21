@@ -23,7 +23,7 @@ public class ReservationRepository {
         return instance;
     }
 
-    public Observable<Lce<HashMap<String, Boolean>>> getTableAvailabilities() {
+    public Observable<Lce<HashMap<String, Boolean>>> getForbiddenTables() {
         return Observable.just(createReservation())
                 .delay(700, TimeUnit.MILLISECONDS)
                 .map(lst -> {

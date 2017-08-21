@@ -24,8 +24,8 @@ public class ReservationContract extends Contract {
         int getGuestCount();
     }
 
-    public interface TableAvailabilitiesPresenter {
-        void loadTableAvailabilities();
+    public interface ForbiddenTablesPresenter {
+        void loadForbiddenTables();
     }
 
     public interface TimeView extends MvpView {
@@ -37,6 +37,6 @@ public class ReservationContract extends Contract {
 
         void showError(Throwable e);
 
-        void showTableAvailabilities(HashMap<String, Boolean> availabilities);
+        void showForbiddenTables(HashMap<String, Boolean> forbiddenTables);
     }
 }
