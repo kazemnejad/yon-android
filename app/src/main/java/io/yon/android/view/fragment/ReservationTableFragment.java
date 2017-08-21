@@ -5,14 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -51,9 +49,6 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
 
     private ReservationPresenter mPresenter;
     private ReservationBuilderController mController;
-
-    private RestaurantMapView lastSelectedTableMapView;
-    private ImageView lastSelectedTable;
 
     @Override
     protected int getResourceLayoutId() {
@@ -222,7 +217,7 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
     protected void removeAllSelectedTables() {
         if (mapsContainer == null)
             return;
-        
+
         for (int i = 0; i < mapsContainer.getChildCount(); i++) {
             View child = mapsContainer.getChildAt(i);
             if (child instanceof RestaurantMapView)
