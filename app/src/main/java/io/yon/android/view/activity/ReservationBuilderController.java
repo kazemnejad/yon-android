@@ -4,4 +4,6 @@ public interface ReservationBuilderController {
     void next();
 
     void previous();
+
+    void goToStep(int step);
 }

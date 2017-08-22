@@ -28,5 +28,6 @@
     <color name="direction_btn_background_color">#4E87EC</color>
     <color name="direction_btn_background_color_pressed">#264274</color>
 
+    <color name="reservation_indicator_item_disabled_color">#b3b3b3</color>
 
 </resources>

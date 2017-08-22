@@ -41,4 +41,13 @@ public class TextViewCompatTint extends AppCompatTextView {
 
         typedArray.recycle();
     }
+
+    public void setDrawableTint(int color) {
+        Drawable[] drawables = getCompoundDrawables();
+
+        for (Drawable drawable : drawables) {
+            if (drawable == null) continue;
+            DrawableCompat.setTint(DrawableCompat.wrap(drawable).mutate(), color);
+        }
+    }
 }
