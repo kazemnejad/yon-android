@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.widget.ImageButton;
 
 import io.yon.android.R;
 import io.yon.android.model.Restaurant;
@@ -22,6 +23,7 @@ public class ReservationActivity extends Activity implements ReservationBuilderC
     private Restaurant mRestaurant;
     private ReservationPagesAdapter adapter;
     private ViewPager viewPager;
+    private ImageButton btnClose;
 
     private ReservationPresenter mPresenter;
 
@@ -63,6 +65,7 @@ public class ReservationActivity extends Activity implements ReservationBuilderC
     @Override
     protected void findViews() {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
+        btnClose = (ImageButton) findViewById(R.id.toolbar_icon_right);
     }
 
     @Override
@@ -91,5 +94,8 @@ public class ReservationActivity extends Activity implements ReservationBuilderC
         viewPager.setOffscreenPageLimit(4);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(mPresenter.getCurrentStep());
+
+        btnClose.setImageResource(R.drawable.ic_close_24dp);
+        btnClose.setOnClickListener(v -> finish());
     }
 }

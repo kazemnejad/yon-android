@@ -11,6 +11,12 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="AppTheme.ReservationActivity">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
     <style name="ToolbarDropShadow">
         <item name="android:visibility">gone</item>
     </style>
@@ -23,4 +29,5 @@
     <style name="BannerCard">
         <item name="cardCornerRadius">3dp</item>
     </style>
+
 </resources>

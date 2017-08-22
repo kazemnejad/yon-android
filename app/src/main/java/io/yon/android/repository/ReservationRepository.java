@@ -41,7 +41,7 @@ public class ReservationRepository {
         lst.add(new Reservation(new Table("table1"), 1503307800L, 2));
         lst.add(new Reservation(new Table("table2"), 1503307800L, 2));
         lst.add(new Reservation(new Table("table5"), 1503307800L, 2));
-        lst.add(new Reservation(new Table("table8"), 1503307800L, 2));
+//        lst.add(new Reservation(new Table("table8"), 1503307800L, 2));
         lst.add(new Reservation(new Table("table9"), 1503307800L, 2));
 
         return lst;
