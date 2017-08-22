@@ -23,4 +23,5 @@
     <dimen name="restaurant_menu_item_height">65dp</dimen>
 
     <dimen name="reservation_header_height">120dp</dimen>
+    <dimen name="reservation_activity_toolbar_margin_top">0dp</dimen>
 </resources>
