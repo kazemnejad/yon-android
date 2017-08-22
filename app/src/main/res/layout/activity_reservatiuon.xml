@@ -1,12 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.internal.ScrimInsetsFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <include layout="@layout/activity_reservation_appbar"/>
+
+    <LinearLayout
+        android:id="@+id/indicator_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="110dp"
+        android:background="@drawable/bg_reservation_indicator"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <io.yon.android.view.widget.TextViewCompatTint
+            style="@style/ReservationIndicatorItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_receipt_18dp"/>
+
+        <View style="@style/ReservationIndicatorDivider"/>
+
+        <io.yon.android.view.widget.TextViewCompatTint
+            style="@style/ReservationIndicatorItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_table_17dp"/>
+
+        <View style="@style/ReservationIndicatorDivider"/>
+
+        <io.yon.android.view.widget.TextViewCompatTint
+            style="@style/ReservationIndicatorItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_people_24dp"/>
+
+        <View style="@style/ReservationIndicatorDivider"/>
+
+        <io.yon.android.view.widget.TextViewCompatTint
+            style="@style/ReservationIndicatorItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_access_time_20dp"/>
+
+        <View style="@style/ReservationIndicatorDivider"/>
+
+        <io.yon.android.view.widget.TextViewCompatTint
+            style="@style/ReservationIndicatorItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_event_20dp"/>
+
+    </LinearLayout>
 
     <io.yon.android.view.widget.NonSwipeableViewPager
         android:id="@+id/view_pager"

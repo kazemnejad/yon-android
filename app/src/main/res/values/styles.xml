@@ -145,4 +145,25 @@
         <item name="android:textSize">11sp</item>
         <item name="android:textColor">@color/black_38</item>
     </style>
+
+    <style name="ReservationIndicatorItem">
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="drawableTint">#b3b3b3</item>
+    </style>
+
+    <style name="ReservationIndicatorDivider">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:alpha">0.7</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:background">@color/black_38</item>
+        <item name="android:layout_marginRight">2dp</item>
+        <item name="android:layout_marginLeft">2dp</item>
+    </style>
 </resources>
