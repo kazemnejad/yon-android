@@ -108,6 +108,7 @@
     <string name="finish">پایان</string>
     <string name="reservation_without_table_selection">انجام رزرو بدون انتخاب میز</string>
     <string name="number_of_guests">تعداد مهمان‌ها</string>
+    <string name="reserve">رزرو</string>
 
 
 </resources>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginLeft="@dimen/material_step_1_margin"
+                android:layout_marginRight="@dimen/material_step_1_margin"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <RelativeLayout
+                        android:id="@+id/date_container"
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/month"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/day_num"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center"
+                            android:text="شهریور"
+                            android:textColor="@color/black_54"/>
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/day_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center"
+                            android:text="۲۵"
+                            android:textColor="@color/black_87"
+                            android:textSize="40sp"/>
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/weekday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/day_num"
+                            android:layout_centerHorizontal="true"
+                            android:gravity="center"
+                            android:text="چهارشنبه"
+                            android:textColor="@color/black_54"/>
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginRight="12dp"
+                        android:layout_marginTop="13dp"
+                        android:layout_toLeftOf="@+id/date_container"
+                        android:src="@drawable/ic_access_time_20dp"
+                        android:tint="#9c9c9c"/>
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/time"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/imageView"
+                        android:layout_marginEnd="11dp"
+                        android:layout_marginRight="11dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_toLeftOf="@+id/imageView"
+                        android:text="۱۲:۴۵ بعد از ظهر"
+                        android:textColor="@color/black_87"/>
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_below="@id/imageView"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginRight="12dp"
+                        android:layout_marginTop="13dp"
+                        android:layout_toLeftOf="@+id/date_container"
+                        android:src="@drawable/ic_people_24dp"
+                        android:tint="#9c9c9c"/>
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/people_num"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/imageView2"
+                        android:layout_marginEnd="11dp"
+                        android:layout_marginRight="11dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_toLeftOf="@+id/imageView2"
+                        android:text="میز برای ۴ نفر"
+                        android:textColor="@color/black_87"/>
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_below="@id/imageView2"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginRight="12dp"
+                        android:layout_marginTop="13dp"
+                        android:layout_toLeftOf="@+id/date_container"
+                        android:src="@drawable/ic_table_17dp"
+                        android:tint="#9c9c9c"/>
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/selected_table"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/imageView3"
+                        android:layout_marginEnd="11dp"
+                        android:layout_marginRight="11dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_toLeftOf="@+id/imageView3"
+                        android:text="میزی انتخاب نشده است."
+                        android:textColor="@color/black_54"/>
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_above="@+id/btn_reservation_container"
+        android:background="@drawable/toolbar_drop_shadow"
+        android:rotation="180"/>
+
+
+    <FrameLayout
+        android:id="@+id/btn_reservation_container"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="@string/reserve"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"/>
+
+    </FrameLayout>
+
+</RelativeLayout>

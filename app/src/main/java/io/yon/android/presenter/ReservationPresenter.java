@@ -159,10 +159,10 @@ public class ReservationPresenter extends Presenter implements
     }
 
     public static class Step {
-        public static final int DateSelect = 3;
-        public static final int TimeSelect = 2;
-        public static final int GuestCount = 1;
-        public static final int TableSelect = 0;
-        public static final int Final = 328;
+        public static final int DateSelect = 4;
+        public static final int TimeSelect = 3;
+        public static final int GuestCount = 2;
+        public static final int TableSelect = 1;
+        public static final int Confirm = 0;
     }
 }

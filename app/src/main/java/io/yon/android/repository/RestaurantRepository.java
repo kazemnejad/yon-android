@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -61,7 +62,7 @@ public class RestaurantRepository {
     public static Restaurant createRestaurant() {
         Restaurant r = new Restaurant();
         r.setId(5);
-        r.setName("رستوران");
+        r.setName("رستوران اصغر جوجه");
         r.setRate(3.4f);
         r.setPrice(4.9f);
         r.setAvatarUrl("http://162.243.174.32/restaurant_avatars/1166.jpeg");
@@ -81,8 +82,10 @@ public class RestaurantRepository {
         r.setTags(tags);
 
         ArrayList<Map> maps = new ArrayList<>();
+        Map m = createMap("محوطه باز");
+        m.getTables().forEach(table -> table.setId(String.valueOf(new Random().nextInt())));
+        maps.add(m);
         maps.add(createMap("همکف"));
-        maps.add(createMap("محوطه باز"));
         r.setMaps(maps);
 
         r.setLongitude(35.70252);

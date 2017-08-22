@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import io.yon.android.presenter.ReservationPresenter.Step;
+import io.yon.android.view.fragment.ReservationConfirmFragment;
 import io.yon.android.view.fragment.ReservationDateFragment;
 import io.yon.android.view.fragment.ReservationGuestCountFragment;
 import io.yon.android.view.fragment.ReservationTableFragment;
@@ -19,6 +20,7 @@ public class ReservationPagesAdapter extends FragmentStatePagerAdapter {
     private ReservationTimeFragment timeFragment;
     private ReservationGuestCountFragment guestCountFragment;
     private ReservationTableFragment tableFragment;
+    private ReservationConfirmFragment confirmFragment;
 
     public ReservationPagesAdapter(FragmentManager fm) {
         super(fm);
@@ -50,6 +52,12 @@ public class ReservationPagesAdapter extends FragmentStatePagerAdapter {
                     tableFragment = new ReservationTableFragment();
 
                 return tableFragment;
+
+            case Step.Confirm:
+                if (confirmFragment == null)
+                    confirmFragment = new ReservationConfirmFragment();
+
+                return confirmFragment;
         }
 
         return null;
@@ -57,6 +65,6 @@ public class ReservationPagesAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return 5;
     }
 }
