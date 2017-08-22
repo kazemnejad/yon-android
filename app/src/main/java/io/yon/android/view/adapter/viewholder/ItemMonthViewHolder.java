@@ -5,6 +5,7 @@ import android.view.View;
 
 import java.util.HashMap;
 
+import io.yon.android.util.ViewUtils;
 import io.yon.android.util.calendar.PersianCalendar;
 import io.yon.android.view.widget.date.CalendarDay;
 import io.yon.android.view.widget.date.DatePickerController;
@@ -26,9 +27,16 @@ public class ItemMonthViewHolder extends RecyclerView.ViewHolder implements Mont
         this.controller = controller;
 
         RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(
-                RecyclerView.LayoutParams.MATCH_PARENT,
+                ViewUtils.px(itemView.getContext(), 300),
                 RecyclerView.LayoutParams.MATCH_PARENT
         );
+        params.setMargins(
+                ViewUtils.px(itemView.getContext(), 15),
+                0,
+                ViewUtils.px(itemView.getContext(), 10),
+                0
+        );
+
         monthView.setLayoutParams(params);
         monthView.setClickable(true);
         monthView.setOnDayClickListener(this);

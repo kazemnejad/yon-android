@@ -9,6 +9,12 @@
 
     <include layout="@layout/activity_reservation_appbar"/>
 
+    <io.yon.android.view.widget.NonSwipeableViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/reservation_header_height"/>
+
     <LinearLayout
         android:id="@+id/indicator_container"
         android:layout_width="wrap_content"
@@ -59,11 +65,5 @@
             android:drawableRight="@drawable/ic_event_20dp"/>
 
     </LinearLayout>
-
-    <io.yon.android.view.widget.NonSwipeableViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/reservation_header_height"/>
 
 </android.support.design.internal.ScrimInsetsFrameLayout>

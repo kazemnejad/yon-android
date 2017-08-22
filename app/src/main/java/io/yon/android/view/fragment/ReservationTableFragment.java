@@ -46,6 +46,7 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
     private CheckBox cbSkipTableSelection;
     private TextView skipTableSelectionLabel;
     private FrameLayout disabler;
+    private View dummyMargin;
 
     private ReservationPresenter mPresenter;
     private ReservationBuilderController mController;
@@ -83,6 +84,7 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
         cbSkipTableSelection = (CheckBox) v.findViewById(R.id.checkbox_skip_table_selection);
         skipTableSelectionLabel = (TextView) v.findViewById(R.id.checkbox_skip_table_selection_text);
         disabler = (FrameLayout) v.findViewById(R.id.disabler);
+        dummyMargin = v.findViewById(R.id.dummy_margin);
     }
 
     @Override
@@ -207,6 +209,10 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
                 .setDuration(100)
                 .setInterpolator(new AccelerateDecelerateInterpolator());
         mapSwitcher.animate()
+                .alpha(alphaAmount)
+                .setDuration(100)
+                .setInterpolator(new AccelerateDecelerateInterpolator());
+        dummyMargin.animate()
                 .alpha(alphaAmount)
                 .setDuration(100)
                 .setInterpolator(new AccelerateDecelerateInterpolator());
