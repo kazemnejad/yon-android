@@ -8,7 +8,9 @@ import com.waylonbrown.lifecycleawarerx.LifecycleBinder;
 import java.util.HashMap;
 
 import io.reactivex.Observable;
+import io.yon.android.api.response.BasicResponse;
 import io.yon.android.contract.ReservationContract;
+import io.yon.android.model.Reservation;
 import io.yon.android.model.Restaurant;
 import io.yon.android.model.Table;
 import io.yon.android.repository.Lce;
@@ -16,6 +18,7 @@ import io.yon.android.repository.ReservationRepository;
 import io.yon.android.util.RxUtils;
 import io.yon.android.util.calendar.PersianCalendar;
 import io.yon.android.view.MvpView;
+import retrofit2.Response;
 
 /**
  * Created by amirhosein on 8/20/2017 AD.
@@ -31,6 +34,8 @@ public class ReservationPresenter extends Presenter implements
     private int guestCount = -1;
     private int lastGuestCountAdapterPosition = -1;
     private Table selectedTable = null;
+    private String noteToRestaurant;
+    private boolean containError = false;
 
     private long forbiddenTableLastRequestTime;
 
@@ -38,9 +43,18 @@ public class ReservationPresenter extends Presenter implements
     private ReservationContract.ConfirmView confirmView;
 
     private Observable<Lce<HashMap<String, Boolean>>> forbiddenObservable;
+    private Observable<Lce<Response<BasicResponse>>> saveReservationObservable;
 
     public ReservationPresenter(Application application) {
         super(application);
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     @Override
@@ -60,10 +74,12 @@ public class ReservationPresenter extends Presenter implements
 
     @Override
     public void setSelectedDateTime(PersianCalendar dateTime) {
-        selectedDateTime = dateTime;
-
-        loadForbiddenTables();
-        forceShowSummery();
+        if (selectedDateTime == null || dateTime == null || selectedDateTime.getTimeInMillis() != dateTime.getTimeInMillis()) {
+            selectedDateTime = dateTime;
+            setContainError(false);
+            loadForbiddenTables();
+            forceShowSummery();
+        }
     }
 
     @Override
@@ -76,6 +92,7 @@ public class ReservationPresenter extends Presenter implements
         this.guestCount = guestCount;
         this.selectedTable = null;
 
+        setContainError(false);
         loadForbiddenTables();
         forceShowSummery();
     }
@@ -88,14 +105,6 @@ public class ReservationPresenter extends Presenter implements
         this.lastGuestCountAdapterPosition = lastGuestCountAdapterPosition;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
     public Table getSelectedTable() {
         return selectedTable;
     }
@@ -103,7 +112,24 @@ public class ReservationPresenter extends Presenter implements
     public void setSelectedTable(Table selectedTable) {
         this.selectedTable = selectedTable;
 
+        setContainError(false);
         forceShowSummery();
+    }
+
+    public boolean isContainError() {
+        return containError;
+    }
+
+    public void setContainError(boolean containError) {
+        this.containError = containError;
+    }
+
+    public String getNoteToRestaurant() {
+        return noteToRestaurant;
+    }
+
+    public void setNoteToRestaurant(String noteToRestaurant) {
+        this.noteToRestaurant = noteToRestaurant;
     }
 
     @Override
@@ -156,6 +182,51 @@ public class ReservationPresenter extends Presenter implements
             forbiddenObservable = null;
 
         loadForbiddenTables();
+    }
+
+    @Override
+    public void saveReservation() {
+        Reservation res = makeReservation();
+        saveReservationObservable = ReservationRepository.getInstance()
+                .saveReservation(res)
+                .compose(RxUtils.applySchedulers())
+                .cache();
+        loadPendingSaveReservation();
+    }
+
+    @Override
+    public void loadPendingSaveReservation() {
+        if (saveReservationObservable == null)
+            return;
+
+        saveReservationObservable.takeWhile(LifecycleBinder.notDestroyed(confirmView))
+                .compose(LifecycleBinder.subscribeWhenReady(confirmView, new Lce.Observer<>(
+                        lce -> {
+                            if (lce.isLoading())
+                                confirmView.showLoading();
+                            else if (lce.hasError()) {
+                                saveReservationObservable = null;
+                                confirmView.showError(lce.getError());
+                            } else {
+                                saveReservationObservable = null;
+                                confirmView.handleResponse(lce.getData());
+                            }
+                        }
+                )));
+    }
+
+
+    public Reservation makeReservation() {
+        if (selectedDateTime == null || guestCount != -1)
+            return null;
+
+        Reservation r = new Reservation();
+        r.setDatetime(selectedDateTime.getTimeInMillis() / 1000);
+        r.setGuestCount(guestCount);
+        r.setTable(selectedTable);
+        r.setNote(noteToRestaurant);
+
+        return r;
     }
 
     private void forceShowSummery() {

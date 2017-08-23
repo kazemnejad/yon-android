@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.yon.android.api.response.BasicResponse;
 import io.yon.android.model.Reservation;
 import io.yon.android.model.Table;
+import retrofit2.Response;
 
 /**
  * Created by amirhosein on 8/21/2017 AD.
@@ -31,6 +33,14 @@ public class ReservationRepository {
                     lst.forEach(item -> availableTables.put(item.getTable().getId(), true));
                     return availableTables;
                 })
+                .map(Lce::data)
+                .startWith(Lce.loading())
+                .onErrorReturn(Lce::error);
+    }
+
+    public Observable<Lce<Response<BasicResponse>>> saveReservation(Reservation reservation) {
+        return Observable.just(Response.success(new BasicResponse()))
+                .delay(4700, TimeUnit.MILLISECONDS)
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);

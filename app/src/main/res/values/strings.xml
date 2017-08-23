@@ -118,6 +118,7 @@
     <string name="table">میز</string>
     <string name="view">مشاهده</string>
     <string name="no_selected_table">میزی انتخاب نشده است.</string>
+    <string name="unable_to_reserve_this_table">متاسفانه امکان رزرو این میز وجود ندارد.</string>
 
 
 </resources>

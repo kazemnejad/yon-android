@@ -6,11 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
@@ -18,6 +19,7 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import java.util.List;
 
 import io.yon.android.R;
+import io.yon.android.api.response.BasicResponse;
 import io.yon.android.contract.ReservationContract;
 import io.yon.android.model.Map;
 import io.yon.android.model.Table;
@@ -29,6 +31,7 @@ import io.yon.android.util.calendar.PersianCalendar;
 import io.yon.android.view.GlideApp;
 import io.yon.android.view.activity.ReservationBuilderController;
 import io.yon.android.view.dialog.MapViewDialog;
+import retrofit2.Response;
 
 /**
  * Created by amirhosein on 8/19/2017 AD.
@@ -39,8 +42,8 @@ public class ReservationConfirmFragment extends Fragment implements ReservationC
     private ImageView userAvatar;
     private TextView userName, phoneNumber, month, monthDay, weekDay, time, labelGuestCount, btnShowSelectedTable;
     private EditText etNoteToRestaurant;
-    private NestedScrollView scrollView;
-    private View btnReserve;
+    private View btnReserve, clickDisabler, scrollView, btnReserveContainer, errorContainer;
+    private ProgressBar progressBar;
 
     private ReservationPresenter mPresenter;
     private ReservationBuilderController mController;
@@ -60,6 +63,7 @@ public class ReservationConfirmFragment extends Fragment implements ReservationC
 
         initView();
         showSummery();
+        mPresenter.loadPendingSaveReservation();
     }
 
     @Override
@@ -75,10 +79,17 @@ public class ReservationConfirmFragment extends Fragment implements ReservationC
         btnShowSelectedTable = (TextView) v.findViewById(R.id.selected_table);
         etNoteToRestaurant = (EditText) v.findViewById(R.id.et_note_to_restaurant);
         btnReserve = v.findViewById(R.id.btn_reserve);
+        scrollView = v.findViewById(R.id.scroll_view);
+        btnReserveContainer = v.findViewById(R.id.btn_reservation_container);
+        progressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
+        clickDisabler = v.findViewById(R.id.click_disabler);
+        errorContainer = v.findViewById(R.id.error_container);
     }
 
     @Override
     public void showSummery() {
+        errorContainer.setVisibility(mPresenter.isContainError() ? View.VISIBLE : View.GONE);
+
         PersianCalendar datetime = mPresenter.getSelectedDateTime();
         Table selectedTable = mPresenter.getSelectedTable();
         int guestCount = mPresenter.getGuestCount();
@@ -129,8 +140,44 @@ public class ReservationConfirmFragment extends Fragment implements ReservationC
                 .into(userAvatar);
     }
 
+    @Override
+    public void showLoading() {
+        clearVisibilities();
+        scrollView.setAlpha(0.5f);
+        btnReserveContainer.setAlpha(0.5f);
+        progressBar.setVisibility(View.VISIBLE);
+        clickDisabler.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showError(Throwable e) {
+        clearVisibilities();
+        Toast.makeText(getContext(), R.string.unable_to_connect_to_server, Toast.LENGTH_SHORT)
+                .show();
+    }
+
+    @Override
+    public void handleResponse(Response<BasicResponse> response) {
+        clearVisibilities();
+        Toast.makeText(getContext(), "sss", Toast.LENGTH_SHORT)
+                .show();
+        mPresenter.setContainError(true);
+        errorContainer.setVisibility(mPresenter.isContainError() ? View.VISIBLE : View.GONE);
+    }
+
     private void initView() {
-        
+        btnReserve.setOnClickListener(v -> {
+            String note = etNoteToRestaurant.getText().toString();
+            mPresenter.setNoteToRestaurant(note != null && note.length() > 0 ? note : null);
+            mPresenter.saveReservation();
+        });
+    }
+
+    private void clearVisibilities() {
+        scrollView.setAlpha(1.0f);
+        btnReserveContainer.setAlpha(1.0f);
+        progressBar.setVisibility(View.INVISIBLE);
+        clickDisabler.setVisibility(View.INVISIBLE);
     }
 
     private Map findMapByTable(Table target, List<Map> maps) {

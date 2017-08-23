@@ -14,6 +14,7 @@ public class Reservation extends Model {
     Table table;
     long datetime = -1;
     int guestCount = 0;
+    String note;
 
     public Reservation() {}
 
@@ -45,5 +46,13 @@ public class Reservation extends Model {
 
     public void setGuestCount(int guestCount) {
         this.guestCount = guestCount;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }
