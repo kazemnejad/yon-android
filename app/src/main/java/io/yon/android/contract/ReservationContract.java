@@ -32,6 +32,10 @@ public class ReservationContract extends Contract {
 
     }
 
+    public interface ConfirmView extends MvpView {
+        void showSummery();
+    }
+
     public interface TableView extends MvpView {
         void showLoading();
 

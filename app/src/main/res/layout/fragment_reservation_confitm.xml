@@ -6,15 +6,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v4.widget.NestedScrollView
+    <ScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="50dp">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp">
+            android:layout_marginBottom="100dp"
+            android:layout_marginTop="25dp"
+            android:orientation="vertical">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -86,13 +91,16 @@
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/time"
-                        android:layout_width="150dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/imageView"
                         android:layout_marginEnd="11dp"
                         android:layout_marginRight="11dp"
                         android:layout_marginTop="0dp"
                         android:layout_toLeftOf="@+id/imageView"
+                        android:gravity="right"
+                        android:lines="1"
+                        android:maxLines="1"
                         android:text="۱۲:۴۵ بعد از ظهر"
                         android:textColor="@color/black_87"/>
 
@@ -109,7 +117,7 @@
                         android:tint="#9c9c9c"/>
 
                     <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/people_num"
+                        android:id="@+id/label_guest_count"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/imageView2"
@@ -122,8 +130,8 @@
 
                     <ImageView
                         android:id="@+id/imageView3"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="17dp"
+                        android:layout_height="17dp"
                         android:layout_below="@id/imageView2"
                         android:layout_marginEnd="12dp"
                         android:layout_marginRight="12dp"
@@ -134,22 +142,135 @@
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/selected_table"
-                        android:layout_width="150dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/imageView3"
                         android:layout_marginEnd="11dp"
                         android:layout_marginRight="11dp"
                         android:layout_marginTop="0dp"
                         android:layout_toLeftOf="@+id/imageView3"
-                        android:text="میزی انتخاب نشده است."
+                        android:background="?attr/selectableItemBackground"
+                        android:text="@string/no_selected_table"
                         android:textColor="@color/black_54"/>
 
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/material_step_1_margin"
+                android:layout_marginRight="@dimen/material_step_1_margin"
+                android:layout_marginTop="10dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/label_reserved_by"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginRight="@dimen/material_step_1_margin"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/the_table_is_booked_under_this_name"/>
+
+                    <ImageView
+                        android:id="@+id/user_avatar"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/label_reserved_by"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginRight="@dimen/material_step_1_margin"
+                        android:layout_marginTop="@dimen/material_step_1_margin"/>
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/user_avatar"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_toLeftOf="@+id/user_avatar"
+                        android:text="امیرحسین کاظم‌نژاد"
+                        android:textColor="@color/black_87"/>
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/phone_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/user_name"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_toLeftOf="@+id/user_avatar"
+                        android:text="۰۹۱۲ ۰۲۴ ۲۵ ۷۰"/>
+
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/material_step_1_margin"
+                android:layout_marginRight="@dimen/material_step_1_margin"
+                android:layout_marginTop="10dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="8dp">
+
+                    <EditText
+                        android:id="@+id/et_note_to_restaurant"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="right"
+                        android:layout_marginLeft="@dimen/material_step_1_margin"
+                        android:layout_marginRight="@dimen/material_step_1_margin"
+                        android:background="@android:color/transparent"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:gravity="right"
+                        android:hint="@string/note_to_restaurant"
+                        android:textColor="@color/black_87"
+                        android:textSize="15sp"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/label_agree_terms_of_use"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginLeft="@dimen/material_step_1_margin"
+                android:layout_marginRight="@dimen/material_step_1_margin"
+                android:layout_marginTop="20dp"
+                android:gravity="right"
+                android:text="@string/agree_term_of_use_by_clicking_on_reserve_button"
+                android:textSize="12sp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </ScrollView>
 
     <View
         android:layout_width="match_parent"
@@ -177,6 +298,7 @@
             android:textStyle="bold"/>
 
         <View
+            android:id="@+id/btn_reserve"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?attr/selectableItemBackground"

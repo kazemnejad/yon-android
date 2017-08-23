@@ -119,6 +119,9 @@ public class ReservationPresenter extends Presenter implements
 
     @Override
     public void loadForbiddenTables() {
+        if (tableView == null)
+            return;
+
         if (forbiddenObservable == null)
             forbiddenObservable = ReservationRepository.getInstance()
                     .getForbiddenTables()
@@ -177,6 +180,7 @@ public class ReservationPresenter extends Presenter implements
     protected void onCleared() {
         super.onCleared();
         tableView = null;
+        confirmView = null;
     }
 
     public static class Step {

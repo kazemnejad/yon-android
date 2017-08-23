@@ -48,7 +48,7 @@
         <activity
             android:name=".view.activity.ReservationActivity"
             android:theme="@style/AppTheme.ReservationActivity"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

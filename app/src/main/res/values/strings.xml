@@ -109,6 +109,15 @@
     <string name="reservation_without_table_selection">انجام رزرو بدون انتخاب میز</string>
     <string name="number_of_guests">تعداد مهمان‌ها</string>
     <string name="reserve">رزرو</string>
+    <string name="note_to_restaurant">یادداشت برای رستوران (اختیاری)</string>
+    <string name="the_table_is_booked_under_this_name">این میز با نام زیر رزرو می‌شود</string>
+    <string name="agree_term_of_use_by_clicking_on_reserve_button">کلیک بر روی دکمه‌ی رزرو به معنای خواندن و قبول تمامی شرایط استفاده است.</string>
+    <string name="table_for">میز برای</string>
+    <string name="person">نفر</string>
+    <string name="close">بستن</string>
+    <string name="table">میز</string>
+    <string name="view">مشاهده</string>
+    <string name="no_selected_table">میزی انتخاب نشده است.</string>
 
 
 </resources>

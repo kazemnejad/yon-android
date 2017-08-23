@@ -16,6 +16,7 @@ import io.yon.android.R;
 import io.yon.android.model.Restaurant;
 import io.yon.android.presenter.ReservationPresenter;
 import io.yon.android.repository.RestaurantRepository;
+import io.yon.android.util.Auth;
 import io.yon.android.view.adapter.ReservationPagesAdapter;
 import io.yon.android.view.widget.TextViewCompatTint;
 
@@ -110,7 +111,7 @@ public class ReservationActivity extends Activity implements ReservationBuilderC
     public void initViews() {
         adapter = new ReservationPagesAdapter(getSupportFragmentManager());
 
-        viewPager.setOffscreenPageLimit(4);
+        viewPager.setOffscreenPageLimit(5);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(mPresenter.getCurrentStep());
 

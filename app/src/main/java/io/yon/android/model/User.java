@@ -23,6 +23,7 @@ public class User {
     private int point = 0;
 
     private String avatar;
+    private String phoneNumber = "09120242570";
 
     public int getId() {
         return id;
@@ -85,6 +86,14 @@ public class User {
     @JsonProperty("avatar")
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public void save(Context context) {

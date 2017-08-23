@@ -1,22 +1,49 @@
 package io.yon.android.view.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 
+import java.util.List;
+
 import io.yon.android.R;
+import io.yon.android.contract.ReservationContract;
+import io.yon.android.model.Map;
+import io.yon.android.model.Table;
+import io.yon.android.model.User;
+import io.yon.android.presenter.ReservationPresenter;
+import io.yon.android.util.Auth;
+import io.yon.android.util.calendar.LanguageUtils;
+import io.yon.android.util.calendar.PersianCalendar;
+import io.yon.android.view.GlideApp;
+import io.yon.android.view.activity.ReservationBuilderController;
+import io.yon.android.view.dialog.MapViewDialog;
 
 /**
  * Created by amirhosein on 8/19/2017 AD.
  */
 
-public class ReservationConfirmFragment extends Fragment {
+public class ReservationConfirmFragment extends Fragment implements ReservationContract.ConfirmView {
 
     private ImageView userAvatar;
+    private TextView userName, phoneNumber, month, monthDay, weekDay, time, labelGuestCount, btnShowSelectedTable;
+    private EditText etNoteToRestaurant;
+    private NestedScrollView scrollView;
+    private View btnReserve;
+
+    private ReservationPresenter mPresenter;
+    private ReservationBuilderController mController;
 
     @Override
     protected int getResourceLayoutId() {
@@ -27,17 +54,92 @@ public class ReservationConfirmFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ColorGenerator generator = ColorGenerator.MATERIAL;
-        userAvatar.setImageDrawable(
-                TextDrawable.builder()
-                        .buildRound("ا", generator.getRandomColor())
-        );
+        mController = getParentActivity();
+        mPresenter = ViewModelProviders.of((FragmentActivity) getParentActivity()).get(ReservationPresenter.class);
+        mPresenter.bindConfirmView(this);
+
+        initView();
+        showSummery();
     }
 
     @Override
     protected void findViews(View v) {
         userAvatar = (ImageView) v.findViewById(R.id.user_avatar);
+        userName = (TextView) v.findViewById(R.id.user_name);
+        phoneNumber = (TextView) v.findViewById(R.id.phone_number);
+        month = (TextView) v.findViewById(R.id.month);
+        monthDay = (TextView) v.findViewById(R.id.day_num);
+        weekDay = (TextView) v.findViewById(R.id.weekday);
+        time = (TextView) v.findViewById(R.id.time);
+        labelGuestCount = (TextView) v.findViewById(R.id.label_guest_count);
+        btnShowSelectedTable = (TextView) v.findViewById(R.id.selected_table);
+        etNoteToRestaurant = (EditText) v.findViewById(R.id.et_note_to_restaurant);
+        btnReserve = v.findViewById(R.id.btn_reserve);
     }
 
+    @Override
+    public void showSummery() {
+        PersianCalendar datetime = mPresenter.getSelectedDateTime();
+        Table selectedTable = mPresenter.getSelectedTable();
+        int guestCount = mPresenter.getGuestCount();
+        User user = Auth.user(getContext().getApplicationContext());
 
+        if (datetime == null || guestCount == -1 || user == null)
+            return;
+
+        month.setText(datetime.getPersianMonthName());
+        monthDay.setText(LanguageUtils.getPersianNumbers(String.valueOf(datetime.getPersianDay())));
+        weekDay.setText(datetime.getPersianWeekDayName());
+
+        time.setText(LanguageUtils.getPersianNumbers(datetime.getPersianTime()));
+        labelGuestCount.setText(
+                getString(R.string.table_for) + " " + LanguageUtils.getPersianNumbers(String.valueOf(guestCount)) + " " + getString(R.string.person)
+        );
+
+        userName.setText(user.getFirstName() + " " + user.getLastName());
+        phoneNumber.setText(LanguageUtils.getPersianNumbers(String.valueOf(user.getPhoneNumber())));
+
+        if (selectedTable != null) {
+            selectedTable.setName("B3");
+            btnShowSelectedTable.setClickable(true);
+            btnShowSelectedTable.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+            btnShowSelectedTable.setText(getString(R.string.table) + " " + selectedTable.getName() + " - " + getString(R.string.view) + "");
+            btnShowSelectedTable.setOnClickListener(v ->
+                    new MapViewDialog(getContext(), findMapByTable(selectedTable, mPresenter.getRestaurant().getMaps()), selectedTable)
+                            .show());
+        } else {
+            btnShowSelectedTable.setClickable(false);
+            btnShowSelectedTable.setTextColor(ContextCompat.getColor(getContext(), R.color.black_54));
+            btnShowSelectedTable.setText(R.string.no_selected_table);
+        }
+
+
+        ColorGenerator generator = ColorGenerator.MATERIAL;
+        Drawable placeHolder = TextDrawable.builder()
+                .buildRound(
+                        user.getFirstName().length() > 0 ? String.valueOf(user.getFirstName().charAt(0)) : "",
+                        generator.getColor(user.getEmail())
+                );
+
+        GlideApp.with(this)
+                .asBitmap()
+                .load(user.getAvatar())
+                .placeholder(placeHolder)
+                .circleCrop()
+                .into(userAvatar);
+    }
+
+    private void initView() {
+        
+    }
+
+    private Map findMapByTable(Table target, List<Map> maps) {
+        for (Map map : maps)
+            for (Table table : map.getTables())
+                if (target.getId().equals(table.getId()))
+                    return map;
+
+
+        return maps.size() > 0 ? maps.get(0) : null;
+    }
 }
