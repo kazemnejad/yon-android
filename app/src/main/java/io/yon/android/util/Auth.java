@@ -69,10 +69,10 @@ public class Auth {
 
         SharedPreferences pref = Config.getUser(context);
         User user = new User();
-        user.setFirstName(Config.Field.FirstName);
-        user.setLastName(Config.Field.LastName);
-        user.setEmail(Config.Field.Email);
-        user.setAvatar(Config.Field.Avatar);
+        user.setFirstName(pref.getString(Config.Field.FirstName, ""));
+        user.setLastName(pref.getString(Config.Field.LastName, ""));
+        user.setEmail(pref.getString(Config.Field.Email, ""));
+        user.setAvatar(pref.getString(Config.Field.Avatar,""));
 
 
         return user;
