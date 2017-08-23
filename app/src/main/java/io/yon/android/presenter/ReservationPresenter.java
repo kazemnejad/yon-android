@@ -1,6 +1,7 @@
 package io.yon.android.presenter;
 
 import android.app.Application;
+import android.arch.lifecycle.Lifecycle;
 
 import com.waylonbrown.lifecycleawarerx.LifecycleBinder;
 
@@ -34,6 +35,7 @@ public class ReservationPresenter extends Presenter implements
     private long forbiddenTableLastRequestTime;
 
     private ReservationContract.TableView tableView;
+    private ReservationContract.ConfirmView confirmView;
 
     private Observable<Lce<HashMap<String, Boolean>>> forbiddenObservable;
 
@@ -52,25 +54,30 @@ public class ReservationPresenter extends Presenter implements
     }
 
     @Override
-    public void setSelectedDateTime(PersianCalendar dateTime) {
-        selectedDateTime = dateTime;
+    public PersianCalendar getSelectedDateTime() {
+        return selectedDateTime;
     }
 
     @Override
-    public PersianCalendar getSelectedDateTime() {
-        return selectedDateTime;
+    public void setSelectedDateTime(PersianCalendar dateTime) {
+        selectedDateTime = dateTime;
+
+        loadForbiddenTables();
+        forceShowSummery();
+    }
+
+    @Override
+    public int getGuestCount() {
+        return guestCount;
     }
 
     @Override
     public void setGuestCount(int guestCount) {
         this.guestCount = guestCount;
         this.selectedTable = null;
-        loadForbiddenTables();
-    }
 
-    @Override
-    public int getGuestCount() {
-        return guestCount;
+        loadForbiddenTables();
+        forceShowSummery();
     }
 
     public int getLastGuestCountAdapterPosition() {
@@ -95,6 +102,8 @@ public class ReservationPresenter extends Presenter implements
 
     public void setSelectedTable(Table selectedTable) {
         this.selectedTable = selectedTable;
+
+        forceShowSummery();
     }
 
     @Override
@@ -102,6 +111,10 @@ public class ReservationPresenter extends Presenter implements
 
     public void bindTableView(ReservationContract.TableView view) {
         tableView = view;
+    }
+
+    public void bindConfirmView(ReservationContract.ConfirmView view) {
+        confirmView = view;
     }
 
     @Override
@@ -142,6 +155,15 @@ public class ReservationPresenter extends Presenter implements
         loadForbiddenTables();
     }
 
+    private void forceShowSummery() {
+        if (confirmView == null)
+            return;
+
+        boolean isDestroyed = confirmView.getLifecycle().getCurrentState() == Lifecycle.State.DESTROYED;
+        if (!isDestroyed)
+            confirmView.showSummery();
+    }
+
     private void addTablesWithSmallerCapacity(HashMap<String, Boolean> forbiddenTable) {
         restaurant.getMaps()
                 .forEach(map -> map.getTables()
@@ -149,7 +171,6 @@ public class ReservationPresenter extends Presenter implements
                             if (table.getCount() < getGuestCount())
                                 forbiddenTable.put(table.getId(), true);
                         }));
-
     }
 
     @Override
