@@ -9,13 +9,16 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/reservation_header_height"
-        android:background="@android:color/transparent"
         android:elevation="0dp"
+        android:background="@android:color/transparent"
         android:fitsSystemWindows="true"
+
         app:elevation="0dp">
 
-        <FrameLayout
+        <android.support.design.internal.ScrimInsetsFrameLayout
+            android:fitsSystemWindows="true"
             android:layout_width="match_parent"
+            app:insetForeground="@android:color/transparent"
             android:layout_height="match_parent">
 
             <ImageView
@@ -33,7 +36,7 @@
 
             <include layout="@layout/activity_reservation_toolbar"/>
 
-        </FrameLayout>
+        </android.support.design.internal.ScrimInsetsFrameLayout>
 
     </android.support.design.widget.AppBarLayout>
 

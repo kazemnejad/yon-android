@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="restaurant_view_header_height">190dp</dimen>
-    <dimen name="reservation_header_height">140dp</dimen>
+    <dimen name="reservation_header_height">146dp</dimen>
     <dimen name="reservation_activity_toolbar_margin_top">20dp</dimen>
 </resources>

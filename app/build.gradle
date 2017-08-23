@@ -51,6 +51,7 @@ dependencies {
     compile project(':support-design')
 
     compile 'com.mobsandgeeks:android-saripaar:2.0.3'
+    compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 
     compile 'com.google.android:flexbox:0.3.0'
     compile 'org.zakariya.stickyheaders:stickyheaders:0.7.6'
