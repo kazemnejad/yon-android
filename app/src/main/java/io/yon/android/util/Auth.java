@@ -2,9 +2,12 @@ package io.yon.android.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 
 import io.yon.android.Config;
+import io.yon.android.model.User;
 import io.yon.android.view.activity.Activity;
 import io.yon.android.view.activity.AuthActivity;
 
@@ -58,6 +61,21 @@ public class Auth {
                 .remove(Config.Field.Email)
                 .remove(Config.Field.Avatar)
                 .apply();
+    }
+
+    public static User user(Context context) {
+        if (!check(context))
+            return null;
+
+        SharedPreferences pref = Config.getUser(context);
+        User user = new User();
+        user.setFirstName(Config.Field.FirstName);
+        user.setLastName(Config.Field.LastName);
+        user.setEmail(Config.Field.Email);
+        user.setAvatar(Config.Field.Avatar);
+
+
+        return user;
     }
 
     public static class UnAuthenticatedException extends Exception {
