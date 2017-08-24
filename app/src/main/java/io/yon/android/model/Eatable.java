@@ -26,8 +26,8 @@ public class Eatable extends Model {
     List<String> pictureAlbum;
     List<Tag> tags;
 
-    private String ingredientsStr;
-    private String priceStr;
+    String ingredientsStr;
+    String priceStr;
 
     public Eatable() {}
 
