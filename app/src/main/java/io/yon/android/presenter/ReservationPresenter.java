@@ -252,7 +252,7 @@ public class ReservationPresenter extends Presenter implements ReservationContra
 
     @Override
     public void saveReservation() {
-        Reservation res = makeReservation();
+        Reservation res = buildReservationObj();
         saveReservationObservable = ReservationRepository.getInstance()
                 .saveReservation(res)
                 .compose(RxUtils.applySchedulers())
@@ -282,12 +282,12 @@ public class ReservationPresenter extends Presenter implements ReservationContra
     }
 
 
-    public Reservation makeReservation() {
-        if (selectedDateTime == null || guestCount != -1)
+    public Reservation buildReservationObj() {
+        if (selectedDateTime == null || selectedTimeSlot == null || guestCount != -1)
             return null;
 
         Reservation r = new Reservation();
-        r.setDatetime(selectedDateTime.getTimeInMillis() / 1000);
+        r.setDatetime(selectedTimeSlot.getDatetime().getTimeInMillis() / 1000);
         r.setGuestCount(guestCount);
         r.setTable(selectedTable);
         r.setNote(noteToRestaurant);
