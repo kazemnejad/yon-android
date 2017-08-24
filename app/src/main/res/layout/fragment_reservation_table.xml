@@ -39,6 +39,7 @@
     </LinearLayout>
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/main_content_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="70dp">
@@ -60,16 +61,14 @@
                 android:layout_marginTop="25dp"
                 android:background="#1a222d"
                 android:paddingBottom="5dp"
-                android:paddingTop="5dp"
-                android:visibility="invisible"/>
+                android:paddingTop="5dp"/>
 
             <FrameLayout
                 android:id="@+id/restaurant_maps_switcher_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/maps_container"
-                android:background="#1a222d"
-                android:visibility="invisible">
+                android:background="#1a222d">
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/restaurant_maps_switcher"

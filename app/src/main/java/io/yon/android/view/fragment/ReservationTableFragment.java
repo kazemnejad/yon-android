@@ -46,7 +46,7 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
     private CheckBox cbSkipTableSelection;
     private TextView skipTableSelectionLabel;
     private FrameLayout disabler;
-    private View dummyMargin;
+    private View dummyMargin, mainContentContainer;
 
     private ReservationPresenter mPresenter;
     private ReservationBuilderController mController;
@@ -85,6 +85,7 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
         skipTableSelectionLabel = (TextView) v.findViewById(R.id.checkbox_skip_table_selection_text);
         disabler = (FrameLayout) v.findViewById(R.id.disabler);
         dummyMargin = v.findViewById(R.id.dummy_margin);
+        mainContentContainer = v.findViewById(R.id.main_content_container);
     }
 
     @Override
@@ -103,8 +104,7 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
     public void showForbiddenTables(HashMap<String, Boolean> forbiddenTables) {
         clearVisibilities();
 
-        mapsContainer.setVisibility(View.VISIBLE);
-        mapSwitcherContainer.setVisibility(View.VISIBLE);
+        mainContentContainer.setVisibility(View.VISIBLE);
 
         float mapsContainerHeight = getMaxMapViewHeight(mPresenter.getRestaurant().getMaps());
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mapsContainer.getLayoutParams();
@@ -161,8 +161,7 @@ public class ReservationTableFragment extends Fragment implements ReservationCon
     protected void clearVisibilities() {
         progressBar.setVisibility(View.INVISIBLE);
         errorContainer.setVisibility(View.INVISIBLE);
-        mapsContainer.setVisibility(View.INVISIBLE);
-        mapSwitcherContainer.setVisibility(View.INVISIBLE);
+        mainContentContainer.setVisibility(View.INVISIBLE);
     }
 
     private float getMaxMapViewHeight(List<Map> maps) {
