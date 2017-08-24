@@ -6,15 +6,19 @@ import android.arch.lifecycle.Lifecycle;
 import com.waylonbrown.lifecycleawarerx.LifecycleBinder;
 
 import java.util.HashMap;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.yon.android.api.response.BasicResponse;
 import io.yon.android.contract.ReservationContract;
+import io.yon.android.model.OpenTimeSlot;
+import io.yon.android.model.OpenTimeSlotSection;
 import io.yon.android.model.Reservation;
 import io.yon.android.model.Restaurant;
 import io.yon.android.model.Table;
 import io.yon.android.repository.Lce;
 import io.yon.android.repository.ReservationRepository;
+import io.yon.android.repository.RestaurantRepository;
 import io.yon.android.util.RxUtils;
 import io.yon.android.util.calendar.PersianCalendar;
 import io.yon.android.view.MvpView;
@@ -24,9 +28,7 @@ import retrofit2.Response;
  * Created by amirhosein on 8/20/2017 AD.
  */
 
-public class ReservationPresenter extends Presenter implements
-        ReservationContract.Presenter,
-        ReservationContract.ForbiddenTablesPresenter {
+public class ReservationPresenter extends Presenter implements ReservationContract.Presenter {
 
     private Restaurant restaurant;
     private PersianCalendar selectedDateTime;
@@ -35,13 +37,17 @@ public class ReservationPresenter extends Presenter implements
     private int lastGuestCountAdapterPosition = -1;
     private Table selectedTable = null;
     private String noteToRestaurant;
+    private OpenTimeSlot selectedTimeSlot;
     private boolean containError = false;
 
     private long forbiddenTableLastRequestTime;
+    private long openHoursLastRequestTime;
 
+    private ReservationContract.TimeView timeView;
     private ReservationContract.TableView tableView;
     private ReservationContract.ConfirmView confirmView;
 
+    private Observable<Lce<List<OpenTimeSlotSection>>> openHourObservable;
     private Observable<Lce<HashMap<String, Boolean>>> forbiddenObservable;
     private Observable<Lce<Response<BasicResponse>>> saveReservationObservable;
 
@@ -57,43 +63,55 @@ public class ReservationPresenter extends Presenter implements
         this.restaurant = restaurant;
     }
 
-    @Override
     public void setCurrentStep(int step) {
         currentStep = step;
     }
 
-    @Override
     public int getCurrentStep() {
         return currentStep;
     }
 
-    @Override
     public PersianCalendar getSelectedDateTime() {
         return selectedDateTime;
     }
 
-    @Override
     public void setSelectedDateTime(PersianCalendar dateTime) {
+        RestaurantRepository.getInstance().getRestaurantOpenHours(getApplication(), null);
         if (selectedDateTime == null || dateTime == null || selectedDateTime.getTimeInMillis() != dateTime.getTimeInMillis()) {
             selectedDateTime = dateTime;
+
             setContainError(false);
-            loadForbiddenTables();
+            selectedTimeSlot = null;
+            selectedTable = null;
+            loadOpenHours(true);
+            loadForbiddenTables(true);
             forceShowSummery();
         }
     }
 
-    @Override
+    public OpenTimeSlot getSelectedTimeSlot() {
+        return selectedTimeSlot;
+    }
+
+    public void setSelectedTimeSlot(OpenTimeSlot selectedTimeSlot) {
+        this.selectedTimeSlot = selectedTimeSlot;
+
+        setContainError(false);
+        selectedTable = null;
+        loadForbiddenTables(true);
+        forceShowSummery();
+    }
+
     public int getGuestCount() {
         return guestCount;
     }
 
-    @Override
     public void setGuestCount(int guestCount) {
         this.guestCount = guestCount;
         this.selectedTable = null;
 
         setContainError(false);
-        loadForbiddenTables();
+        loadForbiddenTables(true);
         forceShowSummery();
     }
 
@@ -135,6 +153,10 @@ public class ReservationPresenter extends Presenter implements
     @Override
     public void bindView(MvpView view) {}
 
+    public void bindTimeView(ReservationContract.TimeView view) {
+        timeView = view;
+    }
+
     public void bindTableView(ReservationContract.TableView view) {
         tableView = view;
     }
@@ -144,8 +166,52 @@ public class ReservationPresenter extends Presenter implements
     }
 
     @Override
+    public void loadOpenHours() {
+        if (timeView == null)
+            return;
+
+        if (selectedDateTime == null)
+            return;
+
+        if (openHourObservable == null)
+            openHourObservable = RestaurantRepository.getInstance()
+                    .getRestaurantOpenHours(getApplication(), selectedDateTime)
+                    .compose(RxUtils.applySchedulers())
+                    .cache();
+
+        final long requestTime = System.currentTimeMillis();
+        openHoursLastRequestTime = requestTime;
+
+        openHourObservable.takeWhile(LifecycleBinder.notDestroyed(timeView))
+                .compose(LifecycleBinder.subscribeWhenReady(timeView, new Lce.Observer<>(
+                        lce -> {
+                            if (requestTime < openHoursLastRequestTime)
+                                return;
+
+                            if (lce.isLoading())
+                                timeView.showLoading();
+                            else if (lce.hasError()) {
+                                openHourObservable = null;
+                                timeView.showError(lce.getError());
+                            } else
+                                timeView.showOpenHours(lce.getData());
+                        }
+                )));
+    }
+
+    public void loadOpenHours(boolean skipCache) {
+        if (skipCache)
+            openHourObservable = null;
+
+        loadOpenHours();
+    }
+
+    @Override
     public void loadForbiddenTables() {
         if (tableView == null)
+            return;
+
+        if (selectedDateTime == null || selectedTimeSlot == null || guestCount == -1)
             return;
 
         if (forbiddenObservable == null)
@@ -250,6 +316,7 @@ public class ReservationPresenter extends Presenter implements
     @Override
     protected void onCleared() {
         super.onCleared();
+        timeView = null;
         tableView = null;
         confirmView = null;
     }

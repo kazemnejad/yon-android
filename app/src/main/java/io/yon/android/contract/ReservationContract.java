@@ -1,8 +1,10 @@
 package io.yon.android.contract;
 
 import java.util.HashMap;
+import java.util.List;
 
 import io.yon.android.api.response.BasicResponse;
+import io.yon.android.model.OpenTimeSlotSection;
 import io.yon.android.util.calendar.PersianCalendar;
 import io.yon.android.view.MvpView;
 import retrofit2.Response;
@@ -13,29 +15,22 @@ import retrofit2.Response;
 
 public class ReservationContract extends Contract {
     public interface Presenter {
-        void setCurrentStep(int step);
 
-        int getCurrentStep();
+        void loadOpenHours();
 
-        void setSelectedDateTime(PersianCalendar dateTime);
-
-        PersianCalendar getSelectedDateTime();
-
-        void setGuestCount(int guestCount);
-
-        int getGuestCount();
+        void loadForbiddenTables();
 
         void saveReservation();
 
         void loadPendingSaveReservation();
     }
 
-    public interface ForbiddenTablesPresenter {
-        void loadForbiddenTables();
-    }
-
     public interface TimeView extends MvpView {
+        void showLoading();
 
+        void showError(Throwable e);
+
+        void showOpenHours(List<OpenTimeSlotSection> openTimeSlots);
     }
 
     public interface ConfirmView extends MvpView {

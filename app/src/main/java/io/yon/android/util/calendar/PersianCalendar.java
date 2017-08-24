@@ -261,6 +261,10 @@ public class PersianCalendar extends GregorianCalendar {
         return get(HOUR) + ":" + ((get(MINUTE) == 0) ? "۰۰" : get(MINUTE)) + (get(HOUR_OF_DAY) >= 12 ? " بعد از ظهر" : " قبل از ظهر");
     }
 
+    public String getPersianTimeCompact() {
+        return get(HOUR_OF_DAY) + ":" + ((get(MINUTE) == 0) ? "۰۰" : get(MINUTE));
+    }
+
     /**
      * @return String of persian date formatted by
      * 'YYYY[delimiter]mm[delimiter]dd' default delimiter is '/'

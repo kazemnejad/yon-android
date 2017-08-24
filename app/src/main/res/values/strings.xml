@@ -119,6 +119,9 @@
     <string name="view">مشاهده</string>
     <string name="no_selected_table">میزی انتخاب نشده است.</string>
     <string name="unable_to_reserve_this_table">متاسفانه امکان رزرو این میز وجود ندارد.</string>
+    <string name="breakfast">صبحانه</string>
+    <string name="lunch">ناهار</string>
+    <string name="dinner">شام</string>
 
 
 </resources>

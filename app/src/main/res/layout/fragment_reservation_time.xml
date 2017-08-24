@@ -4,6 +4,58 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_next"
+        android:clipToPadding="false"
+        android:paddingLeft="@dimen/material_step_1_margin"
+        android:paddingRight="@dimen/material_step_1_margin"
+        android:paddingTop="20dp"
+        android:visibility="invisible"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible"/>
+
+    <LinearLayout
+        android:id="@+id/error_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/unable_to_connect_to_server"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/btn_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:text="@string/retry"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_above="@+id/btn_next"
+        android:rotation="180"
+        android:alpha="0.8"
+        android:background="@drawable/toolbar_drop_shadow"
+        />
+
     <Button
         android:id="@+id/btn_next"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"

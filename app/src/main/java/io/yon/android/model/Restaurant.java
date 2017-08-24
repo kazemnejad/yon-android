@@ -30,6 +30,7 @@ public class Restaurant extends Model {
     double latitude = -1;
     List<Tag> tags;
     List<Map> maps;
+    List<List<OpeningInterval>> openHours;
     java.util.Map<String, String> info;
 
     public int getId() {
@@ -138,6 +139,14 @@ public class Restaurant extends Model {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    public List<List<OpeningInterval>> getOpenHours() {
+        return openHours;
+    }
+
+    public void setOpenHours(List<List<OpeningInterval>> openHours) {
+        this.openHours = openHours;
     }
 
     public String getMapImageUrl() {

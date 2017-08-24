@@ -22,6 +22,7 @@ import io.yon.android.R;
 import io.yon.android.api.response.BasicResponse;
 import io.yon.android.contract.ReservationContract;
 import io.yon.android.model.Map;
+import io.yon.android.model.OpenTimeSlot;
 import io.yon.android.model.Table;
 import io.yon.android.model.User;
 import io.yon.android.presenter.ReservationPresenter;
@@ -91,18 +92,20 @@ public class ReservationConfirmFragment extends Fragment implements ReservationC
         errorContainer.setVisibility(mPresenter.isContainError() ? View.VISIBLE : View.GONE);
 
         PersianCalendar datetime = mPresenter.getSelectedDateTime();
+        OpenTimeSlot timeSlot = mPresenter.getSelectedTimeSlot();
         Table selectedTable = mPresenter.getSelectedTable();
         int guestCount = mPresenter.getGuestCount();
         User user = Auth.user(getContext().getApplicationContext());
 
-        if (datetime == null || guestCount == -1 || user == null)
+        if (datetime == null || guestCount == -1 || user == null || timeSlot == null)
             return;
 
-        month.setText(datetime.getPersianMonthName());
-        monthDay.setText(LanguageUtils.getPersianNumbers(String.valueOf(datetime.getPersianDay())));
-        weekDay.setText(datetime.getPersianWeekDayName());
+        month.setText(timeSlot.getDatetime().getPersianMonthName());
+        monthDay.setText(LanguageUtils.getPersianNumbers(String.valueOf(timeSlot.getDatetime().getPersianDay())));
+        weekDay.setText(timeSlot.getDatetime().getPersianWeekDayName());
 
-        time.setText(LanguageUtils.getPersianNumbers(datetime.getPersianTime()));
+//        time.setText(LanguageUtils.getPersianNumbers(datetime.getPersianTime()));
+        time.setText(timeSlot.getLabel());
         labelGuestCount.setText(
                 getString(R.string.table_for) + " " + LanguageUtils.getPersianNumbers(String.valueOf(guestCount)) + " " + getString(R.string.person)
         );

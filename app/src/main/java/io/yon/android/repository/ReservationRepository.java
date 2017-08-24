@@ -27,7 +27,7 @@ public class ReservationRepository {
 
     public Observable<Lce<HashMap<String, Boolean>>> getForbiddenTables() {
         return Observable.just(createReservation())
-                .delay(700, TimeUnit.MILLISECONDS)
+                .delay(2700, TimeUnit.MILLISECONDS)
                 .map(lst -> {
                     HashMap<String, Boolean> availableTables = new HashMap<>();
                     lst.forEach(item -> availableTables.put(item.getTable().getId(), true));

@@ -1,27 +1,38 @@
 package io.yon.android.repository;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.yon.android.R;
 import io.yon.android.model.Eatable;
 import io.yon.android.model.Map;
 import io.yon.android.model.MenuSection;
+import io.yon.android.model.OpenTimeSlot;
+import io.yon.android.model.OpenTimeSlotSection;
+import io.yon.android.model.OpeningInterval;
 import io.yon.android.model.Restaurant;
 import io.yon.android.model.Table;
 import io.yon.android.model.Tag;
 import io.yon.android.model.UserReview;
+import io.yon.android.util.calendar.PersianCalendar;
 
 /**
  * Created by amirhosein on 8/10/2017 AD.
  */
 
 public class RestaurantRepository {
+    public final static int MIN_START_POINT = 7 * 3600;
+
     private static RestaurantRepository instance;
 
     public static RestaurantRepository getInstance() {
@@ -57,6 +68,93 @@ public class RestaurantRepository {
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);
+    }
+
+    public Observable<Lce<List<OpenTimeSlotSection>>> getRestaurantOpenHours(Context context, PersianCalendar date) {
+        return Observable.just(createOpenHour())
+                .delay(2700, TimeUnit.MILLISECONDS)
+                .map(Lce::data)
+                .map(l -> Lce.data(generateOpenTimeSlots(context, date, l.getData())))
+                .startWith(Lce.loading())
+                .onErrorReturn(Lce::error);
+    }
+
+    private static List<OpeningInterval> createOpenHour() {
+        List<OpeningInterval> openHour = new ArrayList<>();
+        openHour.add(new OpeningInterval(8 * 3600, 10 * 3600 - 26 * 60));
+        openHour.add(new OpeningInterval(12 * 3600, 15 * 3600 - 15 * 60));
+        openHour.add(new OpeningInterval(17 * 3600 + 13 * 60, 21 * 3600 + 21 * 60));
+        return openHour;
+    }
+
+    private static List<OpenTimeSlotSection> generateOpenTimeSlots(Context context, PersianCalendar date, List<OpeningInterval> openHours) {
+        date.setTimeZone(TimeZone.getTimeZone("Asia/Tehran"));
+        date.set(Calendar.HOUR_OF_DAY, 0);
+        date.set(Calendar.MINUTE, 0);
+        date.set(Calendar.SECOND, 0);
+        int initialTimeStamp = (int) (date.getTimeInMillis() / 1000L);
+
+        ArrayList<OpenTimeSlot> slots = new ArrayList<>();
+        if (openHours.size() == 0)
+            return new ArrayList<>();
+
+
+        openHours.sort((a, b) -> a.getStart() < b.getStart() ? -1 : a.getStart() == b.getStart() ? 0 : 1);
+
+        int point = getStartPoint(openHours.get(0));
+
+        int i = 0;
+        while (i < openHours.size()) {
+            OpeningInterval interval = openHours.get(i);
+            while (true) {
+                OpenTimeSlot slot = new OpenTimeSlot(initialTimeStamp, point);
+                if (point >= interval.getStart()) {
+                    if (point < interval.getEnd())
+                        slot.setEnable(true);
+                    else {
+                        i++;
+                        break;
+                    }
+                }
+
+                slots.add(slot);
+                point += 30 * 60;
+            }
+        }
+
+        return generateSlotSections(context, slots);
+    }
+
+    private static List<OpenTimeSlotSection> generateSlotSections(Context context, List<OpenTimeSlot> slots) {
+        ArrayList<OpenTimeSlotSection> sections = new ArrayList<>();
+        sections.add(new OpenTimeSlotSection(context.getString(R.string.breakfast), 4, 11));
+        sections.add(new OpenTimeSlotSection(context.getString(R.string.lunch), 11, 17));
+        sections.add(new OpenTimeSlotSection(context.getString(R.string.dinner), 17, 23));
+
+        int i = 0;
+        for (OpenTimeSlotSection section : sections) {
+            while (i < slots.size()) {
+                OpenTimeSlot slot = slots.get(i);
+                if (slot.getDatetime().get(Calendar.HOUR_OF_DAY) >= section.getStartHour()
+                        && slot.getDatetime().get(Calendar.HOUR_OF_DAY) < section.getEndHour())
+                    section.getOpenTimeSlots().add(slot);
+                else
+                    break;
+
+                i++;
+            }
+        }
+
+        return sections;
+    }
+
+
+    private static int getStartPoint(OpeningInterval interval) {
+        int start = 0;
+        while (start < interval.getStart())
+            start += 30 * 60;
+
+        return start < interval.getEnd() ? start : -2;
     }
 
     public static Restaurant createRestaurant() {
@@ -118,17 +216,17 @@ public class RestaurantRepository {
         m.setHeight(2.5f);
 
         ArrayList<Table> tables = new ArrayList<>();
-        tables.add(makeTable("table1",0.5f, 0.5f));
-        tables.add(makeTable("table0",1.7f, 0.5f));
-        tables.add(makeTable("table99",2.9f, 0.5f));
-        tables.add(makeTable("table5",4.1f, 0.5f));
+        tables.add(makeTable("table1", 0.5f, 0.5f));
+        tables.add(makeTable("table0", 1.7f, 0.5f));
+        tables.add(makeTable("table99", 2.9f, 0.5f));
+        tables.add(makeTable("table5", 4.1f, 0.5f));
 
         Table t2 = makeTable("table8", 4.1f, 2f);
         t2.setShape(5);
         t2.setCount(8);
         tables.add(t2);
 
-        Table t = makeTable("table88",0.5f, 2f);
+        Table t = makeTable("table88", 0.5f, 2f);
         t.setAngle(45);
         tables.add(t);
 
