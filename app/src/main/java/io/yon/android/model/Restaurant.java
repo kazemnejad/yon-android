@@ -19,6 +19,7 @@ import io.yon.android.util.calendar.LanguageUtils;
 public class Restaurant extends Model {
     int id = -1;
     String name;
+    String branch;
     String avatarUrl;
     float rate = -1;
     String rateLabel;
@@ -32,11 +33,13 @@ public class Restaurant extends Model {
     List<Map> maps;
     List<List<OpeningInterval>> openHours;
     java.util.Map<String, String> info;
+    java.util.Map<String, Double> location;
 
     public int getId() {
         return id;
     }
 
+    @JsonProperty("_id")
     public void setId(int id) {
         this.id = id;
     }
@@ -54,7 +57,7 @@ public class Restaurant extends Model {
         return avatarUrl;
     }
 
-    @JsonProperty("avatar_url")
+    @JsonProperty("avatar")
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
     }
@@ -63,7 +66,7 @@ public class Restaurant extends Model {
         return rate;
     }
 
-    @JsonProperty("rate")
+    @JsonProperty("rating")
     public void setRate(float rate) {
         this.rate = rate;
         this.priceLabel = null;
@@ -97,6 +100,7 @@ public class Restaurant extends Model {
         return price;
     }
 
+    @JsonProperty("price_rate")
     public void setPrice(float price) {
         this.price = price;
         this.priceLabel = null;
@@ -113,6 +117,7 @@ public class Restaurant extends Model {
         return tags;
     }
 
+    @JsonProperty("tags")
     public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
@@ -121,30 +126,31 @@ public class Restaurant extends Model {
         return maps;
     }
 
+    @JsonProperty("maps")
     public void setMaps(List<Map> maps) {
         this.maps = maps;
+    }
+
+    @JsonProperty("location")
+    public void setLocation(java.util.Map<String, Double> location) {
+        this.location = location;
+        this.latitude = location.get("x");
+        this.longitude = location.get("y");
     }
 
     public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
     public double getLatitude() {
         return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
     }
 
     public List<List<OpeningInterval>> getOpenHours() {
         return openHours;
     }
 
+    @JsonProperty("open_hours")
     public void setOpenHours(List<List<OpeningInterval>> openHours) {
         this.openHours = openHours;
     }
@@ -163,6 +169,7 @@ public class Restaurant extends Model {
         return info;
     }
 
+    @JsonProperty("info")
     public void setInfo(java.util.Map<String, String> info) {
         this.info = info;
     }

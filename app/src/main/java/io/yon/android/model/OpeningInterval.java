@@ -1,6 +1,7 @@
 package io.yon.android.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.parceler.Parcel;
 
@@ -25,6 +26,7 @@ public class OpeningInterval extends Model {
         return start;
     }
 
+    @JsonProperty("start")
     public void setStart(long start) {
         this.start = start;
     }
@@ -33,6 +35,7 @@ public class OpeningInterval extends Model {
         return end;
     }
 
+    @JsonProperty("end")
     public void setEnd(long end) {
         this.end = end;
     }

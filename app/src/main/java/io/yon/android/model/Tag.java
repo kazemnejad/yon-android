@@ -3,15 +3,18 @@ package io.yon.android.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import org.parceler.Parcel;
+
 /**
  * Created by amirhosein on 7/30/17.
  */
 
+@Parcel
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Tag extends Model {
-    private String name;
-    private String slug;
-    private String avatarUrl;
+    String name;
+    String slug;
+    String avatarUrl;
 
     public Tag() {}
 

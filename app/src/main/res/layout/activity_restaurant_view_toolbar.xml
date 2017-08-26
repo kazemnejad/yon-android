@@ -62,6 +62,7 @@
             <ImageButton
                 android:id="@+id/toolbar_icon_left"
                 style="@style/ToolbarButton"
+                android:tint="@android:color/white"
                 android:src="@drawable/ic_share_24dp"/>
 
         </LinearLayout>

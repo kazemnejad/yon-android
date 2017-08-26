@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.yon.android.R;
+import io.yon.android.api.WebService;
 import io.yon.android.model.Eatable;
 import io.yon.android.model.Map;
 import io.yon.android.model.MenuSection;
@@ -42,9 +43,9 @@ public class RestaurantRepository {
         return instance;
     }
 
-    public Observable<Lce<Restaurant>> getRestaurant() {
-        return Observable.just(createRestaurant())
-                .delay(700, TimeUnit.MILLISECONDS)
+    public Observable<Lce<Restaurant>> getRestaurant(int id) {
+        return WebService.getInstance()
+                .getRestaurant(id)
                 .map(Lce::data)
                 .map(lce -> {
                     Collections.reverse(lce.getData().getMaps());
@@ -186,8 +187,8 @@ public class RestaurantRepository {
         maps.add(createMap("همکف"));
         r.setMaps(maps);
 
-        r.setLongitude(35.70252);
-        r.setLatitude(51.3958805);
+//        r.setLongitude(35.70252);
+//        r.setLatitude(51.3958805);
 
         r.setAddress("سعادت‌آباد، میدان سرو، پیام");
 
@@ -222,8 +223,8 @@ public class RestaurantRepository {
         tables.add(makeTable("table5", 4.1f, 0.5f));
 
         Table t2 = makeTable("table8", 4.1f, 2f);
-        t2.setShape(5);
-        t2.setCount(8);
+        t2.setShape("circle-8");
+        t2.setCapacity(8);
         tables.add(t2);
 
         Table t = makeTable("table88", 0.5f, 2f);
@@ -240,8 +241,8 @@ public class RestaurantRepository {
         t.setId(id);
         t.setX(x);
         t.setY(y);
-        t.setShape(1);
-        t.setCount(4);
+        t.setShape("square-4");
+        t.setCapacity(4);
 //        t.setAngle(45f);
 
         return t;

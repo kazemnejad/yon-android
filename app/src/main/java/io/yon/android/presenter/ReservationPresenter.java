@@ -326,7 +326,7 @@ public class ReservationPresenter extends Presenter implements ReservationContra
         restaurant.getMaps()
                 .forEach(map -> map.getTables()
                         .forEach(table -> {
-                            if (table.getCount() < getGuestCount())
+                            if (table.getCapacity() < getGuestCount())
                                 forbiddenTable.put(table.getId(), true);
                         }));
     }

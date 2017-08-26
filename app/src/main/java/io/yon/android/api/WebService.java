@@ -8,6 +8,7 @@ import io.yon.android.api.request.LoginRequest;
 import io.yon.android.api.request.RegisterRequest;
 import io.yon.android.api.response.AuthResponse;
 import io.yon.android.api.response.BasicResponse;
+import io.yon.android.model.Restaurant;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -20,6 +21,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -102,5 +104,9 @@ public abstract class WebService {
         // Content providers end-points
         @GET("home/mobile")
         Observable<Response<ResponseBody>> getHomePage(@Query("long") double longitude, @Query("latt") double latitude);
+
+        // Restaurant content delivery
+        @GET("restaurant/{id}")
+        Observable<Restaurant> getRestaurant(@Path("id") int id);
     }
 }

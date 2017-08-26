@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
+import com.orhanobut.logger.Logger;
 
 import org.parceler.Parcels;
 
@@ -121,7 +122,7 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
 
     @Override
     public void showError(Throwable e) {
-
+        e.printStackTrace();
     }
 
     @Override

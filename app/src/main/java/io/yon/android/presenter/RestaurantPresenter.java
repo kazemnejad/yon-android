@@ -38,10 +38,10 @@ public class RestaurantPresenter extends Presenter implements RestaurantContract
     }
 
     @Override
-    public void loadRestaurant(int id) {
+    public void loadRestaurant(int restaurantId) {
         if (restaurantObservable == null)
             restaurantObservable = RestaurantRepository.getInstance()
-                    .getRestaurant()
+                    .getRestaurant(restaurantId)
                     .compose(RxUtils.applySchedulers())
                     .cache();
 
@@ -59,11 +59,11 @@ public class RestaurantPresenter extends Presenter implements RestaurantContract
                 )));
     }
 
-    public void loadRestaurant(int id, boolean skipCache) {
+    public void loadRestaurant(int restaurantId, boolean skipCache) {
         if (skipCache)
             restaurantObservable = null;
 
-        loadRestaurant(id);
+        loadRestaurant(restaurantId);
     }
 
     @Override

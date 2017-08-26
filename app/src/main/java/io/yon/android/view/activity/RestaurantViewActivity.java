@@ -17,12 +17,8 @@ import android.widget.TextView;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
-
 import io.yon.android.R;
-import io.yon.android.model.Map;
 import io.yon.android.model.Restaurant;
-import io.yon.android.model.Table;
 import io.yon.android.util.ViewUtils;
 import io.yon.android.view.GlideApp;
 import io.yon.android.view.RoundedCornersTransformation;
@@ -175,11 +171,11 @@ public class RestaurantViewActivity extends Activity {
 
     public Restaurant createRestaurant() {
         Restaurant r = new Restaurant();
-        r.setId(5);
-        r.setName(getString(R.string.app_name));
-        r.setRate(3.4f);
-        r.setPrice(4.9f);
-        r.setAvatarUrl("http://162.243.174.32/restaurant_avatars/1166.jpeg");
+        r.setId(1);
+        r.setName("تهرانپارس");
+        r.setRate(4.6f);
+        r.setPrice(4);
+        r.setAvatarUrl("http://162.243.174.32/restaurant_avatars/1665.jpeg");
         r.setBannerUrl("http://www.pizzaeast.com/system/files/032016/56fd2c58ebeeb56aa00d9df6/large/24.3.16_pizzaeast2052.jpg?1459432756");
 
         return r;
@@ -213,7 +209,7 @@ public class RestaurantViewActivity extends Activity {
                 case 0:
                     if (reviewFragment == null)
                         reviewFragment = RestaurantReviewFragment.create(mRestaurant);
-                    
+
                     return reviewFragment;
 
                 case 1:

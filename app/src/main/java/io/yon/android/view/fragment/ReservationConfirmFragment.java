@@ -159,16 +159,20 @@ public class ReservationConfirmFragment extends Fragment implements ReservationC
         Toast.makeText(getContext(), R.string.unable_to_connect_to_server, Toast.LENGTH_SHORT)
                 .show();
     }
-/**/
+
     @Override
     public void handleResponse(Response<BasicResponse> response) {
         clearVisibilities();
-        Toast.makeText(getContext(), "sss", Toast.LENGTH_SHORT)
-                .show();
-//        mPresenter.setContainError(true);
-//        errorContainer.setVisibility(mPresenter.isContainError() ? View.VISIBLE : View.GONE);
 
-        ReservationResultActivity.start(getContext(), mPresenter.getRestaurant(), mPresenter.buildReservationObj());
+        if (response == null || !response.isSuccessful()) {
+            mPresenter.setContainError(true);
+            errorContainer.setVisibility(mPresenter.isContainError() ? View.VISIBLE : View.GONE);
+        } else
+            ReservationResultActivity.start(
+                    getContext(),
+                    mPresenter.getRestaurant(),
+                    mPresenter.buildReservationObj()
+            );
     }
 
     private void initView() {

@@ -1,17 +1,27 @@
 package io.yon.android.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import org.parceler.Parcel;
+
+import java.util.HashMap;
+
 /**
  * Created by amirhosein on 8/6/17.
  */
 
+@Parcel
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Table extends Model {
-    private String id;
-    private String name;
-    private float x;
-    private float y;
-    private int shape;
-    private float angle;
-    private int count;
+    String id;
+    String name;
+    float x;
+    float y;
+    int shape;
+    float angle;
+    int capacity;
+    String shapeName;
 
     public Table() {}
 
@@ -23,6 +33,7 @@ public class Table extends Model {
         return id;
     }
 
+    @JsonProperty("_id")
     public void setId(String id) {
         this.id = id;
     }
@@ -31,6 +42,7 @@ public class Table extends Model {
         return x;
     }
 
+    @JsonProperty("x")
     public void setX(float x) {
         this.x = x;
     }
@@ -39,6 +51,7 @@ public class Table extends Model {
         return y;
     }
 
+    @JsonProperty("y")
     public void setY(float y) {
         this.y = y;
     }
@@ -47,31 +60,47 @@ public class Table extends Model {
         return shape;
     }
 
-    public void setShape(int shape) {
-        this.shape = shape;
+    @JsonProperty("shape_type")
+    public void setShape(String shape) {
+        this.shapeName = shape;
+        this.shape = shapeTypeTable.get(shape);
     }
 
     public float getAngle() {
         return angle;
     }
 
+    @JsonProperty("angle")
     public void setAngle(float angle) {
         this.angle = angle;
     }
 
-    public int getCount() {
-        return count;
+    public int getCapacity() {
+        return capacity;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    @JsonProperty("capacity")
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
     public String getName() {
         return name;
     }
 
+    @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
+    }
+
+    private static HashMap<String, Integer> shapeTypeTable = new HashMap<>();
+
+    static {
+        shapeTypeTable.put("square-2", 0);
+        shapeTypeTable.put("square-4", 1);
+        shapeTypeTable.put("square-6", 2);
+        shapeTypeTable.put("circle-2", 3);
+        shapeTypeTable.put("circle-4", 4);
+        shapeTypeTable.put("circle-8", 5);
     }
 }
