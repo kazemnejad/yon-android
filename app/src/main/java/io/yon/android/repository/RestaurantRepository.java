@@ -71,9 +71,9 @@ public class RestaurantRepository {
                 .onErrorReturn(Lce::error);
     }
 
-    public Observable<Lce<List<OpenTimeSlotSection>>> getRestaurantOpenHours(Context context, PersianCalendar date) {
-        return Observable.just(createOpenHour())
-                .delay(700, TimeUnit.MILLISECONDS)
+    public Observable<Lce<List<OpenTimeSlotSection>>> getRestaurantOpenHours(Context context, Restaurant restaurant, PersianCalendar date) {
+        return WebService.getInstance()
+                .getRestaurantOpenHours(restaurant.getId(), date.getTimeInMillis() / 1000L)
                 .map(Lce::data)
                 .map(l -> Lce.data(generateOpenTimeSlots(context, date, l.getData())))
                 .startWith(Lce.loading())
@@ -161,7 +161,7 @@ public class RestaurantRepository {
     public static Restaurant createRestaurant() {
         Restaurant r = new Restaurant();
         r.setId(5);
-        r.setName("رستوران اصغر جوجه");
+        r.setName("برگرلند");
         r.setRate(3.4f);
         r.setPrice(4.9f);
         r.setAvatarUrl("http://162.243.174.32/restaurant_avatars/1166.jpeg");

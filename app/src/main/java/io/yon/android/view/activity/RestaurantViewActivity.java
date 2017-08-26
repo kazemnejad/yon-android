@@ -44,6 +44,7 @@ public class RestaurantViewActivity extends Activity {
     private TextView toolbarTitle;
     private AppBarLayout appBar;
     private AppCompatButton btnToolbarReserve;
+    private AppCompatButton btnReserve;
 
     private ImageView mBanner, mIcon;
     private TextView title, subTitle, rateLabel, priceLabel;
@@ -100,6 +101,7 @@ public class RestaurantViewActivity extends Activity {
         subTitle = (TextView) findViewById(R.id.sub_title);
         rateLabel = (TextView) findViewById(R.id.rate);
         priceLabel = (TextView) findViewById(R.id.price_Label);
+        btnReserve = (AppCompatButton) findViewById(R.id.btn_reserve);
     }
 
     private void initViews() {
@@ -110,6 +112,20 @@ public class RestaurantViewActivity extends Activity {
         mViewPager.setCurrentItem(2);
 
         tabLayout.setupWithViewPager(mViewPager);
+
+        btnToolbarReserve.setOnClickListener(v -> {
+            if (mRestaurant.getMaps() == null)
+                return;
+
+            ReservationActivity.start(getApplication(), mRestaurant);
+        });
+
+        btnReserve.setOnClickListener(v -> {
+            if (mRestaurant.getMaps() == null)
+                return;
+
+            ReservationActivity.start(getApplication(), mRestaurant);
+        });
 
         final int actionBarSize = getToolbarHeight();
         appBar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
@@ -139,7 +155,6 @@ public class RestaurantViewActivity extends Activity {
                 }
             }
         });
-
 
     }
 
@@ -176,7 +191,7 @@ public class RestaurantViewActivity extends Activity {
     public Restaurant createRestaurant() {
         Restaurant r = new Restaurant();
         r.setId(1);
-        r.setName("تهرانپارس");
+        r.setName("برگرلند");
         r.setRate(4.6f);
         r.setPrice(4);
         r.setAvatarUrl("http://162.243.174.32/restaurant_avatars/1665.jpeg");

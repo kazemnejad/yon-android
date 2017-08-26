@@ -12,6 +12,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+
+import org.parceler.Parcels;
+
 import io.yon.android.R;
 import io.yon.android.model.Restaurant;
 import io.yon.android.presenter.ReservationPresenter;
@@ -36,7 +40,7 @@ public class ReservationActivity extends Activity implements ReservationBuilderC
 
     public static void start(Context context, Restaurant restaurant) {
         context.startActivity(new Intent(context, ReservationActivity.class)
-                .putExtra("rest", restaurant)
+                .putExtra("rest", Parcels.wrap(restaurant))
         );
     }
 
@@ -49,8 +53,8 @@ public class ReservationActivity extends Activity implements ReservationBuilderC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mRestaurant = RestaurantRepository.createRestaurant();
-//        mRestaurant = Parcels.unwrap(getIntent().getParcelableExtra("rest"));
+//        mRestaurant = RestaurantRepository.createRestaurant();
+        mRestaurant = Parcels.unwrap(getIntent().getParcelableExtra("rest"));
 
         setDisplayHomeAsUpEnabled(true);
         setTitle(mRestaurant.getName());

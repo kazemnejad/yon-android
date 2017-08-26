@@ -78,7 +78,6 @@ public class ReservationPresenter extends Presenter implements ReservationContra
     }
 
     public void setSelectedDateTime(PersianCalendar dateTime) {
-        RestaurantRepository.getInstance().getRestaurantOpenHours(getApplication(), null);
         if (selectedDateTime == null || dateTime == null || selectedDateTime.getTimeInMillis() != dateTime.getTimeInMillis()) {
             selectedDateTime = dateTime;
 
@@ -177,7 +176,7 @@ public class ReservationPresenter extends Presenter implements ReservationContra
 
         if (openHourObservable == null)
             openHourObservable = RestaurantRepository.getInstance()
-                    .getRestaurantOpenHours(getApplication(), selectedDateTime)
+                    .getRestaurantOpenHours(getApplication(), restaurant, selectedDateTime)
                     .compose(RxUtils.applySchedulers())
                     .cache();
 

@@ -2,12 +2,14 @@ package io.yon.android.api;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.yon.android.api.request.LoginRequest;
 import io.yon.android.api.request.RegisterRequest;
 import io.yon.android.api.response.AuthResponse;
 import io.yon.android.api.response.BasicResponse;
+import io.yon.android.model.OpeningInterval;
 import io.yon.android.model.Restaurant;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -108,5 +110,8 @@ public abstract class WebService {
         // Restaurant content delivery
         @GET("restaurant/{id}")
         Observable<Restaurant> getRestaurant(@Path("id") int id);
+
+        @GET("restaurant/{id}/hour")
+        Observable<List<OpeningInterval>> getRestaurantOpenHours(@Path("id") int restaurantId, @Query("date") long date);
     }
 }

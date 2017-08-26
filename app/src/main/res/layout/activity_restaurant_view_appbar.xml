@@ -119,14 +119,14 @@
                     android:tint="@android:color/white" />
 
                 <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btn_reserve"
                     style="@style/AccentColoredButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/icon"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="16dp"
-
-                    android:text="روزو" />
+                    android:text="@string/reserve" />
 
             </RelativeLayout>
 
