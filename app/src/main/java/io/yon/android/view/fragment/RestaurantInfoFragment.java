@@ -32,6 +32,7 @@ import io.yon.android.model.UserReview;
 import io.yon.android.presenter.RestaurantPresenter;
 import io.yon.android.util.ViewUtils;
 import io.yon.android.view.GlideApp;
+import io.yon.android.view.activity.RestaurantViewActivity;
 import io.yon.android.view.adapter.RestaurantMapPagerAdapter;
 
 import static com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions.withCrossFade;
@@ -128,7 +129,12 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
     @Override
     public void showRestaurant(Restaurant restaurant) {
         clearVisibilities();
+
         mRestaurant = restaurant;
+        RestaurantViewActivity parent = getParentActivity();
+        if (parent != null)
+            parent.setUpdatedRestaurant(restaurant);
+
         fillUpRestaurantContent();
         mainContentContainer.setVisibility(View.VISIBLE);
     }

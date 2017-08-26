@@ -169,6 +169,10 @@ public class RestaurantViewActivity extends Activity {
                 .into(mBanner);
     }
 
+    public void setUpdatedRestaurant(Restaurant restaurant) {
+        mRestaurant = restaurant;
+    }
+
     public Restaurant createRestaurant() {
         Restaurant r = new Restaurant();
         r.setId(1);
