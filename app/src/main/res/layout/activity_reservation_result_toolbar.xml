@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/reservationResultActivityBackgroundColor"
+        android:padding="0dp"
+        android:layout_margin="0dp"
+        android:elevation="4dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:contentInsetEnd="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetStart="0dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:layout_margin="0dp"
+                android:gravity="right"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/toolbar_text_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="0dp"
+                    android:text="@string/app_name"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                    android:textSize="20sp"/>
+
+                <ImageView
+                    android:layout_width="?attr/actionBarSize"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="8dp"
+                    android:padding="12dp"
+                    android:src="@drawable/yon_circle"/>
+
+                <ImageButton
+                    android:id="@+id/toolbar_icon_right"
+                    style="@style/ToolbarButton"
+                    android:layout_marginRight="4dp"
+                    android:background="@drawable/round_button_light"
+                    android:src="@drawable/ic_done_24dp"
+                    android:tint="#363636"
+                    android:visibility="visible"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:gravity="left"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/toolbar_icon_more"
+                    style="@style/ToolbarButton"
+                    android:layout_marginLeft="2dp"
+                    android:background="@drawable/round_button_light"
+                    android:src="@drawable/ic_share_24dp"
+                    android:tint="#363636"/>
+
+                <ImageButton
+                    android:id="@+id/toolbar_icon_left"
+                    style="@style/ToolbarButton"
+                    android:src="@drawable/ic_search_24dp"
+                    android:tint="@color/actionItemColorLight"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+</merge>

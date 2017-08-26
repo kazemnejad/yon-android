@@ -13,6 +13,7 @@
 
     <color name="authActivityBackgroundColor">#f9f9f9</color>
     <color name="mainActivityBackgroundColor">#eeeeee</color>
+    <color name="reservationResultActivityBackgroundColor">#fafafa</color>
 
     <color name="actionItemColorLight">#89000000</color>
 
@@ -32,4 +33,5 @@
 
     <color name="reservation_map_view_background_color">#1a222d</color>
 
+    <color name="successful_reservation_icon_color">#2E7D32</color>
 </resources>

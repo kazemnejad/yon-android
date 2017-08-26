@@ -2,6 +2,8 @@ package io.yon.android.presenter;
 
 import android.app.Application;
 import android.arch.lifecycle.Lifecycle;
+import android.content.Context;
+import android.widget.Toast;
 
 import com.waylonbrown.lifecycleawarerx.LifecycleBinder;
 
@@ -281,13 +283,29 @@ public class ReservationPresenter extends Presenter implements ReservationContra
                 )));
     }
 
+    @Override
+    public void saveInvitation(Reservation reservation, List<String> emails, String text) {
+        ReservationRepository.getInstance()
+                .saveInvitation(reservation, emails, text)
+                .compose(RxUtils.applySchedulers())
+                .subscribe(new Lce.Observer<>(
+                        lce -> {
+                            Context context = getApplication();
+                            if (lce.isLoading() || lce.hasError() || context == null)
+                                return;
+
+                            Toast.makeText(context, "دعوتنامه با موفقیت ارسال شد.", Toast.LENGTH_SHORT).show();
+                        }
+                ));
+    }
+
 
     public Reservation buildReservationObj() {
-        if (selectedDateTime == null || selectedTimeSlot == null || guestCount != -1)
+        if (selectedDateTime == null || selectedTimeSlot == null || guestCount == -1)
             return null;
 
         Reservation r = new Reservation();
-        r.setDatetime(selectedTimeSlot.getDatetime().getTimeInMillis() / 1000);
+        r.setDatetime(selectedTimeSlot.getDatetime().getTimeInMillis() / 1000L);
         r.setGuestCount(guestCount);
         r.setTable(selectedTable);
         r.setNote(noteToRestaurant);

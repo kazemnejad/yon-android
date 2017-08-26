@@ -72,7 +72,7 @@ public class RestaurantRepository {
 
     public Observable<Lce<List<OpenTimeSlotSection>>> getRestaurantOpenHours(Context context, PersianCalendar date) {
         return Observable.just(createOpenHour())
-                .delay(2700, TimeUnit.MILLISECONDS)
+                .delay(700, TimeUnit.MILLISECONDS)
                 .map(Lce::data)
                 .map(l -> Lce.data(generateOpenTimeSlots(context, date, l.getData())))
                 .startWith(Lce.loading())

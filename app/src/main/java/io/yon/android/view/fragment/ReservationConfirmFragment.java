@@ -31,6 +31,7 @@ import io.yon.android.util.calendar.LanguageUtils;
 import io.yon.android.util.calendar.PersianCalendar;
 import io.yon.android.view.GlideApp;
 import io.yon.android.view.activity.ReservationBuilderController;
+import io.yon.android.view.activity.ReservationResultActivity;
 import io.yon.android.view.dialog.MapViewDialog;
 import retrofit2.Response;
 
@@ -158,14 +159,16 @@ public class ReservationConfirmFragment extends Fragment implements ReservationC
         Toast.makeText(getContext(), R.string.unable_to_connect_to_server, Toast.LENGTH_SHORT)
                 .show();
     }
-
+/**/
     @Override
     public void handleResponse(Response<BasicResponse> response) {
         clearVisibilities();
         Toast.makeText(getContext(), "sss", Toast.LENGTH_SHORT)
                 .show();
-        mPresenter.setContainError(true);
-        errorContainer.setVisibility(mPresenter.isContainError() ? View.VISIBLE : View.GONE);
+//        mPresenter.setContainError(true);
+//        errorContainer.setVisibility(mPresenter.isContainError() ? View.VISIBLE : View.GONE);
+
+        ReservationResultActivity.start(getContext(), mPresenter.getRestaurant(), mPresenter.buildReservationObj());
     }
 
     private void initView() {

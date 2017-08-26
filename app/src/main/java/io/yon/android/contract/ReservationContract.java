@@ -5,6 +5,7 @@ import java.util.List;
 
 import io.yon.android.api.response.BasicResponse;
 import io.yon.android.model.OpenTimeSlotSection;
+import io.yon.android.model.Reservation;
 import io.yon.android.util.calendar.PersianCalendar;
 import io.yon.android.view.MvpView;
 import retrofit2.Response;
@@ -23,6 +24,8 @@ public class ReservationContract extends Contract {
         void saveReservation();
 
         void loadPendingSaveReservation();
+
+        void saveInvitation(Reservation reservation, List<String> emails, String text);
     }
 
     public interface TimeView extends MvpView {

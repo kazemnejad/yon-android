@@ -68,4 +68,12 @@ public class OpenTimeSlot extends Model {
     public void setHour(int hour) {
         this.hour = hour;
     }
+
+    public String getTimeLabel(){
+        label = datetime.get(Calendar.HOUR_OF_DAY) < 10 ? "0" + String.valueOf(datetime.get(Calendar.HOUR_OF_DAY)) : String.valueOf(datetime.get(Calendar.HOUR_OF_DAY));
+        label += ":";
+        label += datetime.get(Calendar.MINUTE) < 10 ? "0" + String.valueOf(datetime.get(Calendar.MINUTE)) : String.valueOf(datetime.get(Calendar.MINUTE));
+
+        return label;
+    }
 }

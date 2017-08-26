@@ -122,6 +122,7 @@
     <string name="breakfast">صبحانه</string>
     <string name="lunch">ناهار</string>
     <string name="dinner">شام</string>
+    <string name="successful_reserve">رزرو شما با موفقیت انجام شد.</string>
 
 
 </resources>

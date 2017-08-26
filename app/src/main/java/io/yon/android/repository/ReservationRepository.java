@@ -27,7 +27,7 @@ public class ReservationRepository {
 
     public Observable<Lce<HashMap<String, Boolean>>> getForbiddenTables() {
         return Observable.just(createReservation())
-                .delay(2700, TimeUnit.MILLISECONDS)
+                .delay(700, TimeUnit.MILLISECONDS)
                 .map(lst -> {
                     HashMap<String, Boolean> availableTables = new HashMap<>();
                     lst.forEach(item -> availableTables.put(item.getTable().getId(), true));
@@ -40,7 +40,15 @@ public class ReservationRepository {
 
     public Observable<Lce<Response<BasicResponse>>> saveReservation(Reservation reservation) {
         return Observable.just(Response.success(new BasicResponse()))
-                .delay(4700, TimeUnit.MILLISECONDS)
+                .delay(700, TimeUnit.MILLISECONDS)
+                .map(Lce::data)
+                .startWith(Lce.loading())
+                .onErrorReturn(Lce::error);
+    }
+
+    public Observable<Lce<Response<BasicResponse>>> saveInvitation(Reservation reservation, List<String> email, String text) {
+        return Observable.just(Response.success(new BasicResponse()))
+                .delay(1700, TimeUnit.MILLISECONDS)
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);
