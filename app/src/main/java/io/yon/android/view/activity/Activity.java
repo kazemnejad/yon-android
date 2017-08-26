@@ -152,15 +152,15 @@ public abstract class Activity extends AppCompatActivity implements LifecycleReg
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow_left, Gravity.RIGHT);
         }
 
+        drawerHelper = new DrawerHelper(this, mDrawerLayout);
+        drawerHelper.init();
+
         if (toolbarRightButton == null)
             return;
 
         toolbarRightButton.setImageResource(R.drawable.ic_menu_24dp);
         toolbarRightButton.setVisibility(View.VISIBLE);
         toolbarRightButton.setOnClickListener(v -> onDrawerButtonClick());
-
-        drawerHelper = new DrawerHelper(this, mDrawerLayout);
-        drawerHelper.init();
     }
 
     private void onDrawerButtonClick() {
