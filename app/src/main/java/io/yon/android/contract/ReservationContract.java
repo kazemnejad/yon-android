@@ -43,7 +43,7 @@ public class ReservationContract extends Contract {
 
         void showError(Throwable e);
 
-        void handleResponse(Response<BasicResponse> response);
+        void handleResponse(Response<Reservation> response);
     }
 
     public interface TableView extends MvpView {

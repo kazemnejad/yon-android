@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.yon.android.api.response.BasicResponse;
 import io.yon.android.contract.ReservationContract;
 import io.yon.android.model.OpenTimeSlot;
 import io.yon.android.model.OpenTimeSlotSection;
@@ -51,7 +50,7 @@ public class ReservationPresenter extends Presenter implements ReservationContra
 
     private Observable<Lce<List<OpenTimeSlotSection>>> openHourObservable;
     private Observable<Lce<HashMap<String, Boolean>>> forbiddenObservable;
-    private Observable<Lce<Response<BasicResponse>>> saveReservationObservable;
+    private Observable<Lce<Response<Reservation>>> saveReservationObservable;
 
     public ReservationPresenter(Application application) {
         super(application);
@@ -112,7 +111,7 @@ public class ReservationPresenter extends Presenter implements ReservationContra
         this.selectedTable = null;
 
         setContainError(false);
-        loadForbiddenTables(true);
+        loadForbiddenTables();
         forceShowSummery();
     }
 
@@ -217,7 +216,7 @@ public class ReservationPresenter extends Presenter implements ReservationContra
 
         if (forbiddenObservable == null)
             forbiddenObservable = ReservationRepository.getInstance()
-                    .getForbiddenTables()
+                    .getForbiddenTables(restaurant, selectedTimeSlot.getDatetime())
                     .compose(RxUtils.applySchedulers())
                     .cache();
 
@@ -255,7 +254,7 @@ public class ReservationPresenter extends Presenter implements ReservationContra
     public void saveReservation() {
         Reservation res = buildReservationObj();
         saveReservationObservable = ReservationRepository.getInstance()
-                .saveReservation(res)
+                .saveReservation(restaurant, res)
                 .compose(RxUtils.applySchedulers())
                 .cache();
         loadPendingSaveReservation();

@@ -23,6 +23,7 @@ import io.yon.android.api.response.BasicResponse;
 import io.yon.android.contract.ReservationContract;
 import io.yon.android.model.Map;
 import io.yon.android.model.OpenTimeSlot;
+import io.yon.android.model.Reservation;
 import io.yon.android.model.Table;
 import io.yon.android.model.User;
 import io.yon.android.presenter.ReservationPresenter;
@@ -30,6 +31,7 @@ import io.yon.android.util.Auth;
 import io.yon.android.util.calendar.LanguageUtils;
 import io.yon.android.util.calendar.PersianCalendar;
 import io.yon.android.view.GlideApp;
+import io.yon.android.view.activity.Activity;
 import io.yon.android.view.activity.ReservationBuilderController;
 import io.yon.android.view.activity.ReservationResultActivity;
 import io.yon.android.view.dialog.MapViewDialog;
@@ -161,18 +163,20 @@ public class ReservationConfirmFragment extends Fragment implements ReservationC
     }
 
     @Override
-    public void handleResponse(Response<BasicResponse> response) {
+    public void handleResponse(Response<Reservation> response) {
         clearVisibilities();
 
         if (response == null || !response.isSuccessful()) {
             mPresenter.setContainError(true);
             errorContainer.setVisibility(mPresenter.isContainError() ? View.VISIBLE : View.GONE);
-        } else
+        } else {
             ReservationResultActivity.start(
                     getContext(),
                     mPresenter.getRestaurant(),
                     mPresenter.buildReservationObj()
             );
+            ((Activity)getParentActivity()).finish();
+        }
     }
 
     private void initView() {

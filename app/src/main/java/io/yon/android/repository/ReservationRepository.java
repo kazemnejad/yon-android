@@ -6,9 +6,12 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.yon.android.api.WebService;
 import io.yon.android.api.response.BasicResponse;
 import io.yon.android.model.Reservation;
+import io.yon.android.model.Restaurant;
 import io.yon.android.model.Table;
+import io.yon.android.util.calendar.PersianCalendar;
 import retrofit2.Response;
 
 /**
@@ -25,22 +28,23 @@ public class ReservationRepository {
         return instance;
     }
 
-    public Observable<Lce<HashMap<String, Boolean>>> getForbiddenTables() {
-        return Observable.just(createReservation())
-                .delay(700, TimeUnit.MILLISECONDS)
+    public Observable<Lce<HashMap<String, Boolean>>> getForbiddenTables(Restaurant restaurant, PersianCalendar datetime) {
+        return WebService.getInstance()
+                .getReservations(restaurant.getId(), datetime.getEpoch())
                 .map(lst -> {
-                    HashMap<String, Boolean> availableTables = new HashMap<>();
-                    lst.forEach(item -> availableTables.put(item.getTable().getId(), true));
-                    return availableTables;
+                    HashMap<String, Boolean> forbiddenTables = new HashMap<>();
+                    for (Reservation reservation : lst)
+                        forbiddenTables.put(reservation.getTable().getId(), true);
+                    return forbiddenTables;
                 })
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);
     }
 
-    public Observable<Lce<Response<BasicResponse>>> saveReservation(Reservation reservation) {
-        return Observable.just(Response.success(new BasicResponse()))
-                .delay(700, TimeUnit.MILLISECONDS)
+    public Observable<Lce<Response<Reservation>>> saveReservation(Restaurant restaurant, Reservation reservation) {
+        return WebService.getInstance()
+                .saveNewReservation(restaurant.getId(), reservation)
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);

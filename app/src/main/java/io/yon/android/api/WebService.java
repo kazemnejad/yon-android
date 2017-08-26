@@ -10,6 +10,7 @@ import io.yon.android.api.request.RegisterRequest;
 import io.yon.android.api.response.AuthResponse;
 import io.yon.android.api.response.BasicResponse;
 import io.yon.android.model.OpeningInterval;
+import io.yon.android.model.Reservation;
 import io.yon.android.model.Restaurant;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -39,12 +40,7 @@ public abstract class WebService {
     }
 
     public static void init(String authToken) {
-        HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor();
-        logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        OkHttpClient.Builder okBuilder = new OkHttpClient.Builder()
-                .addInterceptor(logInterceptor);
-
+        OkHttpClient.Builder okBuilder = new OkHttpClient.Builder();
         Retrofit.Builder retroBuilder = new Retrofit.Builder()
                 .baseUrl(Constants.BaseUrl)
                 .addConverterFactory(JacksonConverterFactory.create())
@@ -54,9 +50,14 @@ public abstract class WebService {
             okBuilder.addInterceptor(chain -> chain.proceed(
                     chain.request()
                             .newBuilder()
-                            .header("Authorization", "Token " + authToken)
+                            .header("Authorization", "JWT " + authToken)
                             .build()
             ));
+
+        okBuilder.addInterceptor(
+                new HttpLoggingInterceptor()
+                        .setLevel(HttpLoggingInterceptor.Level.BODY)
+        );
 
         retrofit = retroBuilder.client(okBuilder.build()).build();
         webService = retrofit.create(YonWebService.class);
@@ -113,5 +114,11 @@ public abstract class WebService {
 
         @GET("restaurant/{id}/hour")
         Observable<List<OpeningInterval>> getRestaurantOpenHours(@Path("id") int restaurantId, @Query("date") long date);
+
+        @GET("restaurant/{id}/reservation")
+        Observable<List<Reservation>> getReservations(@Path("id") int restaurantId, @Query("datetime") long datetime);
+
+        @POST("restaurant/{id}/reservation/new")
+        Observable<Response<Reservation>> saveNewReservation(@Path("id") int restaurantId, @Body Reservation reservation);
     }
 }

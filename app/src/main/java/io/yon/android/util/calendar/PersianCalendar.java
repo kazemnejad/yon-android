@@ -382,4 +382,8 @@ public class PersianCalendar extends GregorianCalendar {
         calculatePersianDate();
     }
 
+
+    public long getEpoch() {
+        return getTimeInMillis() / 1000L;
+    }
 }

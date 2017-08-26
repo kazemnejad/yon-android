@@ -146,7 +146,12 @@ public class RestaurantRepository {
             }
         }
 
-        return sections;
+        ArrayList<OpenTimeSlotSection> finalSections = new ArrayList<>();
+        for (int j = 0; j < sections.size(); j++)
+            if (sections.get(j).getOpenTimeSlots().size() > 0)
+                finalSections.add(sections.get(j));
+
+        return finalSections;
     }
 
 
