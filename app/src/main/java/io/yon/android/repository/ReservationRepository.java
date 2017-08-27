@@ -43,8 +43,13 @@ public class ReservationRepository {
     }
 
     public Observable<Lce<Response<Reservation>>> saveReservation(Restaurant restaurant, Reservation reservation) {
-        return WebService.getInstance()
-                .saveNewReservation(restaurant.getId(), reservation)
+        Observable<Response<Reservation>> responseObservable = null;
+        if (reservation.getTable() != null)
+            responseObservable = WebService.getInstance().saveNewReservationWithTable(restaurant.getId(), reservation);
+        else
+            responseObservable = WebService.getInstance().saveNewReservation(restaurant.getId(), reservation);
+
+        return responseObservable
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);

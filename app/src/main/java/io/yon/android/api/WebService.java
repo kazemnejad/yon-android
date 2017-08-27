@@ -120,5 +120,8 @@ public abstract class WebService {
 
         @POST("restaurant/{id}/reservation/new")
         Observable<Response<Reservation>> saveNewReservation(@Path("id") int restaurantId, @Body Reservation reservation);
+
+        @POST("restaurant/{id}/reservation/new?table=true")
+        Observable<Response<Reservation>> saveNewReservationWithTable(@Path("id") int restaurantId, @Body Reservation reservation);
     }
 }
