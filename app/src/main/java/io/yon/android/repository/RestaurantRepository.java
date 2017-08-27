@@ -80,12 +80,12 @@ public class RestaurantRepository {
                 .onErrorReturn(Lce::error);
     }
 
-    private static List<OpeningInterval> createOpenHour() {
-        List<OpeningInterval> openHour = new ArrayList<>();
-        openHour.add(new OpeningInterval(8 * 3600, 10 * 3600 - 26 * 60));
-        openHour.add(new OpeningInterval(12 * 3600, 15 * 3600 - 15 * 60));
-        openHour.add(new OpeningInterval(17 * 3600 + 13 * 60, 21 * 3600 + 21 * 60));
-        return openHour;
+    public Observable<Lce<List<Restaurant>>> getTestRestaurantList() {
+        return Observable.just(createRestaurantList())
+                .delay(700, TimeUnit.MILLISECONDS)
+                .map(Lce::data)
+                .startWith(Lce.loading())
+                .onErrorReturn(Lce::error);
     }
 
     private static List<OpenTimeSlotSection> generateOpenTimeSlots(Context context, PersianCalendar date, List<OpeningInterval> openHours) {
@@ -154,13 +154,30 @@ public class RestaurantRepository {
         return finalSections;
     }
 
-
     private static int getStartPoint(OpeningInterval interval) {
         int start = 0;
         while (start < interval.getStart())
             start += 30 * 60;
 
         return start < interval.getEnd() ? start : -2;
+    }
+
+
+    private static List<OpeningInterval> createOpenHour() {
+        List<OpeningInterval> openHour = new ArrayList<>();
+        openHour.add(new OpeningInterval(8 * 3600, 10 * 3600 - 26 * 60));
+        openHour.add(new OpeningInterval(12 * 3600, 15 * 3600 - 15 * 60));
+        openHour.add(new OpeningInterval(17 * 3600 + 13 * 60, 21 * 3600 + 21 * 60));
+        return openHour;
+    }
+
+    private static List<Restaurant> createRestaurantList() {
+        ArrayList<Restaurant> restaurants = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            restaurants.add(createRestaurant());
+        }
+
+        return restaurants;
     }
 
     public static Restaurant createRestaurant() {
