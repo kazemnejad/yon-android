@@ -29,6 +29,10 @@ public class Restaurant extends Model {
     String bannerUrl;
     double longitude = -1;
     double latitude = -1;
+    String zoneSlug;
+    String zoneLabel;
+    float distanceFromMyLocation;
+    String distanceLabel;
     List<Tag> tags;
     List<Map> maps;
     List<List<OpeningInterval>> openHours;
@@ -172,5 +176,35 @@ public class Restaurant extends Model {
     @JsonProperty("info")
     public void setInfo(java.util.Map<String, String> info) {
         this.info = info;
+    }
+
+    public String getZoneSlug() {
+        return zoneSlug;
+    }
+
+    public void setZoneSlug(String zoneSlug) {
+        this.zoneSlug = zoneSlug;
+    }
+
+    public String getZoneLabel() {
+        return zoneLabel;
+    }
+
+    public void setZoneLabel(String zoneLabel) {
+        this.zoneLabel = zoneLabel;
+    }
+
+    public float getDistanceFromMyLocation() {
+        return distanceFromMyLocation;
+    }
+
+    public void setDistanceFromMyLocation(float distanceFromMyLocation) {
+        this.distanceFromMyLocation = distanceFromMyLocation;
+        distanceLabel = LanguageUtils.getLatinNumbers(String.valueOf(distanceFromMyLocation));
+        distanceLabel += "km";
+    }
+
+    public String getDistanceLabel() {
+        return distanceLabel;
     }
 }
