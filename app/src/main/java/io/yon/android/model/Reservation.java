@@ -78,4 +78,9 @@ public class Reservation extends Model {
     public String getTableId() {
         return table != null ? table.getId() : null;
     }
+
+    @JsonProperty("table_id")
+    public void setTableId(String tableId) {
+        this.table = new Table(tableId);
+    }
 }
