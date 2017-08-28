@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
@@ -18,6 +17,7 @@ import io.yon.android.util.RxBus;
 import io.yon.android.view.GlideApp;
 import io.yon.android.view.RestaurantListItemConfig;
 import io.yon.android.view.RoundedCornersTransformation;
+import io.yon.android.view.adapter.Adapter;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
@@ -33,10 +33,11 @@ public class ItemRestaurantViewHolder extends ViewHolder<Restaurant> {
     private FlexboxLayout tagsContainer;
     private View background;
     private ImageView icon;
+    private View itemView;
 
-    public Factory<ItemRestaurantViewHolder> getFactory(RestaurantListItemConfig config) {
+    public static Factory<ItemRestaurantViewHolder> getFactory(RestaurantListItemConfig config) {
         return (inflater, parent, context, bus) -> new ItemRestaurantViewHolder(
-                inflater.inflate(R.layout.item_restaurant, parent, false),
+                inflater.inflate(config.showTags ? R.layout.item_restaurant_with_tags : R.layout.item_restaurant, parent, false),
                 context,
                 bus,
                 config
@@ -46,6 +47,9 @@ public class ItemRestaurantViewHolder extends ViewHolder<Restaurant> {
     public ItemRestaurantViewHolder(View itemView, Context context, RxBus bus, RestaurantListItemConfig config) {
         super(itemView, context, bus);
         this.config = config;
+        this.itemView = itemView;
+        initViews();
+        this.itemView = null;
     }
 
     @Override
@@ -57,15 +61,26 @@ public class ItemRestaurantViewHolder extends ViewHolder<Restaurant> {
         distance = (TextView) findViewById(R.id.distance);
         tagsContainer = (FlexboxLayout) findViewById(R.id.tags_container);
         background = findViewById(R.id.background);
+        icon = (ImageView) findViewById(R.id.icon);
     }
 
     @Override
     protected void initViews() {
-        applyConfigs();
+        if (config == null)
+            return;
 
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) background.getLayoutParams();
-        params.height = getItemView().getHeight();
-        background.setLayoutParams(params);
+        background.setOnClickListener(this::handleRestaurantClick);
+        applyConfigs();
+    }
+
+    private void handleRestaurantClick(View view) {
+        try {
+            Adapter<Restaurant, ItemRestaurantViewHolder> adapter = getParentAdapter();
+            Restaurant restaurant = adapter.getData().get(getAdapterPosition());
+            getBus().send(restaurant);
+        } catch (Exception exp) {
+            exp.printStackTrace();
+        }
     }
 
     @Override
@@ -74,7 +89,7 @@ public class ItemRestaurantViewHolder extends ViewHolder<Restaurant> {
             name.setText(r.getName());
 
         if (config.showZoneLabel)
-            zoneLabel.setText(r.getZoneLabel());
+            zoneLabel.setText(r.getAddress());
 
         if (config.showRate)
             rate.setText(r.getRateLabel());
@@ -102,7 +117,6 @@ public class ItemRestaurantViewHolder extends ViewHolder<Restaurant> {
         zoneLabel.setVisibility(getVisibility(config.showZoneLabel));
         rate.setVisibility(getVisibility(config.showRate));
         price.setVisibility(getVisibility(config.showPrice));
-        tagsContainer.setVisibility(getVisibility(config.showTags));
         distance.setVisibility(getVisibility(config.showDistance));
     }
 
@@ -115,7 +129,7 @@ public class ItemRestaurantViewHolder extends ViewHolder<Restaurant> {
 
         LayoutInflater inflater = LayoutInflater.from(getContext());
         for (Tag tag : tags) {
-            TextView tagLabelView = (TextView) inflater.inflate(R.layout.item_tag_label, tagsContainer, false);
+            TextView tagLabelView = (TextView) inflater.inflate(R.layout.item_tag_label_compact, tagsContainer, false);
             tagLabelView.setText(tag.getName());
             tagLabelView.setTag(tag);
             tagLabelView.setOnClickListener(this::handleTagClick);
@@ -125,6 +139,6 @@ public class ItemRestaurantViewHolder extends ViewHolder<Restaurant> {
     }
 
     private void handleTagClick(View v) {
-
+        getBus().send(v.getTag());
     }
 }

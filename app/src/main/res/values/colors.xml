@@ -34,4 +34,6 @@
     <color name="reservation_map_view_background_color">#1a222d</color>
 
     <color name="successful_reservation_icon_color">#2E7D32</color>
+
+    <color name="restaurant_list_divider_color">#d7d7d7</color>
 </resources>

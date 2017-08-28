@@ -38,11 +38,11 @@
         <activity
             android:name=".view.activity.RestaurantViewActivity"
             android:theme="@style/AppTheme.RestaurantViewActivity">
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN"/>
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN"/>-->
 
-            <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
         </activity>
 
         <activity
@@ -50,9 +50,9 @@
             android:theme="@style/AppTheme.ReservationActivity"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
+            <!--<action android:name="android.intent.action.MAIN"/>-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
             <!--</intent-filter>-->
         </activity>
 
@@ -66,6 +66,16 @@
 
             <!--<category android:name="android.intent.category.LAUNCHER"/>-->
             <!--</intent-filter>-->
+        </activity>
+
+        <activity
+            android:name=".view.activity.RestaurantListTestActivity"
+            android:theme="@style/AppTheme.ReservationResultActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 

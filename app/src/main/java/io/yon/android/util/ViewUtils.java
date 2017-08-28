@@ -24,7 +24,7 @@ import io.yon.android.R;
  */
 
 public class ViewUtils {
-    public static int px(Context context, int dp) {
+    public static int px(Context context, float dp) {
         return (int) (dp * context.getResources().getDisplayMetrics().density);
     }
 

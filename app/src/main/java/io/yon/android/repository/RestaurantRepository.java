@@ -183,28 +183,30 @@ public class RestaurantRepository {
     public static Restaurant createRestaurant() {
         Restaurant r = new Restaurant();
         r.setId(5);
-        r.setName("برگرلند");
+        r.setName("رستوران برگرلند");
         r.setRate(3.4f);
         r.setPrice(4.9f);
         r.setAvatarUrl("http://162.243.174.32/restaurant_avatars/1166.jpeg");
         r.setBannerUrl("http://www.pizzaeast.com/system/files/032016/56fd2c58ebeeb56aa00d9df6/large/24.3.16_pizzaeast2052.jpg?1459432756");
+        r.setZoneLabel("انقلاب");
+        r.setDistanceFromMyLocation(2.1f);
 
         ArrayList<Tag> tags = new ArrayList<>();
         tags.add(makeTag("هندی"));
         tags.add(makeTag("چینی"));
-        tags.add(makeTag("فست‌فود"));
-        tags.add(makeTag("سنتی"));
-        tags.add(makeTag("دریایی"));
-        tags.add(makeTag("اصغر"));
-        tags.add(makeTag("سالاد‌ بار"));
-        tags.add(makeTag("اتاق سیگار"));
-        tags.add(makeTag("سیگار ممنوع"));
-        tags.add(makeTag("حجاب اسلامی"));
+//        tags.add(makeTag("فست‌فود"));
+//        tags.add(makeTag("سنتی"));
+//        tags.add(makeTag("دریایی"));
+//        tags.add(makeTag("اصغر"));
+//        tags.add(makeTag("سالاد‌ بار"));
+//        tags.add(makeTag("اتاق سیگار"));
+//        tags.add(makeTag("سیگار ممنوع"));
+//        tags.add(makeTag("حجاب اسلامی"));
         r.setTags(tags);
 
         ArrayList<Map> maps = new ArrayList<>();
         Map m = createMap("محوطه باز");
-        m.getTables().forEach(table -> table.setId(String.valueOf(new Random().nextInt())));
+//        m.getTables().forEach(table -> table.setId(String.valueOf(new Random().nextInt())));
         maps.add(m);
         maps.add(createMap("همکف"));
         r.setMaps(maps);

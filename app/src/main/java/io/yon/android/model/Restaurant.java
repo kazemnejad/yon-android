@@ -200,8 +200,8 @@ public class Restaurant extends Model {
 
     public void setDistanceFromMyLocation(float distanceFromMyLocation) {
         this.distanceFromMyLocation = distanceFromMyLocation;
-        distanceLabel = LanguageUtils.getLatinNumbers(String.valueOf(distanceFromMyLocation));
-        distanceLabel += "km";
+        distanceLabel = LanguageUtils.getPersianNumbers(String.valueOf(distanceFromMyLocation));
+        distanceLabel += " km";
     }
 
     public String getDistanceLabel() {
