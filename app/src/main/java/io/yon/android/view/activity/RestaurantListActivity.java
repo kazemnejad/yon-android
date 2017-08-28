@@ -30,7 +30,7 @@ public abstract class RestaurantListActivity extends Activity implements Restaur
     private RxBus bus = new RxBus();
     private Adapter<Restaurant, ItemRestaurantViewHolder> adapter;
     private RecyclerView recyclerView;
-    private View emptyStateContainer, errorContainer;
+    private View emptyStateContainer, errorContainer, btnRetry;
     private ProgressBar progressBar;
 
     @Override
@@ -47,6 +47,7 @@ public abstract class RestaurantListActivity extends Activity implements Restaur
         progressBar = (ProgressBar) findViewById(R.id.rl_progress_bar);
         recyclerView = (RecyclerView) findViewById(R.id.rl_recycler_view);
         errorContainer = findViewById(R.id.error_container);
+        btnRetry = findViewById(R.id.btn_retry);
         emptyStateContainer = findViewById(R.id.empty_state_container);
     }
 
@@ -82,6 +83,8 @@ public abstract class RestaurantListActivity extends Activity implements Restaur
                 this,
                 ContextCompat.getColor(this, R.color.restaurant_list_divider_color),
                 ViewUtils.px(this, 0.8f)));
+
+        btnRetry.setOnClickListener(v -> onBtnRetryClick());
     }
 
     protected void clearVisibilities() {
@@ -109,4 +112,6 @@ public abstract class RestaurantListActivity extends Activity implements Restaur
     protected void onRestaurantClick(Restaurant restaurant) {}
 
     protected void onTagClick(Tag tag) {}
+
+    protected void onBtnRetryClick() {}
 }

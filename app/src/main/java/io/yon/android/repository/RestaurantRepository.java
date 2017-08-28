@@ -8,7 +8,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -25,6 +24,7 @@ import io.yon.android.model.Restaurant;
 import io.yon.android.model.Table;
 import io.yon.android.model.Tag;
 import io.yon.android.model.UserReview;
+import io.yon.android.model.Zone;
 import io.yon.android.util.calendar.PersianCalendar;
 
 /**
@@ -41,6 +41,14 @@ public class RestaurantRepository {
             instance = new RestaurantRepository();
 
         return instance;
+    }
+
+    public Observable<Lce<List<Restaurant>>> getRestaurantsByZone(Zone zone) {
+        return Observable.just(createRestaurantList())
+                .delay(700, TimeUnit.MILLISECONDS)
+                .map(Lce::data)
+                .startWith(Lce.loading())
+                .onErrorReturn(Lce::error);
     }
 
     public Observable<Lce<Restaurant>> getRestaurant(int id) {

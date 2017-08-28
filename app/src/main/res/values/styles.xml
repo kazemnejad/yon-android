@@ -34,6 +34,10 @@
         <item name="android:windowBackground">@color/reservationResultActivityBackgroundColor</item>
     </style>
 
+    <style name="AppTheme.ZoneViewActivity" parent="AppTheme.DrawerActivity">
+
+    </style>
+
     <style name="ToolbarButton">
         <item name="android:layout_width">@dimen/material_min_touch_space</item>
         <item name="android:layout_height">@dimen/material_min_touch_space</item>

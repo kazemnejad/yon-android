@@ -69,8 +69,8 @@
         </activity>
 
         <activity
-            android:name=".view.activity.RestaurantListTestActivity"
-            android:theme="@style/AppTheme.ReservationResultActivity">
+            android:name=".view.activity.ZoneViewActivity"
+            android:theme="@style/AppTheme.ZoneViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
