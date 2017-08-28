@@ -179,7 +179,7 @@ public class RestaurantRepository {
         return openHour;
     }
 
-    private static List<Restaurant> createRestaurantList() {
+    public static List<Restaurant> createRestaurantList() {
         ArrayList<Restaurant> restaurants = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             restaurants.add(createRestaurant());

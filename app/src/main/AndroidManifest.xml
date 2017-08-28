@@ -71,6 +71,16 @@
         <activity
             android:name=".view.activity.ZoneViewActivity"
             android:theme="@style/AppTheme.ZoneViewActivity">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN"/>-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity
+            android:name=".view.activity.TheRestaurantListActivity"
+            android:theme="@style/AppTheme.TheRestaurantListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

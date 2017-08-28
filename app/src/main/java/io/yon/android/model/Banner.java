@@ -3,32 +3,37 @@ package io.yon.android.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import org.parceler.Parcel;
+
 import io.yon.android.util.calendar.LanguageUtils;
 
 /**
  * Created by amirhosein on 7/22/17.
  */
 
+@Parcel
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Banner extends Model {
     public static final int TYPE_URL = 0;
     public static final int TYPE_TARGET_RESTAURANT = 1;
     public static final int TYPE_LIST = 1;
 
-    private String bannerUrl;
-    private String title;
-    private String subTitle;
+    String bannerUrl;
+    String title;
+    String subTitle;
 
-    private int type = TYPE_URL;
-    private String targetUrl = "";
-    private int targetId = -1;
-    private int targetListId = -1;
+    int type = TYPE_URL;
+    String targetUrl = "";
+    int targetId = -1;
+    int targetListId = -1;
 
-    private String iconUrl;
-    private String colorCode;
+    String targetListIdDescription;
 
-    private float rate = -1;
-    private String rateLabel;
+    String iconUrl;
+    String colorCode;
+
+    float rate = -1;
+    String rateLabel;
 
     public Banner() {}
 
@@ -127,5 +132,13 @@ public class Banner extends Model {
             rateLabel = LanguageUtils.getPersianNumbers(String.valueOf(rate));
 
         return rateLabel;
+    }
+
+    public String getTargetListDescription() {
+        return targetListIdDescription;
+    }
+
+    public void setTargetListDescription(String targetListIdDescription) {
+        this.targetListIdDescription = targetListIdDescription;
     }
 }
