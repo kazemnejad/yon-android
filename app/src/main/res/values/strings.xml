@@ -123,6 +123,8 @@
     <string name="lunch">ناهار</string>
     <string name="dinner">شام</string>
     <string name="successful_reserve">رزرو شما با موفقیت انجام شد.</string>
+    <string name="tags">ویژگی‌ها</string>
+    <string name="select_tag">انتخاب ویژگی</string>
 
 
 </resources>

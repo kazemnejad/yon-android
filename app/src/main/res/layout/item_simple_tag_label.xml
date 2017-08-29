@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="vertical">
+
+    <!--<android.support.v7.widget.AppCompatTextView-->
+        <!--android:id="@+id/label"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:background="?attr/selectableItemBackground"-->
+        <!--android:clickable="true"-->
+        <!--android:gravity="right"-->
+        <!--android:paddingBottom="8dp"-->
+        <!--android:paddingLeft="16dp"-->
+        <!--android:paddingRight="32dp"-->
+        <!--android:paddingTop="8dp"-->
+        <!--android:textSize="17sp"/>-->
+    <!--<android.support.v7.widget.AppCompatTextView-->
+        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:id="@+id/label"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:layout_marginLeft="8dp"-->
+        <!--android:layout_marginRight="8dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingBottom="4dp"-->
+        <!--android:clickable="true"-->
+        <!--android:background="@drawable/bg_open_time_slot"-->
+        <!--android:paddingTop="6dp"-->
+        <!--android:text="۰۸:۳۰"-->
+        <!--android:textSize="16sp"/>-->
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/label"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/tag_label_background"
+              android:orientation="vertical"
+              android:paddingBottom="6dp"
+              android:paddingLeft="15dp"
+              android:paddingRight="15dp"
+              android:paddingTop="8dp"
+              android:layout_marginTop="10dp"
+              android:layout_marginBottom="10dp"
+              android:layout_marginRight="8dp"
+              android:layout_marginLeft="8dp"
+              android:text="تگگگ"
+              android:layout_gravity="center"
+              android:gravity="center"
+              android:textColor="@android:color/white"
+              android:textSize="15sp" />
+
+
+
+</FrameLayout>

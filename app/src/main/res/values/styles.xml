@@ -175,8 +175,9 @@
         <item name="android:layout_marginLeft">2dp</item>
     </style>
 
-    <style name="MapViewTheme" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
+    <style name="Dialog" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowNoTitle">true</item>
         <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
     </style>
 </resources>

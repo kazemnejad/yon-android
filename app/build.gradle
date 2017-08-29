@@ -52,6 +52,7 @@ dependencies {
 
     compile 'com.mobsandgeeks:android-saripaar:2.0.3'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+    compile 'com.github.pchmn:MaterialChipsInput:1.0.8'
 
     compile 'com.google.android:flexbox:0.3.0'
     compile 'org.zakariya.stickyheaders:stickyheaders:0.7.6'

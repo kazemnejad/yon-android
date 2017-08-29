@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="@dimen/material_step_1_margin"
+        android:layout_marginTop="@dimen/material_step_1_margin"
+        android:gravity="right"
+        android:text="@string/select_tag"
+        android:textColor="@color/black_87"
+        android:textSize="18sp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:paddingRight="@dimen/material_step_1_margin"
+        android:paddingLeft="@dimen/material_step_1_margin"
+        android:clipToPadding="false"
+        android:gravity="center_horizontal"
+        android:paddingTop="8dp"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_close"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/close"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"/>
+
+</LinearLayout>

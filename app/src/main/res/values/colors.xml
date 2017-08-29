@@ -36,4 +36,6 @@
     <color name="successful_reservation_icon_color">#2E7D32</color>
 
     <color name="restaurant_list_divider_color">#d7d7d7</color>
+
+    <color name="disable_tag_color">#24000000</color>
 </resources>

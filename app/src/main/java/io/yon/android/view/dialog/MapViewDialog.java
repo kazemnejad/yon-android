@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import io.yon.android.R;
 import io.yon.android.model.Map;
@@ -24,7 +23,7 @@ public class MapViewDialog extends AppCompatDialog {
     private Table selectedTable;
 
     public MapViewDialog(Context context, Map map, Table selectedTable) {
-        super(context, R.style.MapViewTheme);
+        super(context, R.style.Dialog);
         this.map = map;
         this.selectedTable = selectedTable;
     }
