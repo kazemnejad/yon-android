@@ -82,11 +82,11 @@ public class TagViewActivity extends RestaurantListActivity implements TestContr
         tags.add(RestaurantRepository.makeTag("هندی"));
         tags.add(t1);
         tags.add(RestaurantRepository.makeTag("هندی۲"));
-//        tags.add(t3);
-//        tags.add(RestaurantRepository.makeTag("هندی۳"));
-//        tags.add(RestaurantRepository.makeTag("هندی۴"));
-//        tags.add(t2);
-//        tags.add(t4);
+        tags.add(t3);
+        tags.add(RestaurantRepository.makeTag("هندی۳"));
+        tags.add(RestaurantRepository.makeTag("هندی۴"));
+        tags.add(t2);
+        tags.add(t4);
 
 //        ArrayList<Tag> selected = new ArrayList<>();
 //        selected.add(t1);
@@ -144,6 +144,9 @@ public class TagViewActivity extends RestaurantListActivity implements TestContr
 
             tagsContainer.addView(view);
         }
+
+        View view = inflater.inflate(R.layout.item_add_tag, tagsContainer, false);
+        tagsContainer.addView(view);
     }
 
     private void renderSelectedTagsToTitle() {
