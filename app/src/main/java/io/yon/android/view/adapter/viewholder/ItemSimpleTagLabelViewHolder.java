@@ -8,6 +8,8 @@ import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+
 import io.yon.android.R;
 import io.yon.android.model.Tag;
 import io.yon.android.util.RxBus;
@@ -38,6 +40,10 @@ public class ItemSimpleTagLabelViewHolder extends ViewHolder<Tag> implements Vie
     @Override
     protected void findViews() {
         label = (TextView) findViewById(R.id.label);
+    }
+
+    @Override
+    protected void initViews() {
         label.setOnClickListener(this);
     }
 
@@ -53,10 +59,14 @@ public class ItemSimpleTagLabelViewHolder extends ViewHolder<Tag> implements Vie
 
     @Override
     public void onClick(View v) {
+        Logger.d("Sdsjiod");
+        SimpleTagSelectAdapter adapter = (SimpleTagSelectAdapter) getParentAdapter();
+        getBus().send(adapter.getData().get(getAdapterPosition()));
+
         try {
-            SimpleTagSelectAdapter adapter = (SimpleTagSelectAdapter) getParentAdapter();
-            getBus().send(adapter.getData().get(getAdapterPosition()));
-        } catch (Exception ignored) {
+
+        } catch (Exception exp) {
+            exp.printStackTrace();
         }
     }
 }

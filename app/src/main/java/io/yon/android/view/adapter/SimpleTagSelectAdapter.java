@@ -21,8 +21,9 @@ public class SimpleTagSelectAdapter extends Adapter<Tag, ItemSimpleTagLabelViewH
     public SimpleTagSelectAdapter(Context context, List<Tag> data, List<Tag> selectedTags, RxBus bus, ViewHolder.Factory<ItemSimpleTagLabelViewHolder> factory) {
         super(context, data, bus, factory);
 
-        for (Tag tag : selectedTags)
-            this.selectedTags.put(tag.getSlug(), "");
+        if (selectedTags != null)
+            for (Tag tag : selectedTags)
+                this.selectedTags.put(tag.getSlug(), "");
     }
 
     @Override

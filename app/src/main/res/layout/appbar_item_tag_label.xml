@@ -10,6 +10,7 @@
               android:paddingTop="2dp">
 
     <ImageView
+        android:id="@+id/btn_remove"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginRight="0dp"

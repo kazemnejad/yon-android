@@ -70,8 +70,8 @@ public class TagSelectDialog extends AppCompatDialog {
 
     private void handleTagClick(Object o) {
         try {
-            listener.onTagClick((Tag) o);
             cancel();
+            listener.onTagClick((Tag) o);
         } catch (Exception ignored) {
         }
     }

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ import io.yon.android.model.Tag;
 import io.yon.android.presenter.TestPresenter;
 import io.yon.android.repository.RestaurantRepository;
 import io.yon.android.util.ViewUtils;
+import io.yon.android.view.dialog.TagSelectDialog;
 import io.yon.android.view.widget.LiteralAppBarStateChangeListener;
 
 /**
@@ -37,7 +39,7 @@ public class TagViewActivity extends RestaurantListActivity implements TestContr
     private TextView toolbarTitle;
 
     private List<Tag> allTags;
-    private List<Tag> selectedTags;
+    private List<Tag> selectedTags = new ArrayList<>();
 
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private ImageView sampleBackground;
@@ -89,7 +91,7 @@ public class TagViewActivity extends RestaurantListActivity implements TestContr
         tags.add(t4);
 
 //        ArrayList<Tag> selected = new ArrayList<>();
-//        selected.add(t1);
+        selectedTags.add(t1);
 //        selected.add(t2);
 //        selected.add(t3);
 //        selected.add(t4);
@@ -116,49 +118,92 @@ public class TagViewActivity extends RestaurantListActivity implements TestContr
             }
         });
 
+        updateAppbarBackgroundDimensions(0);
+    }
 
-        collapsingToolbarLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+    protected void renderSelectedTags() {
+        tagsContainer.removeAllViews();
+        LayoutInflater inflater = LayoutInflater.from(this);
+
+        for (int i = 0; i < selectedTags.size(); i++)
+            tagsContainer.addView(createView(inflater, i));
+
+        if (selectedTags.size() != allTags.size()) {
+            View view = inflater.inflate(R.layout.item_add_tag, tagsContainer, false);
+            view.setOnClickListener(this::handleAddTagButtonClick);
+            tagsContainer.addView(view);
+        }
+
+        collapsingToolbarLayout.invalidate();
+        collapsingToolbarLayout.requestLayout();
+        updateAppbarBackgroundDimensions(tagsContainer.getHeight());
+    }
+
+    protected View createView(LayoutInflater inflater, int position) {
+        Tag tag = selectedTags.get(position);
+
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.appbar_item_tag_label, tagsContainer, false);
+
+        TextView tagLabelView = (TextView) view.findViewById(R.id.label);
+        tagLabelView.setText(tag.getName());
+
+        View btnRemove = view.findViewById(R.id.btn_remove);
+        btnRemove.setTag(position);
+        btnRemove.setOnClickListener(this::handleRemoveTagClick);
+
+        return view;
+    }
+
+    private void renderSelectedTagsToTitle() {
+        StringBuilder builder = new StringBuilder();
+        String prefix = "";
+        for (Tag tag : selectedTags) {
+            builder.append(prefix);
+            prefix = "، ";
+            builder.append(tag.getName());
+        }
+
+        toolbarTitle.setText(builder.toString());
+    }
+
+    protected void handleAddTagButtonClick(View v) {
+        new TagSelectDialog(this, allTags, selectedTags)
+                .setOnTagSelectListener(this::addNewTag)
+                .show();
+    }
+
+    protected void handleRemoveTagClick(View v) {
+        try {
+            int index = (int) v.getTag();
+            selectedTags.remove(index);
+        } catch (Exception ignored) {
+            ignored.printStackTrace();
+        }
+
+        renderSelectedTags();
+        renderSelectedTagsToTitle();
+    }
+
+    private void addNewTag(Tag tag) {
+        selectedTags.add(tag);
+        renderSelectedTags();
+        renderSelectedTagsToTitle();
+    }
+
+    protected void updateAppbarBackgroundDimensions(int oldHeight) {
+        tagsContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                if (collapsingToolbarLayout.getHeight() != 0) {
-                    ViewUtils.removeOnGlobalLayoutListener(collapsingToolbarLayout.getViewTreeObserver(), this);
+                if (tagsContainer.getHeight() != oldHeight) {
+                    ViewUtils.removeOnGlobalLayoutListener(tagsContainer.getViewTreeObserver(), this);
                     FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) sampleBackground.getLayoutParams();
-                    params.height = collapsingToolbarLayout.getHeight();
+                    params.height = tagsContainer.getHeight() + ViewUtils.px(TagViewActivity.this, 36.5f);
 
                     sampleBackground.setLayoutParams(params);
                     dimmer.setLayoutParams(params);
                 }
             }
         });
-    }
-
-    protected void renderSelectedTags() {
-        LayoutInflater inflater = LayoutInflater.from(this);
-
-        for (Tag tag : allTags) {
-            ViewGroup view = (ViewGroup) inflater.inflate(R.layout.appbar_item_tag_label, tagsContainer, false);
-            TextView tagLabelView = (TextView) view.findViewById(R.id.label);
-            tagLabelView.setText(tag.getName());
-            tagLabelView.setTag(tag);
-//            tagLabelView.setOnClickListener(this::handleTagClick);
-
-            tagsContainer.addView(view);
-        }
-
-        View view = inflater.inflate(R.layout.item_add_tag, tagsContainer, false);
-        tagsContainer.addView(view);
-    }
-
-    private void renderSelectedTagsToTitle() {
-        StringBuilder builder = new StringBuilder();
-        String prefix = "";
-        for (Tag tag : allTags) {
-            builder.append(prefix);
-            prefix = "،";
-            builder.append(tag.getName());
-        }
-
-        toolbarTitle.setText(builder.toString());
     }
 
     @Override
