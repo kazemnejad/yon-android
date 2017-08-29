@@ -1,14 +1,11 @@
 package io.yon.android.view.adapter.viewholder;
 
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.widget.TextView;
-
-import com.orhanobut.logger.Logger;
 
 import io.yon.android.R;
 import io.yon.android.model.Tag;
@@ -59,12 +56,9 @@ public class ItemSimpleTagLabelViewHolder extends ViewHolder<Tag> implements Vie
 
     @Override
     public void onClick(View v) {
-        Logger.d("Sdsjiod");
-        SimpleTagSelectAdapter adapter = (SimpleTagSelectAdapter) getParentAdapter();
-        getBus().send(adapter.getData().get(getAdapterPosition()));
-
         try {
-
+            SimpleTagSelectAdapter adapter = (SimpleTagSelectAdapter) getParentAdapter();
+            getBus().send(adapter.getData().get(getAdapterPosition()));
         } catch (Exception exp) {
             exp.printStackTrace();
         }

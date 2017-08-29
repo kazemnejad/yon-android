@@ -8,7 +8,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -45,6 +44,14 @@ public class RestaurantRepository {
     }
 
     public Observable<Lce<List<Restaurant>>> getRestaurantsByZone(Zone zone) {
+        return Observable.just(createRestaurantList())
+                .delay(700, TimeUnit.MILLISECONDS)
+                .map(Lce::data)
+                .startWith(Lce.loading())
+                .onErrorReturn(Lce::error);
+    }
+
+    public Observable<Lce<List<Restaurant>>> getRestaurantsByTags(List<Tag> tags) {
         return Observable.just(createRestaurantList())
                 .delay(700, TimeUnit.MILLISECONDS)
                 .map(Lce::data)

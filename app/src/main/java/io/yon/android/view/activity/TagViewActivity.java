@@ -1,5 +1,6 @@
 package io.yon.android.view.activity;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -10,19 +11,19 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.yon.android.R;
-import io.yon.android.contract.TestContract;
+import io.yon.android.contract.TagContract;
 import io.yon.android.model.Tag;
-import io.yon.android.presenter.TestPresenter;
+import io.yon.android.presenter.TagPresenter;
 import io.yon.android.repository.RestaurantRepository;
 import io.yon.android.util.ViewUtils;
 import io.yon.android.view.dialog.TagSelectDialog;
@@ -32,18 +33,18 @@ import io.yon.android.view.widget.LiteralAppBarStateChangeListener;
  * Created by amirhosein on 8/29/2017 AD.
  */
 
-public class TagViewActivity extends RestaurantListActivity implements TestContract.View {
-
-    private FlexboxLayout tagsContainer;
-
-    private TextView toolbarTitle;
+public class TagViewActivity extends RestaurantListActivity implements TagContract.View {
 
     private List<Tag> allTags;
-    private List<Tag> selectedTags = new ArrayList<>();
 
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private ImageView sampleBackground;
     private View dimmer;
+    private TextView toolbarTitle;
+    private ImageButton toolbarRightBtn;
+    private FlexboxLayout tagsContainer;
+
+    private TagPresenter presenter;
 
     @Override
     protected int getLayoutResourceId() {
@@ -54,13 +55,12 @@ public class TagViewActivity extends RestaurantListActivity implements TestContr
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setDisplayHomeAsUpEnabled(true);
+        presenter = ViewModelProviders.of(this).get(TagPresenter.class);
+        presenter.bindView(this);
 
         initView();
 
-        TestPresenter presenter = new TestPresenter(getApplication());
-        presenter.bindView(this);
-        presenter.loadTestRestaurantList();
+        presenter.loadRestaurants(presenter.getSelectedTags());
     }
 
     @Override
@@ -72,6 +72,7 @@ public class TagViewActivity extends RestaurantListActivity implements TestContr
         sampleBackground = (ImageView) findViewById(R.id.sample_background);
         dimmer = findViewById(R.id.dimmer);
         toolbarTitle = (TextView) findViewById(R.id.toolbar_text_main);
+        toolbarRightBtn = (ImageButton) findViewById(R.id.toolbar_icon_right);
     }
 
     private void initView() {
@@ -90,16 +91,11 @@ public class TagViewActivity extends RestaurantListActivity implements TestContr
         tags.add(t2);
         tags.add(t4);
 
-//        ArrayList<Tag> selected = new ArrayList<>();
-        selectedTags.add(t1);
-//        selected.add(t2);
-//        selected.add(t3);
-//        selected.add(t4);
+        presenter.getSelectedTags().add(t1);
 
         allTags = tags;
         renderSelectedTags();
         renderSelectedTagsToTitle();
-
 
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
         appBarLayout.addOnOffsetChangedListener(new LiteralAppBarStateChangeListener() {
@@ -125,10 +121,10 @@ public class TagViewActivity extends RestaurantListActivity implements TestContr
         tagsContainer.removeAllViews();
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        for (int i = 0; i < selectedTags.size(); i++)
+        for (int i = 0; i < presenter.getSelectedTags().size(); i++)
             tagsContainer.addView(createView(inflater, i));
 
-        if (selectedTags.size() != allTags.size()) {
+        if (presenter.getSelectedTags().size() != allTags.size()) {
             View view = inflater.inflate(R.layout.item_add_tag, tagsContainer, false);
             view.setOnClickListener(this::handleAddTagButtonClick);
             tagsContainer.addView(view);
@@ -140,7 +136,7 @@ public class TagViewActivity extends RestaurantListActivity implements TestContr
     }
 
     protected View createView(LayoutInflater inflater, int position) {
-        Tag tag = selectedTags.get(position);
+        Tag tag = presenter.getSelectedTags().get(position);
 
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.appbar_item_tag_label, tagsContainer, false);
 
@@ -157,7 +153,7 @@ public class TagViewActivity extends RestaurantListActivity implements TestContr
     private void renderSelectedTagsToTitle() {
         StringBuilder builder = new StringBuilder();
         String prefix = "";
-        for (Tag tag : selectedTags) {
+        for (Tag tag : presenter.getSelectedTags()) {
             builder.append(prefix);
             prefix = "، ";
             builder.append(tag.getName());
@@ -167,7 +163,7 @@ public class TagViewActivity extends RestaurantListActivity implements TestContr
     }
 
     protected void handleAddTagButtonClick(View v) {
-        new TagSelectDialog(this, allTags, selectedTags)
+        new TagSelectDialog(this, allTags, presenter.getSelectedTags())
                 .setOnTagSelectListener(this::addNewTag)
                 .show();
     }
@@ -175,7 +171,8 @@ public class TagViewActivity extends RestaurantListActivity implements TestContr
     protected void handleRemoveTagClick(View v) {
         try {
             int index = (int) v.getTag();
-            selectedTags.remove(index);
+            presenter.getSelectedTags().remove(index);
+            presenter.loadRestaurants(presenter.getSelectedTags(), true);
         } catch (Exception ignored) {
             ignored.printStackTrace();
         }
@@ -185,7 +182,9 @@ public class TagViewActivity extends RestaurantListActivity implements TestContr
     }
 
     private void addNewTag(Tag tag) {
-        selectedTags.add(tag);
+        presenter.getSelectedTags().add(tag);
+        presenter.loadRestaurants(presenter.getSelectedTags(), true);
+
         renderSelectedTags();
         renderSelectedTagsToTitle();
     }
@@ -196,6 +195,7 @@ public class TagViewActivity extends RestaurantListActivity implements TestContr
             public void onGlobalLayout() {
                 if (tagsContainer.getHeight() != oldHeight) {
                     ViewUtils.removeOnGlobalLayoutListener(tagsContainer.getViewTreeObserver(), this);
+
                     FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) sampleBackground.getLayoutParams();
                     params.height = tagsContainer.getHeight() + ViewUtils.px(TagViewActivity.this, 36.5f);
 
@@ -204,10 +204,5 @@ public class TagViewActivity extends RestaurantListActivity implements TestContr
                 }
             }
         });
-    }
-
-    @Override
-    public void showSomeDummy() {
-
     }
 }
