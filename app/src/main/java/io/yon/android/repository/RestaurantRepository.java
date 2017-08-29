@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -235,9 +236,10 @@ public class RestaurantRepository {
         return r;
     }
 
-    private static Tag makeTag(String name) {
+    public static Tag makeTag(String name) {
         Tag t = new Tag();
         t.setName(name);
+        t.setSlug(name);
 
         return t;
     }

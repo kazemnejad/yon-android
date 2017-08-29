@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -8,5 +9,53 @@
     <include layout="@layout/activity_tag_view_appbar"/>
 
     <include layout="@layout/restaurant_list"/>
+
+    <ImageButton
+        android:id="@+id/toolbar_icon_left"
+        android:layout_width="@dimen/material_min_touch_space"
+        android:layout_height="@dimen/material_min_touch_space"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/round_button"
+        android:elevation="150dp"
+        android:src="@drawable/ic_share_24dp"
+        android:tint="@android:color/white"
+        app:layout_collapseMode="pin"
+        app:layout_scrollFlags="scroll|enterAlways"/>
+
+    <ImageButton
+        android:id="@+id/toolbar_icon_right"
+        android:layout_width="@dimen/material_min_touch_space"
+        android:layout_height="@dimen/material_min_touch_space"
+        android:layout_gravity="right"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/round_button"
+        android:elevation="150dp"
+        android:src="@drawable/ic_navigation_back_24dp"
+        android:tint="@android:color/white"
+        app:layout_collapseMode="pin"
+        app:layout_scrollFlags="scroll|enterAlways"/>
+
+
+    <TextView
+        android:id="@+id/toolbar_text_main"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="right"
+        android:layout_marginLeft="56dp"
+        android:layout_marginRight="72dp"
+        android:alpha="0"
+        android:elevation="150dp"
+        android:ellipsize="end"
+        android:focusable="false"
+        android:gravity="center_vertical|right"
+        android:lines="1"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:translationY="?attr/actionBarSize"
+        app:layout_collapseMode="pin"
+        app:layout_scrollFlags="scroll|enterAlways"/>
+
 
 </android.support.design.widget.CoordinatorLayout>

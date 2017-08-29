@@ -10,11 +10,19 @@ import android.text.method.LinkMovementMethod;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+
+import java.util.ArrayList;
+
 import io.yon.android.R;
 import io.yon.android.contract.RestaurantListContract;
 import io.yon.android.model.Banner;
+import io.yon.android.model.Restaurant;
+import io.yon.android.model.Tag;
 import io.yon.android.presenter.RestaurantListPresenter;
+import io.yon.android.repository.RestaurantRepository;
 import io.yon.android.view.GlideApp;
+import io.yon.android.view.dialog.TagSelectDialog;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
@@ -61,6 +69,34 @@ public class TheRestaurantListActivity extends RestaurantListActivity implements
         super.findViews();
         description = (TextView) findViewById(R.id.description);
         bannerImage = (ImageView) findViewById(R.id.banner);
+    }
+
+    @Override
+    protected void onRestaurantClick(Restaurant restaurant) {
+        Tag t1 = RestaurantRepository.makeTag("هندی۴۵");
+        Tag t4 = RestaurantRepository.makeTag("هندی۵۱");
+        Tag t2 = RestaurantRepository.makeTag("هندی۵۲");
+        Tag t3 = RestaurantRepository.makeTag("هندی۵۳");
+
+        ArrayList<Tag> tags = new ArrayList<>();
+        tags.add(RestaurantRepository.makeTag("هندی"));
+        tags.add(t1);
+        tags.add(RestaurantRepository.makeTag("هندی۲"));
+        tags.add(t3);
+        tags.add(RestaurantRepository.makeTag("هندی۳"));
+        tags.add(RestaurantRepository.makeTag("هندی۴"));
+        tags.add(t2);
+        tags.add(t4);
+
+        ArrayList<Tag> selected = new ArrayList<>();
+        selected.add(t1);
+        selected.add(t2);
+        selected.add(t3);
+        selected.add(t4);
+
+        new TagSelectDialog(this, tags, selected)
+                .setOnTagSelectListener(Logger::d)
+                .show();
     }
 
     protected void initView() {
