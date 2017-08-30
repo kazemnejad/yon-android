@@ -81,6 +81,6 @@
         android:textColor="#a3a3a3"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:drawableTint="#0D47A1"/>
+        app:drawableTint="@color/zone_icon_color"/>
 
 </merge>

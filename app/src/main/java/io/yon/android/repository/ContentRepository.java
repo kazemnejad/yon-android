@@ -8,19 +8,24 @@ import com.orhanobut.logger.Logger;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
+import io.reactivex.functions.Function;
 import io.yon.android.Config;
 import io.yon.android.api.WebService;
 import io.yon.android.api.response.BannersShowcaseItem;
 import io.yon.android.api.response.CompactRecomShowcaseItem;
+import io.yon.android.api.response.SearchResponse;
 import io.yon.android.api.response.ShowcaseItem;
 import io.yon.android.api.response.ShowcaseResponse;
 import io.yon.android.api.response.SimpleSectionShowcaseItem;
 import io.yon.android.api.response.SingleBannerShowcaseItem;
 import io.yon.android.api.response.TagRecomShowcaseItem;
 import io.yon.android.api.response.ZoneRecomShowcaseItem;
+import io.yon.android.model.SearchResultSection;
+import io.yon.android.model.Zone;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 
@@ -57,6 +62,15 @@ public class ContentRepository {
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error)
                 .compose(polishData());
+    }
+
+    public Observable<Lce<List<SearchResultSection>>> search(String query) {
+        return Observable.just(createSearchResponse())
+                .delay(700, TimeUnit.MILLISECONDS)
+                .map(toSearchResultSections())
+                .map(Lce::data)
+                .startWith(Lce.loading())
+                .onErrorReturn(Lce::error);
     }
 
     private Observable<ShowcaseResponse> showcaseCache(Context context) {
@@ -149,6 +163,39 @@ public class ContentRepository {
     private static <T> void addToListIf(List<Object> lst, T item, ItemExtractor<T> extractor, ItemValidator<T> validator) {
         if (validator.validate(item))
             lst.add(extractor.extract(item));
+    }
+
+    private static Function<SearchResponse, List<SearchResultSection>> toSearchResultSections() {
+        return searchResponse -> {
+            ArrayList<SearchResultSection> sections = new ArrayList<>();
+            if (searchResponse.getZones() != null)
+                sections.add(new SearchResultSection<>("منطقه‌ها", searchResponse.getZones()));
+
+            if (searchResponse.getTags() != null)
+                sections.add(new SearchResultSection<>("ویژگی‌ها", searchResponse.getTags()));
+
+            if (searchResponse.getRestaurants() != null)
+                sections.add(new SearchResultSection<>("رستوران‌ها", searchResponse.getRestaurants()));
+
+            return sections;
+        };
+    }
+
+    public static SearchResponse createSearchResponse() {
+        SearchResponse response = new SearchResponse();
+        response.setTags(TagRepository.createTags());
+        response.setRestaurants(RestaurantRepository.createRestaurantList());
+        response.setZones(createZones());
+        return response;
+    }
+
+    public static List<Zone> createZones() {
+        ArrayList<Zone> zones = new ArrayList<>();
+        zones.add(new Zone("انقلاب", 0, 0));
+        zones.add(new Zone("جمهوری", 0, 0));
+        zones.add(new Zone("ولیعصر", 0, 0));
+        zones.add(new Zone("سعادت‌آباد", 0, 0));
+        return zones;
     }
 
     private interface ItemValidator<T> {

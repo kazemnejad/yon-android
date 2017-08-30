@@ -25,6 +25,7 @@ import io.yon.android.model.Tag;
 import io.yon.android.presenter.TagPresenter;
 import io.yon.android.repository.RestaurantRepository;
 import io.yon.android.util.ViewUtils;
+import io.yon.android.view.RestaurantListItemConfig;
 import io.yon.android.view.dialog.TagSelectDialog;
 import io.yon.android.view.widget.LiteralAppBarStateChangeListener;
 
@@ -205,5 +206,10 @@ public class TagViewActivity extends RestaurantListActivity implements TagContra
     public void showTags(List<Tag> tags) {
         allTags = tags;
         renderSelectedTags();
+    }
+
+    @Override
+    protected RestaurantListItemConfig getConfig() {
+        return super.getConfig();
     }
 }

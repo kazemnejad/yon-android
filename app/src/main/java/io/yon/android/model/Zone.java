@@ -22,6 +22,12 @@ public class Zone extends Model {
 
     public Zone() {}
 
+    public Zone(String name, double longitude, double latitude) {
+        this.name = name;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
+
     public String getName() {
         return name;
     }

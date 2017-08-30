@@ -38,4 +38,7 @@
     <color name="restaurant_list_divider_color">#d7d7d7</color>
 
     <color name="disable_tag_color">#24000000</color>
+
+    <color name="tag_icon_color">@color/colorAccent</color>
+    <color name="zone_icon_color">#0D47A1</color>
 </resources>

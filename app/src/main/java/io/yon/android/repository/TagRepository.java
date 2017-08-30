@@ -29,7 +29,7 @@ public class TagRepository {
                 .onErrorReturn(Lce::error);
     }
 
-    private static List<Tag> createTags() {
+    public static List<Tag> createTags() {
         Tag t1 = RestaurantRepository.makeTag("هندی۴۵");
         Tag t4 = RestaurantRepository.makeTag("هندی۵۱");
         Tag t2 = RestaurantRepository.makeTag("هندی۵۲");

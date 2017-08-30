@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<io.yon.android.view.widget.TextViewCompatTint
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:drawablePadding="20dp"
+    android:drawableRight="@drawable/ic_local_offer_24dp"
+    android:orientation="vertical"
+    android:paddingBottom="12dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="12dp"
+    android:text="ایتالیایی"
+    android:textColor="@color/black_87"
+    android:textSize="16sp"
+    app:drawableTint="@color/tag_icon_color"/>

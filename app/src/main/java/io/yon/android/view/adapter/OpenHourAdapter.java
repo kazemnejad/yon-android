@@ -91,6 +91,12 @@ public class OpenHourAdapter extends SectionedRecyclerViewAdapter<
         this.selectedTimeSlot = selectedTimeSlot;
     }
 
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
     public List<OpenTimeSlotSection> getData() {
         return sections;
     }
