@@ -12,7 +12,13 @@ import io.yon.android.view.RestaurantListView;
 public class TagContract extends Contract {
     public interface Presenter {
         void loadRestaurants(List<Tag> tags);
+
+        void loadTags();
     }
 
-    public interface View extends RestaurantListView {}
+    public interface View extends RestaurantListView {
+        void showLoading();
+
+        void showTags(List<Tag> tags);
+    }
 }

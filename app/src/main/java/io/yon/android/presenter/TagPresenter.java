@@ -9,11 +9,11 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.yon.android.contract.TagContract;
-import io.yon.android.contract.TestContract;
 import io.yon.android.model.Restaurant;
 import io.yon.android.model.Tag;
 import io.yon.android.repository.Lce;
 import io.yon.android.repository.RestaurantRepository;
+import io.yon.android.repository.TagRepository;
 import io.yon.android.util.RxUtils;
 import io.yon.android.view.MvpView;
 
@@ -28,8 +28,9 @@ public class TagPresenter extends Presenter implements TagContract.Presenter {
     private TagContract.View view;
 
     private Observable<Lce<List<Restaurant>>> restaurantsObservable;
+    private Observable<Lce<List<Tag>>> tagObservable;
 
-    private long lastRequestTime;
+    private long lastRequestTime = -1;
 
     public TagPresenter(Application application) {
         super(application);
@@ -37,6 +38,11 @@ public class TagPresenter extends Presenter implements TagContract.Presenter {
 
     public List<Tag> getSelectedTags() {
         return selectedTags;
+    }
+
+    public void setInitialTag(Tag tag) {
+        if (selectedTags.size() == 0 && lastRequestTime == -1)
+            selectedTags.add(tag);
     }
 
     @Override
@@ -73,9 +79,52 @@ public class TagPresenter extends Presenter implements TagContract.Presenter {
     }
 
     public void loadRestaurants(List<Tag> tags, boolean skipCache) {
+        if (tags.size() == 0)
+            return;
+
         if (skipCache)
             restaurantsObservable = null;
 
         loadRestaurants(tags);
+    }
+
+    @Override
+    public void loadTags() {
+        if (tagObservable == null)
+            tagObservable = TagRepository.getInstance()
+                    .getTags()
+                    .compose(RxUtils.applySchedulers())
+                    .cache();
+
+//        tagObservable.takeWhile(LifecycleBinder.notDestroyed(view))
+//                .compose(LifecycleBinder.subscribeWhenReady(view, new Lce.Observer<>(
+//                        lce -> {
+//                            if (lce.isLoading())
+//                                view.showLoading();
+//                            else if (lce.hasError()) {
+//                                lce.getError().printStackTrace();
+//                                tagObservable = null;
+//                                loadTags();
+//                            } else {
+//                                view.showTags(lce.getData());
+//                            }
+//                        }
+//                )));
+        tagObservable.subscribe(new Lce.Observer<>(
+                lce -> {
+                    if (view == null)
+                        return;
+
+                    if (lce.isLoading())
+                        view.showLoading();
+                    else if (lce.hasError()) {
+                        lce.getError().printStackTrace();
+                        tagObservable = null;
+                        loadTags();
+                    } else {
+                        view.showTags(lce.getData());
+                    }
+                }
+        ));
     }
 }

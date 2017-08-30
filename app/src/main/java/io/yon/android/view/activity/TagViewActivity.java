@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.yon.android.R;
@@ -58,9 +57,12 @@ public class TagViewActivity extends RestaurantListActivity implements TagContra
         presenter = ViewModelProviders.of(this).get(TagPresenter.class);
         presenter.bindView(this);
 
+        presenter.setInitialTag(RestaurantRepository.makeTag("هندی"));
+
         initView();
 
         presenter.loadRestaurants(presenter.getSelectedTags());
+        presenter.loadTags();
     }
 
     @Override
@@ -76,24 +78,6 @@ public class TagViewActivity extends RestaurantListActivity implements TagContra
     }
 
     private void initView() {
-        Tag t1 = RestaurantRepository.makeTag("هندی۴۵");
-        Tag t4 = RestaurantRepository.makeTag("هندی۵۱");
-        Tag t2 = RestaurantRepository.makeTag("هندی۵۲");
-        Tag t3 = RestaurantRepository.makeTag("هندی۵۳");
-
-        ArrayList<Tag> tags = new ArrayList<>();
-        tags.add(RestaurantRepository.makeTag("هندی"));
-        tags.add(t1);
-        tags.add(RestaurantRepository.makeTag("هندی۲"));
-        tags.add(t3);
-        tags.add(RestaurantRepository.makeTag("هندی۳"));
-        tags.add(RestaurantRepository.makeTag("هندی۴"));
-        tags.add(t2);
-        tags.add(t4);
-
-        presenter.getSelectedTags().add(t1);
-
-        allTags = tags;
         renderSelectedTags();
         renderSelectedTagsToTitle();
 
@@ -115,6 +99,8 @@ public class TagViewActivity extends RestaurantListActivity implements TagContra
         });
 
         updateAppbarBackgroundDimensions(0);
+
+        toolbarRightBtn.setOnClickListener(v -> finish());
     }
 
     protected void renderSelectedTags() {
@@ -124,14 +110,12 @@ public class TagViewActivity extends RestaurantListActivity implements TagContra
         for (int i = 0; i < presenter.getSelectedTags().size(); i++)
             tagsContainer.addView(createView(inflater, i));
 
-        if (presenter.getSelectedTags().size() != allTags.size()) {
+        if (allTags != null && presenter.getSelectedTags().size() != allTags.size()) {
             View view = inflater.inflate(R.layout.item_add_tag, tagsContainer, false);
             view.setOnClickListener(this::handleAddTagButtonClick);
             tagsContainer.addView(view);
         }
 
-        collapsingToolbarLayout.invalidate();
-        collapsingToolbarLayout.requestLayout();
         updateAppbarBackgroundDimensions(tagsContainer.getHeight());
     }
 
@@ -196,13 +180,30 @@ public class TagViewActivity extends RestaurantListActivity implements TagContra
                 if (tagsContainer.getHeight() != oldHeight) {
                     ViewUtils.removeOnGlobalLayoutListener(tagsContainer.getViewTreeObserver(), this);
 
+                    int height = tagsContainer.getHeight();
+                    if (height == 0)
+                        height = collapsingToolbarLayout.getHeight();
+                    else
+                        height += ViewUtils.px(TagViewActivity.this, 36.5f);
+
                     FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) sampleBackground.getLayoutParams();
-                    params.height = tagsContainer.getHeight() + ViewUtils.px(TagViewActivity.this, 36.5f);
+                    params.height = height;
 
                     sampleBackground.setLayoutParams(params);
                     dimmer.setLayoutParams(params);
                 }
             }
         });
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void showTags(List<Tag> tags) {
+        allTags = tags;
+        renderSelectedTags();
     }
 }
