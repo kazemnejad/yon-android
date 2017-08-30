@@ -37,6 +37,9 @@ public class SearchPresenter extends Presenter implements SearchContract.Present
 
     @Override
     public void loadSearchResult(String query) {
+        if (query.length() == 0 && lastRequestTime == -1)
+            return;
+
         if (searchObservable == null)
             searchObservable = ContentRepository.getInstance()
                     .search(query)
@@ -64,8 +67,12 @@ public class SearchPresenter extends Presenter implements SearchContract.Present
     }
 
     public void loadSearchResult(String query, boolean skipCache) {
-        if (skipCache)
+        if ("".equals(query))
+            return;
+
+        if (skipCache) {
             searchObservable = null;
+        }
 
         loadSearchResult(query);
     }

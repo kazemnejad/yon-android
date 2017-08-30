@@ -72,15 +72,17 @@ public class SearchActivity extends Activity implements SearchContract.View {
         presenter.bindView(this);
 
         bus.toObservable().subscribe(this::handelItemClick);
+
+        presenter.loadSearchResult(searchBar.getText().toString());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!"".equals(searchBar.getText().toString())) {
-            presenter.loadSearchResult(searchBar.getText().toString());
+
+        if (!"".equals(searchBar.getText().toString()))
             ViewUtils.closeKeyboard(this);
-        }
+
     }
 
     @Override
@@ -166,9 +168,7 @@ public class SearchActivity extends Activity implements SearchContract.View {
 
     protected void performSearch() {
         ViewUtils.closeKeyboard(this);
-
-        if (!"".equals(searchBar.getText().toString()))
-            presenter.loadSearchResult(searchBar.getText().toString(), true);
+        presenter.loadSearchResult(searchBar.getText().toString(), true);
     }
 
     protected void handelItemClick(Object o) {
