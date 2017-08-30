@@ -41,7 +41,7 @@ import io.yon.android.view.adapter.SearchResultAdapter;
 
 public class SearchActivity extends Activity implements SearchContract.View {
 
-    boolean isBtnClearVisible = false;
+    boolean isClearButtonVisible = false;
 
     private ImageButton btnClear;
     private EditText searchBar;
@@ -188,10 +188,10 @@ public class SearchActivity extends Activity implements SearchContract.View {
     }
 
     protected void showClearButton() {
-        if (isBtnClearVisible)
+        if (isClearButtonVisible)
             return;
 
-        isBtnClearVisible = true;
+        isClearButtonVisible = true;
 
         btnClear.setAlpha(0f);
         btnClear.setScaleX(0);
@@ -206,7 +206,7 @@ public class SearchActivity extends Activity implements SearchContract.View {
     }
 
     protected void hideClearButton() {
-        isBtnClearVisible = false;
+        isClearButtonVisible = false;
 
         btnClear.setAlpha(1f);
         btnClear.setScaleX(1);
