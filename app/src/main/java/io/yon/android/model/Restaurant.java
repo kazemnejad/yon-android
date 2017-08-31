@@ -182,6 +182,7 @@ public class Restaurant extends Model {
         return zoneSlug;
     }
 
+    @JsonProperty("zone_slug")
     public void setZoneSlug(String zoneSlug) {
         this.zoneSlug = zoneSlug;
     }
@@ -190,6 +191,7 @@ public class Restaurant extends Model {
         return zoneLabel;
     }
 
+    @JsonProperty("zone_name")
     public void setZoneLabel(String zoneLabel) {
         this.zoneLabel = zoneLabel;
     }

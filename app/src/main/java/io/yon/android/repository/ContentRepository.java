@@ -65,8 +65,8 @@ public class ContentRepository {
     }
 
     public Observable<Lce<List<SearchResultSection>>> search(String query) {
-        return Observable.just(createSearchResponse())
-                .delay(700, TimeUnit.MILLISECONDS)
+        return WebService.getInstance()
+                .search(query)
                 .map(toSearchResultSections())
                 .map(Lce::data)
                 .startWith(Lce.loading())
@@ -168,13 +168,13 @@ public class ContentRepository {
     private static Function<SearchResponse, List<SearchResultSection>> toSearchResultSections() {
         return searchResponse -> {
             ArrayList<SearchResultSection> sections = new ArrayList<>();
-            if (searchResponse.getZones() != null)
+            if (searchResponse.getZones() != null && searchResponse.getZones().size() > 0)
                 sections.add(new SearchResultSection<>("منطقه‌ها", searchResponse.getZones()));
 
-            if (searchResponse.getTags() != null)
+            if (searchResponse.getTags() != null && searchResponse.getTags().size() > 0)
                 sections.add(new SearchResultSection<>("ویژگی‌ها", searchResponse.getTags()));
 
-            if (searchResponse.getRestaurants() != null)
+            if (searchResponse.getRestaurants() != null && searchResponse.getRestaurants().size() > 0)
                 sections.add(new SearchResultSection<>("رستوران‌ها", searchResponse.getRestaurants()));
 
             return sections;

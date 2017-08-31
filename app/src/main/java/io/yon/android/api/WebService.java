@@ -9,6 +9,7 @@ import io.yon.android.api.request.LoginRequest;
 import io.yon.android.api.request.RegisterRequest;
 import io.yon.android.api.response.AuthResponse;
 import io.yon.android.api.response.BasicResponse;
+import io.yon.android.api.response.SearchResponse;
 import io.yon.android.model.OpeningInterval;
 import io.yon.android.model.Reservation;
 import io.yon.android.model.Restaurant;
@@ -134,5 +135,9 @@ public abstract class WebService {
         // Tag content delivery
         @GET("tag")
         Observable<List<Tag>> getTags();
+
+        // Central Search provider
+        @GET("search")
+        Observable<SearchResponse> search(@Query("q") String query);
     }
 }

@@ -60,7 +60,6 @@ public class ItemSearchResultRestaurantViewHolder extends ViewHolder<Restaurant>
 
         GlideApp.with(getContext())
                 .load(r.getAvatarUrl())
-                .placeholder(R.color.solidPlaceHolder)
                 .transition(withCrossFade())
                 .transform(new RoundedCornersTransformation(getContext(), 30, 0))
                 .into(icon);
