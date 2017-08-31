@@ -14,6 +14,7 @@ import io.yon.android.model.Zone;
 import io.yon.android.presenter.ZonePresenter;
 import io.yon.android.util.ViewUtils;
 import io.yon.android.view.GlideApp;
+import io.yon.android.view.RestaurantListItemConfig;
 import io.yon.android.view.widget.AppBarStateChangeListener;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
@@ -44,6 +45,7 @@ public class ZoneViewActivity extends RestaurantListActivity implements ZoneCont
         zone = new Zone();
         zone.setLongitude(35.7009524);
         zone.setLatitude(51.3897519);
+        zone.setSlug("Enghelab");
         zone.setName("انقلاب");
 
         initView();
@@ -93,6 +95,12 @@ public class ZoneViewActivity extends RestaurantListActivity implements ZoneCont
                 }
             }
         });
+    }
+
+    @Override
+    protected RestaurantListItemConfig getConfig() {
+        return RestaurantListItemConfig.defaultConfig()
+                .setShowTags(true);
     }
 
     @Override

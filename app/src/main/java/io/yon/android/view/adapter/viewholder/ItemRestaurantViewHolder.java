@@ -97,15 +97,16 @@ public class ItemRestaurantViewHolder extends ViewHolder<Restaurant> {
         if (config.showPrice)
             price.setText(r.getPriceLabel());
 
-        if (config.showDistance)
+        if (config.showDistance && r.getDistanceFromMyLocation() != -1)
             distance.setText(r.getDistanceLabel());
+        else
+            distance.setVisibility(View.GONE);
 
         if (config.showTags)
             setTags(r.getTags());
 
         GlideApp.with(getContext())
                 .load(r.getAvatarUrl())
-                .placeholder(R.color.solidPlaceHolder)
                 .transform(new RoundedCornersTransformation(getContext(), 30, 0))
                 .transition(withCrossFade())
                 .into(icon);

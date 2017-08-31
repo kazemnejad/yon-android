@@ -44,8 +44,8 @@ public class RestaurantRepository {
     }
 
     public Observable<Lce<List<Restaurant>>> getRestaurantsByZone(Zone zone) {
-        return Observable.just(createRestaurantList())
-                .delay(700, TimeUnit.MILLISECONDS)
+        return WebService.getInstance()
+                .getRestaurantsByZone(zone.getSlug())
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);

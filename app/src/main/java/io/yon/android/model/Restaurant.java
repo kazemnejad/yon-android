@@ -31,7 +31,7 @@ public class Restaurant extends Model {
     double latitude = -1;
     String zoneSlug;
     String zoneLabel;
-    float distanceFromMyLocation;
+    float distanceFromMyLocation = -1;
     String distanceLabel;
     List<Tag> tags;
     List<Map> maps;

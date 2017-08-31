@@ -16,6 +16,7 @@ import io.yon.android.api.Constants;
 public class Zone extends Model {
     String name;
     String avatarUrl;
+    String slug;
 
     double longitude;
     double latitude;
@@ -71,5 +72,14 @@ public class Zone extends Model {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    @JsonProperty("slug")
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 }

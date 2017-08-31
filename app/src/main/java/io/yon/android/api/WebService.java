@@ -109,6 +109,9 @@ public abstract class WebService {
         Observable<Response<ResponseBody>> getHomePage(@Query("long") double longitude, @Query("latt") double latitude);
 
         // Restaurant content delivery
+        @GET("restaurant")
+        Observable<List<Restaurant>> getRestaurantsByZone(@Query("zone") String zone);
+
         @GET("restaurant/{id}")
         Observable<Restaurant> getRestaurant(@Path("id") int id);
 
