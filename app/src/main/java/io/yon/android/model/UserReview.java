@@ -17,12 +17,13 @@ import io.yon.android.util.calendar.PersianCalendar;
 @Parcel
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserReview extends Model {
-    int id;
+    String id;
     String userName;
     String text;
     float rate;
     long datetime = -1;
     String datetimeStr;
+    User user;
 
     public UserReview() {}
 
@@ -33,28 +34,24 @@ public class UserReview extends Model {
         this.datetime = datetime;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
     @JsonProperty("_id")
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     public String getUserName() {
-        return userName;
-    }
-
-    @JsonProperty("username")
-    public void setUserName(String userName) {
-        this.userName = userName;
+        return user.getFirstName() + " " + user.getLastName();
     }
 
     public String getText() {
         return text;
     }
 
+    @JsonProperty("text")
     public void setText(String text) {
         this.text = text;
     }
@@ -67,6 +64,7 @@ public class UserReview extends Model {
         return 5f - rate;
     }
 
+    @JsonProperty("rate")
     public void setRate(float rate) {
         this.rate = rate;
     }
@@ -75,8 +73,18 @@ public class UserReview extends Model {
         return datetime;
     }
 
+    @JsonProperty("datetime")
     public void setDatetime(long datetime) {
         this.datetime = datetime;
+    }
+
+    @JsonProperty("user")
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getDatetimeStr() {

@@ -5,12 +5,15 @@ import android.content.Context;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import org.parceler.Parcel;
+
 import io.yon.android.Config;
 
 /**
  * Created by amirhosein on 7/18/17.
  */
 
+@Parcel
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
     private int id;

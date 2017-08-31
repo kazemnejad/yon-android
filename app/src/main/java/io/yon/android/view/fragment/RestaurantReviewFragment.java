@@ -90,6 +90,7 @@ public class RestaurantReviewFragment extends Fragment implements RestaurantCont
     @Override
     public void showError(Throwable e) {
         clearVisibilities();
+        e.printStackTrace();
         errorContainer.setVisibility(View.VISIBLE);
     }
 

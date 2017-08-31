@@ -22,7 +22,7 @@ import java.util.List;
 import io.yon.android.Config;
 import io.yon.android.R;
 import io.yon.android.contract.ShowcaseContract;
-    import io.yon.android.model.Restaurant;
+import io.yon.android.model.Restaurant;
 import io.yon.android.presenter.ShowcasePresenter;
 import io.yon.android.util.Auth;
 import io.yon.android.util.RxBus;
