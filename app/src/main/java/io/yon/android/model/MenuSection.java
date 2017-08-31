@@ -1,6 +1,7 @@
 package io.yon.android.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.parceler.Parcel;
 
@@ -23,6 +24,7 @@ public class MenuSection extends Model {
         return id;
     }
 
+    @JsonProperty("_id")
     public void setId(String id) {
         this.id = id;
     }
@@ -31,6 +33,7 @@ public class MenuSection extends Model {
         return name;
     }
 
+    @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
     }
@@ -39,6 +42,7 @@ public class MenuSection extends Model {
         return eatables;
     }
 
+    @JsonProperty("eatables")
     public void setEatables(List<Eatable> eatables) {
         this.eatables = eatables;
     }

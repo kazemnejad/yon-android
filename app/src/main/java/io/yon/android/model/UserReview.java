@@ -1,6 +1,7 @@
 package io.yon.android.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.parceler.Parcel;
 
@@ -36,6 +37,7 @@ public class UserReview extends Model {
         return id;
     }
 
+    @JsonProperty("_id")
     public void setId(int id) {
         this.id = id;
     }
@@ -44,6 +46,7 @@ public class UserReview extends Model {
         return userName;
     }
 
+    @JsonProperty("username")
     public void setUserName(String userName) {
         this.userName = userName;
     }

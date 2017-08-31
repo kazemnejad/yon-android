@@ -10,10 +10,12 @@ import io.yon.android.api.request.RegisterRequest;
 import io.yon.android.api.response.AuthResponse;
 import io.yon.android.api.response.BasicResponse;
 import io.yon.android.api.response.SearchResponse;
+import io.yon.android.model.MenuSection;
 import io.yon.android.model.OpeningInterval;
 import io.yon.android.model.Reservation;
 import io.yon.android.model.Restaurant;
 import io.yon.android.model.Tag;
+import io.yon.android.model.UserReview;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -119,6 +121,12 @@ public abstract class WebService {
 
         @GET("restaurant/{id}")
         Observable<Restaurant> getRestaurant(@Path("id") int id);
+
+        @GET("restaurant/{id}/menu")
+        Observable<List<MenuSection>> getRestaurantMenu(@Path("id") int id);
+
+        @GET("restaurant/{id}/review")
+        Observable<List<UserReview>> getRestaurantReview(@Path("id") int id);
 
         @GET("restaurant/{id}/hour")
         Observable<List<OpeningInterval>> getRestaurantOpenHours(@Path("id") int restaurantId, @Query("date") long date);

@@ -1,13 +1,12 @@
 package io.yon.android.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.parceler.Parcel;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 
 import io.yon.android.util.calendar.LanguageUtils;
 
@@ -24,7 +23,7 @@ public class Eatable extends Model {
     String featuresPicture;
     List<String> ingredients;
     List<String> pictureAlbum;
-    List<Tag> tags;
+    List<Tag> tagls;
 
     String ingredientsStr;
     String priceStr;
@@ -43,6 +42,7 @@ public class Eatable extends Model {
         return id;
     }
 
+    @JsonProperty("_id")
     public void setId(String id) {
         this.id = id;
     }
@@ -51,6 +51,7 @@ public class Eatable extends Model {
         return name;
     }
 
+    @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
     }
@@ -59,6 +60,7 @@ public class Eatable extends Model {
         return price;
     }
 
+    @JsonProperty("price")
     public void setPrice(int price) {
         this.price = price;
     }
@@ -66,6 +68,7 @@ public class Eatable extends Model {
     public float getRate() {
         return rate;
     }
+
 
     public void setRate(float rate) {
         this.rate = rate;
@@ -75,6 +78,7 @@ public class Eatable extends Model {
         return featuresPicture;
     }
 
+    @JsonProperty("featured_picture")
     public void setFeaturesPicture(String featuresPicture) {
         this.featuresPicture = featuresPicture;
     }
@@ -83,6 +87,7 @@ public class Eatable extends Model {
         return ingredients;
     }
 
+    @JsonProperty("ingredients")
     public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
     }
@@ -91,17 +96,18 @@ public class Eatable extends Model {
         return pictureAlbum;
     }
 
+    @JsonProperty("picture_album")
     public void setPictureAlbum(List<String> pictureAlbum) {
         this.pictureAlbum = pictureAlbum;
     }
 
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
-    }
+//    public List<Tag> getTags() {
+//        return tags;
+//    }
+//
+//    public void setTags(List<Tag> tags) {
+//        this.tags = tags;
+//    }
 
     public String getIngredientsStr() {
         if (ingredientsStr == null) {

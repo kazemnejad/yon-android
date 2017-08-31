@@ -76,16 +76,16 @@ public class RestaurantRepository {
     }
 
     public Observable<Lce<List<MenuSection>>> getRestaurantMenu(int restaurantId) {
-        return Observable.just(createMenu())
-                .delay(1700, TimeUnit.MILLISECONDS)
+        return WebService.getInstance()
+                .getRestaurantMenu(restaurantId)
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);
     }
 
     public Observable<Lce<List<UserReview>>> getRestaurantUserReviews(int restaurantId) {
-        return Observable.just(createUserReviews())
-                .delay(2400, TimeUnit.MILLISECONDS)
+        return WebService.getInstance()
+                .getRestaurantReview(restaurantId)
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);

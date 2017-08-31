@@ -90,7 +90,7 @@ public class RestaurantMenuFragment extends Fragment implements RestaurantContra
     @Override
     public void showError(Throwable e) {
         clearVisibilities();
-        Logger.e("e", e);
+        e.printStackTrace();
         errorContainer.setVisibility(View.VISIBLE);
     }
 
