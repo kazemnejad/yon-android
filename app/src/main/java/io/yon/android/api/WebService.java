@@ -12,6 +12,7 @@ import io.yon.android.api.response.BasicResponse;
 import io.yon.android.model.OpeningInterval;
 import io.yon.android.model.Reservation;
 import io.yon.android.model.Restaurant;
+import io.yon.android.model.Tag;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -112,6 +113,9 @@ public abstract class WebService {
         @GET("restaurant")
         Observable<List<Restaurant>> getRestaurantsByZone(@Query("zone") String zone);
 
+        @GET("restaurant")
+        Observable<List<Restaurant>> getRestaurantsByTags(@Query("tag") String... tag);
+
         @GET("restaurant/{id}")
         Observable<Restaurant> getRestaurant(@Path("id") int id);
 
@@ -126,5 +130,9 @@ public abstract class WebService {
 
         @POST("restaurant/{id}/reservation/new?table=true")
         Observable<Response<Reservation>> saveNewReservationWithTable(@Path("id") int restaurantId, @Body Reservation reservation);
+
+        // Tag content delivery
+        @GET("tag")
+        Observable<List<Tag>> getTags();
     }
 }

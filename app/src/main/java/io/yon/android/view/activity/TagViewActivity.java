@@ -1,6 +1,8 @@
 package io.yon.android.view.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -17,13 +19,14 @@ import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 import io.yon.android.R;
 import io.yon.android.contract.TagContract;
 import io.yon.android.model.Tag;
 import io.yon.android.presenter.TagPresenter;
-import io.yon.android.repository.RestaurantRepository;
 import io.yon.android.util.ViewUtils;
 import io.yon.android.view.RestaurantListItemConfig;
 import io.yon.android.view.dialog.TagSelectDialog;
@@ -46,6 +49,13 @@ public class TagViewActivity extends RestaurantListActivity implements TagContra
 
     private TagPresenter presenter;
 
+    public static void start(Context context, Tag tag) {
+        context.startActivity(
+                new Intent(context, TagViewActivity.class)
+                        .putExtra("tag", Parcels.wrap(tag))
+        );
+    }
+
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_tag_view;
@@ -55,10 +65,15 @@ public class TagViewActivity extends RestaurantListActivity implements TagContra
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         presenter = ViewModelProviders.of(this).get(TagPresenter.class);
         presenter.bindView(this);
 
-        presenter.setInitialTag(RestaurantRepository.makeTag("هندی"));
+//        Tag tag = Parcels.unwrap(getIntent().getParcelableExtra("tag"));
+        Tag tag = new Tag();
+        tag.setName("پیتزا");
+        tag.setSlug("pizza");
+        presenter.setInitialTag(tag);
 
         initView();
 

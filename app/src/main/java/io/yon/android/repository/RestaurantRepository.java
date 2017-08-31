@@ -52,8 +52,12 @@ public class RestaurantRepository {
     }
 
     public Observable<Lce<List<Restaurant>>> getRestaurantsByTags(List<Tag> tags) {
-        return Observable.just(createRestaurantList())
-                .delay(700, TimeUnit.MILLISECONDS)
+        String[] tagsSlug = new String[tags.size()];
+        for (int i = 0; i < tags.size(); i++)
+            tagsSlug[i] = tags.get(i).getSlug();
+
+        return WebService.getInstance()
+                .getRestaurantsByTags(tagsSlug)
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);

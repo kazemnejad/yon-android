@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.yon.android.api.WebService;
 import io.yon.android.model.Tag;
 
 /**
@@ -22,8 +23,8 @@ public class TagRepository {
     }
 
     public Observable<Lce<List<Tag>>> getTags() {
-        return Observable.just(createTags())
-                .delay(700, TimeUnit.MILLISECONDS)
+        return WebService.getInstance()
+                .getTags()
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);
