@@ -19,7 +19,6 @@ import org.parceler.Parcels;
 
 import io.yon.android.R;
 import io.yon.android.model.Restaurant;
-import io.yon.android.util.Auth;
 import io.yon.android.util.ViewUtils;
 import io.yon.android.view.GlideApp;
 import io.yon.android.view.RoundedCornersTransformation;
@@ -162,7 +161,7 @@ public class RestaurantViewActivity extends Activity {
     private void fillViewWithOfflineContent() {
         title.setText(mRestaurant.getName());
         toolbarTitle.setText(mRestaurant.getName());
-        subTitle.setText("ایتالیایی، هندی");
+        subTitle.setText(mRestaurant.getZoneLabel());
         rateLabel.setText(mRestaurant.getRateLabel());
         priceLabel.setText(mRestaurant.getPriceLabel());
 
