@@ -8,7 +8,6 @@ import com.orhanobut.logger.Logger;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
@@ -29,6 +28,8 @@ import io.yon.android.model.Zone;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 
+import static io.yon.android.repository.LocationRepository.NULL_LOCATION_PROVIDER;
+
 /**
  * Created by amirhosein on 8/2/17.
  */
@@ -46,8 +47,14 @@ public class ContentRepository {
     public Observable<Lce<List<Object>>> getShowcase(Context context) {
         SharedPreferences pref = Config.getCache(context.getApplicationContext());
 
-        return WebService.getInstance()
-                .getHomePage(-1, -1)
+        return LocationRepository.getInstance()
+                .getLocation(context)
+                .flatMap(location -> {
+                    if (NULL_LOCATION_PROVIDER.equals(location.getProvider()))
+                        return WebService.getInstance().getHomePage(null, null);
+                    else
+                        return WebService.getInstance().getHomePage(location.getLongitude(), location.getLatitude());
+                })
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error)

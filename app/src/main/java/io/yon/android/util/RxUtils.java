@@ -21,4 +21,9 @@ public class RxUtils {
         return upstream -> upstream.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    public static <T> ObservableTransformer<T, T> workerSchedulers() {
+        return upstream -> upstream.subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io());
+    }
 }
