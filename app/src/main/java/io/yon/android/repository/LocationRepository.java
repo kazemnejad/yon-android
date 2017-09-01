@@ -7,7 +7,10 @@ import android.location.Location;
 import android.support.v4.content.ContextCompat;
 
 import com.google.android.gms.location.LocationRequest;
+import com.orhanobut.logger.Logger;
 import com.patloew.rxlocation.RxLocation;
+
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.yon.android.util.RxUtils;
@@ -43,7 +46,7 @@ public class LocationRepository {
                 .checkAndHandleResolution(locationRequest)
                 .flatMapObservable(granted -> {
                     if (granted)
-                        return rxLocation.location().updates(locationRequest).compose(RxUtils.workerSchedulers());
+                        return rxLocation.location().updates(locationRequest, 10, TimeUnit.SECONDS).compose(RxUtils.workerSchedulers());
                     else
                         return rxLocation.location().lastLocation().toObservable().compose(RxUtils.workerSchedulers());
                 })

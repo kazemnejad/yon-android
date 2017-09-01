@@ -126,6 +126,9 @@
     <string name="tags">ویژگی‌ها</string>
     <string name="select_tag">انتخاب ویژگی</string>
     <string name="no_result">بدون نتایج</string>
+    <string name="zone_select_hint">نام منطفه (مثال: انقلاب)</string>
+    <string name="current_location">مکان فعلی</string>
+    <string name="select_zone">انتخاب منطقه</string>
 
 
 </resources>

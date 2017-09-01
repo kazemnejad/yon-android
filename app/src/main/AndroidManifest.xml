@@ -3,7 +3,7 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="io.yon.android">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -101,7 +101,8 @@
 
         <activity
             android:name=".view.activity.SearchActivity"
-            android:theme="@style/AppTheme.SearchActivity">
+            android:theme="@style/AppTheme.SearchActivity"
+            android:windowSoftInputMode="stateVisible">
 
             <!--<intent-filter>-->
             <!--<action android:name="android.intent.action.MAIN"/>-->
@@ -112,11 +113,13 @@
         </activity>
 
 
-        <activity android:name=".view.activity.RestaurantListTestActivity">
+        <activity
+            android:name=".view.activity.ZoneSelectActivity"
+            android:windowSoftInputMode="stateVisible">
             <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN"/>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
 
-            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
             <!--</intent-filter>-->
         </activity>
 

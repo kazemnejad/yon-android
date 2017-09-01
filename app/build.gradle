@@ -82,7 +82,8 @@ dependencies {
 
     compile 'com.orhanobut:logger:2.1.1'
 
-    compile 'com.google.android.gms:play-services-location:11.0.4'
+//    compile 'com.google.android.gms:play-services-location:11.0.4'
+    compile 'com.google.android.gms:play-services-location:10.2.1'
 
     compile 'org.parceler:parceler-api:1.1.9'
     annotationProcessor 'org.parceler:parceler:1.1.9'

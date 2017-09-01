@@ -44,7 +44,7 @@ public class ContentRepository {
         return instance;
     }
 
-    public Observable<Lce<List<Object>>> getShowcase(Context context) {
+    public Observable<Lce<List<Object>>> getShowcase(Context context, Zone zone) {
         SharedPreferences pref = Config.getCache(context.getApplicationContext());
 
         return LocationRepository.getInstance()

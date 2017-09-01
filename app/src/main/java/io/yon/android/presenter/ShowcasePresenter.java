@@ -9,6 +9,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.yon.android.Config;
 import io.yon.android.contract.ShowcaseContract;
+import io.yon.android.model.Zone;
 import io.yon.android.repository.ContentRepository;
 import io.yon.android.repository.Lce;
 import io.yon.android.util.RxUtils;
@@ -19,6 +20,8 @@ import io.yon.android.view.MvpView;
  */
 
 public class ShowcasePresenter extends Presenter implements ShowcaseContract.Presenter {
+    private Zone currentZone;
+
     private ShowcaseContract.View view;
 
     private Observable<Lce<List<Object>>> fetchObservable;
@@ -29,6 +32,14 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
     public ShowcasePresenter(Application application) {
         super(application);
         cacheWasAvailable = Config.getCache(application).contains(Config.Field.ShowCase);
+    }
+
+    public Zone getCurrentZone() {
+        return currentZone;
+    }
+
+    public void setCurrentZone(Zone currentZone) {
+        this.currentZone = currentZone;
     }
 
     @Override
@@ -51,7 +62,7 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
             if (cacheWasAvailable)
                 showcase = ContentRepository.getInstance().getShowcaseFromCache(getApplication());
             else
-                showcase = ContentRepository.getInstance().getShowcase(getApplication());
+                showcase = ContentRepository.getInstance().getShowcase(getApplication(), currentZone);
 
             fetchObservable = showcase
                     .compose(RxUtils.applySchedulers())
@@ -87,7 +98,7 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
     @Override
     public void reFetchData() {
         if (reFetchObservable == null)
-            reFetchObservable = ContentRepository.getInstance().getShowcase(getApplication())
+            reFetchObservable = ContentRepository.getInstance().getShowcase(getApplication(), currentZone)
                     .compose(RxUtils.applySchedulers())
                     .cache();
 
@@ -97,14 +108,28 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
                             if (lce.isLoading()) {
                                 view.showReloading();
                             } else if (lce.hasError()) {
+                                reFetchObservable = null;
                                 view.showReloadError(lce.getError());
-                                reFetchObservable = null;
                             } else {
-                                view.showData(lce.getData());
                                 reFetchObservable = null;
+                                view.showData(lce.getData());
                             }
                         }
                 )));
+        reFetchObservable.subscribe(lce -> {
+            if (view == null)
+                return;
+
+            if (lce.isLoading()) {
+                view.showReloading();
+            } else if (lce.hasError()) {
+                reFetchObservable = null;
+                view.showReloadError(lce.getError());
+            } else {
+                reFetchObservable = null;
+                view.showData(lce.getData());
+            }
+        });
     }
 
     @Override

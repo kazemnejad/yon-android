@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,10 +15,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import io.yon.android.Config;
 import io.yon.android.R;
@@ -33,6 +38,8 @@ import io.yon.android.view.widget.ShowcaseOnScrollListener;
 
 public class MainActivity extends Activity implements ShowcaseContract.View {
 
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
 
@@ -40,6 +47,7 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
     private LinearLayout errorContainer;
     private Button btnRetry;
     private View appBar;
+    private TextView btnSelectZone;
 
     private ShowcaseAdapter mAdapter;
     private RxBus mClickEventBus = new RxBus();
@@ -55,8 +63,10 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (!checkPlayServiceAvailable())
+            return;
+
         setHasOptionMenu(true);
-        setTitle(R.string.app_name);
 
         initView();
 
@@ -74,6 +84,7 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         errorContainer = (LinearLayout) findViewById(R.id.error_container);
+        btnSelectZone = (TextView) findViewById(R.id.toolbar_text_main);
         btnRetry = (Button) findViewById(R.id.btn_retry);
         appBar = findViewById(R.id.appbar);
     }
@@ -101,6 +112,7 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
         mRecyclerView.setAdapter(mAdapter);
 
         btnRetry.setOnClickListener(v -> presenter.fetchData());
+        btnSelectZone.setOnClickListener(v -> handleSelectZoneClick());
 
         swipeRefreshLayout.setOnRefreshListener(() -> presenter.reFetchData());
     }
@@ -166,6 +178,22 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
         mAdapter.setDataAndUpdate(data);
     }
 
+    protected boolean checkPlayServiceAvailable() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i("", "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
     private void invisibleAll() {
         mProgressBar.setVisibility(View.GONE);
         swipeRefreshLayout.setVisibility(View.INVISIBLE);
@@ -188,5 +216,18 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
                 }
             });
         }).start();
+    }
+
+    private void handleSelectZoneClick() {
+        ZoneSelectActivity.start(this, zone -> {
+            if (btnSelectZone == null)
+                return;
+
+            if (zone != null)
+                btnSelectZone.setText(zone.getName());
+
+
+            presenter.reFetchData();
+        });
     }
 }
