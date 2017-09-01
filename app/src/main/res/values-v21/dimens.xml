@@ -3,4 +3,5 @@
     <dimen name="restaurant_view_header_height">190dp</dimen>
     <dimen name="reservation_header_height">146dp</dimen>
     <dimen name="reservation_activity_toolbar_margin_top">20dp</dimen>
+    <dimen name="navigation_view_header_padding_top">@dimen/status_bar_height</dimen>
 </resources>

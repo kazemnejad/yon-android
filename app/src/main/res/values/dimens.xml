@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="status_bar_height">24dp</dimen>
+
     <dimen name="material_step_1_margin">16dp</dimen>
     <dimen name="material_step_2_margin">72dp</dimen>
     <dimen name="material_diff_step_12_margin">72dp</dimen>
@@ -24,4 +26,6 @@
 
     <dimen name="reservation_header_height">120dp</dimen>
     <dimen name="reservation_activity_toolbar_margin_top">0dp</dimen>
+
+    <dimen name="navigation_view_header_padding_top">0dp</dimen>
 </resources>
