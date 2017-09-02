@@ -1,5 +1,10 @@
 package io.yon.android.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -14,17 +19,28 @@ import java.util.HashMap;
 @Parcel
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Table extends Model {
+    @ColumnInfo(name = "id")
     String id;
+
+    @ColumnInfo(name = "name")
     String name;
+
+    @Ignore
     float x;
+    @Ignore
     float y;
+    @Ignore
     int shape;
+    @Ignore
     float angle;
+    @Ignore
     int capacity;
+    @Ignore
     String shapeName;
 
     public Table() {}
 
+    @Ignore
     public Table(String id) {
         this.id = id;
     }

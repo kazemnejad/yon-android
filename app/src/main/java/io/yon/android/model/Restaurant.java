@@ -1,5 +1,10 @@
 package io.yon.android.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -17,27 +22,51 @@ import io.yon.android.util.calendar.LanguageUtils;
 @Parcel
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Restaurant extends Model {
+    @ColumnInfo(name = "id")
     int id = -1;
+
+    @ColumnInfo(name = "name")
     String name;
+    @ColumnInfo(name = "branch")
     String branch;
+    @ColumnInfo(name = "avatar")
     String avatarUrl;
+    @Ignore
     float rate = -1;
+    @Ignore
     String rateLabel;
+    @Ignore
     float price = -1;
+    @Ignore
     String priceLabel;
+    @Ignore
     String address;
+    @Ignore
     String bannerUrl;
+    @Ignore
     double longitude = -1;
+    @Ignore
     double latitude = -1;
+    @Ignore
     String zoneSlug;
+    @Ignore
     String zoneLabel;
+    @Ignore
     float distanceFromMyLocation = -1;
+    @Ignore
     String distanceLabel;
+    @Ignore
     List<Tag> tags;
+    @Ignore
     List<Map> maps;
+    @Ignore
     List<List<OpeningInterval>> openHours;
+    @Ignore
     java.util.Map<String, String> info;
+    @Ignore
     java.util.Map<String, Double> location;
+
+    public Restaurant() {}
 
     public int getId() {
         return id;
@@ -208,5 +237,13 @@ public class Restaurant extends Model {
 
     public String getDistanceLabel() {
         return distanceLabel;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
     }
 }

@@ -135,5 +135,6 @@
     <string name="about_us">درباره ما</string>
     <string name="user_points">%1d امتیاز</string>
     <string name="logout">خروج از حساب کاربری</string>
+    <string name="guest_count_label">میز برای %1d نفر</string>
 
 </resources>

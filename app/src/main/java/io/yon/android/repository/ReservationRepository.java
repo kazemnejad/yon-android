@@ -1,13 +1,17 @@
 package io.yon.android.repository;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 import io.yon.android.api.WebService;
 import io.yon.android.api.response.BasicResponse;
+import io.yon.android.db.AppDatabase;
 import io.yon.android.model.Reservation;
 import io.yon.android.model.Restaurant;
 import io.yon.android.model.Table;
@@ -42,7 +46,7 @@ public class ReservationRepository {
                 .onErrorReturn(Lce::error);
     }
 
-    public Observable<Lce<Response<Reservation>>> saveReservation(Restaurant restaurant, Reservation reservation) {
+    public Observable<Lce<Response<Reservation>>> saveReservation(Context context, Restaurant restaurant, Reservation reservation) {
         Observable<Response<Reservation>> responseObservable = null;
         if (reservation.getTable() != null)
             responseObservable = WebService.getInstance().saveNewReservationWithTable(restaurant.getId(), reservation);
@@ -50,6 +54,7 @@ public class ReservationRepository {
             responseObservable = WebService.getInstance().saveNewReservation(restaurant.getId(), reservation);
 
         return responseObservable
+                .map(saveToDb(context, restaurant))
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);
@@ -61,6 +66,21 @@ public class ReservationRepository {
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);
+    }
+
+    private static Function<Response<Reservation>, Response<Reservation>> saveToDb(Context context, Restaurant restaurant) {
+        return reservationResponse -> {
+            if (reservationResponse.isSuccessful()) {
+                Reservation reservation = reservationResponse.body();
+                reservation.setRestaurant(restaurant);
+
+                AppDatabase.getInstance(context.getApplicationContext())
+                        .reservationDao()
+                        .insert(reservation);
+            }
+
+            return reservationResponse;
+        };
     }
 
     private static List<Reservation> createReservation() {

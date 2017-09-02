@@ -1,5 +1,11 @@
 package io.yon.android.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Embedded;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,29 +15,43 @@ import org.parceler.Parcel;
  * Created by amirhosein on 8/19/2017 AD.
  */
 
+@Entity
 @Parcel
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Reservation extends Model {
+    @PrimaryKey
     int id;
-    Table table;
+
+    @ColumnInfo(name = "datetime")
     long datetime = -1;
+
+    @ColumnInfo(name = "guest_count")
     int guestCount = 0;
+
+    @ColumnInfo(name = "note")
     String note;
+
+    @Embedded(prefix = "table_")
+    Table table;
+
+    @Embedded(prefix = "rest_")
+    Restaurant restaurant;
 
     public Reservation() {}
 
+    @Ignore
     public Reservation(Table table, long datetime, int guestCount) {
         this.table = table;
         this.datetime = datetime;
         this.guestCount = guestCount;
     }
 
-    @JsonProperty("id")
+    @JsonProperty("_id")
     public int getId() {
         return id;
     }
 
-    @JsonProperty("id")
+    @JsonProperty("_id")
     public void setId(int id) {
         this.id = id;
     }
@@ -82,5 +102,13 @@ public class Reservation extends Model {
     @JsonProperty("table_id")
     public void setTableId(String tableId) {
         this.table = new Table(tableId);
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 }

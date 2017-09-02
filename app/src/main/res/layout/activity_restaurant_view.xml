@@ -9,15 +9,7 @@
                                         tools:context="io.yon.android.view.activity.MainActivity">
 
     <include layout="@layout/activity_restaurant_view_content"/>
-
-    <android.support.design.widget.NavigationView
-        android:id="@+id/navigation_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="right"
-        android:gravity="right"
-        app:menu="@menu/drawer">
-
-    </android.support.design.widget.NavigationView>
+xxxxxxxx
+    <include layout="@layout/navigation_view" />
 
 </android.support.v4.widget.DrawerLayout>

@@ -165,7 +165,7 @@ public abstract class Activity extends AppCompatActivity implements LifecycleReg
 
         drawerHelper = new DrawerHelper(this, mDrawerLayout);
         drawerHelper.setNavigationItemSelectListener(getNavigationMenuItemSelectListener());
-        drawerHelper.checkMenuItem(getCheckedMenuItems());
+        drawerHelper.setMenuItemsChecked(getCheckedMenuItems());
         drawerHelper.init();
 
         if (toolbarRightButton == null)

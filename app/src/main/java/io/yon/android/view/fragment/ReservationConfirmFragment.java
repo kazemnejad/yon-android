@@ -158,6 +158,7 @@ public class ReservationConfirmFragment extends Fragment implements ReservationC
     @Override
     public void showError(Throwable e) {
         clearVisibilities();
+        e.printStackTrace();
         Toast.makeText(getContext(), R.string.unable_to_connect_to_server, Toast.LENGTH_SHORT)
                 .show();
     }

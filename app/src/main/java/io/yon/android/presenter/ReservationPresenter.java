@@ -254,7 +254,7 @@ public class ReservationPresenter extends Presenter implements ReservationContra
     public void saveReservation() {
         Reservation res = buildReservationObj();
         saveReservationObservable = ReservationRepository.getInstance()
-                .saveReservation(restaurant, res)
+                .saveReservation(getApplication(), restaurant, res)
                 .compose(RxUtils.applySchedulers())
                 .cache();
         loadPendingSaveReservation();
