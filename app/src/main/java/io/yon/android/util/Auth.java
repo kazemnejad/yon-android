@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 
 import io.yon.android.Config;
+import io.yon.android.db.AppDatabase;
 import io.yon.android.model.User;
 import io.yon.android.view.activity.Activity;
 import io.yon.android.view.activity.AuthActivity;
@@ -61,6 +62,11 @@ public class Auth {
                 .remove(Config.Field.Email)
                 .remove(Config.Field.Avatar)
                 .apply();
+
+        new Thread(() -> AppDatabase.getInstance(context.getApplicationContext())
+                .reservationDao()
+                .deleteAll())
+                .start();
     }
 
     public static User user(Context context) {

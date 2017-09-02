@@ -279,8 +279,11 @@ public abstract class Activity extends AppCompatActivity implements LifecycleReg
             Auth.login(this, null);
         else if (id == R.id.menu_item_mb_logout) {
             Auth.logout(this);
-            if (this instanceof MainActivity)
+            if (this instanceof MainActivity) {
                 recreate();
+            } else if (drawerHelper != null){
+                drawerHelper.invalidate();
+            }
         }
 
         return false;

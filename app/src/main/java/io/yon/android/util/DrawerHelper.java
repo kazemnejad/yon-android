@@ -4,7 +4,6 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -121,8 +120,7 @@ public class DrawerHelper implements NavigationView.OnNavigationItemSelectedList
     }
 
     private void initCurrentReservations() {
-        if (!isUserAuthenticated)
-            return;
+
 
 ////        RecyclerView recyclerView = (RecyclerView) mNavigationView.getMenu()
 ////                .findItem(R.id.current_reservation)
@@ -153,6 +151,12 @@ public class DrawerHelper implements NavigationView.OnNavigationItemSelectedList
 ////                });
 
         View lastReservation = mNavigationView.findViewById(R.id.nv_reserve_info_container);
+
+        if (!isUserAuthenticated) {
+            lastReservation.setVisibility(View.INVISIBLE);
+            return;
+        }
+
         ItemNvReservationViewHolder viewHolder = new ItemNvReservationViewHolder(lastReservation, mContext, bus);
         AppDatabase.getInstance(mContext.getApplicationContext())
                 .reservationDao()
