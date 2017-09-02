@@ -177,7 +177,7 @@ public class DrawerHelper implements NavigationView.OnNavigationItemSelectedList
                                     });
                                     d.show();
                                 });
-                    }else
+                    } else
                         lastReservation.setVisibility(View.INVISIBLE);
                 });
 
