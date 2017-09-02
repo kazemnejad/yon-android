@@ -8,6 +8,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.yon.android.Config;
+import io.yon.android.api.response.ShowcaseResponse;
 import io.yon.android.contract.ShowcaseContract;
 import io.yon.android.model.Zone;
 import io.yon.android.repository.ContentRepository;
@@ -24,8 +25,8 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
 
     private ShowcaseContract.View view;
 
-    private Observable<Lce<List<Object>>> fetchObservable;
-    private Observable<Lce<List<Object>>> reFetchObservable;
+    private Observable<Lce<ShowcaseResponse>> fetchObservable;
+    private Observable<Lce<ShowcaseResponse>> reFetchObservable;
 
     private boolean cacheWasAvailable;
 
@@ -59,12 +60,12 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
     public void fetchData() {
         if (fetchObservable == null) {
             Observable<Lce<List<Object>>> showcase = null;
-            if (cacheWasAvailable)
-                showcase = ContentRepository.getInstance().getShowcaseFromCache(getApplication());
-            else
-                showcase = ContentRepository.getInstance().getShowcase(getApplication(), currentZone);
+//            if (cacheWasAvailable)
+//                showcase = ContentRepository.getInstance().getShowcaseFromCache(getApplication());
+//            else
+//                showcase = ContentRepository.getInstance().getShowcase(getApplication(), currentZone);
 
-            fetchObservable = showcase
+            fetchObservable = ContentRepository.getInstance().getShowcase(getApplication(), currentZone)
                     .compose(RxUtils.applySchedulers())
                     .cache();
         }
@@ -87,7 +88,7 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
                                 cacheWasAvailable = false;
                                 fetchData();
                             } else {
-                                view.showData(lce.getData());
+                                view.showData(lce.getData().getProcessedResponse(), lce.getData().getLocation());
                                 if (cacheWasAvailable)
                                     reFetchData();
                             }
@@ -112,7 +113,7 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
                                 view.showReloadError(lce.getError());
                             } else {
                                 reFetchObservable = null;
-                                view.showData(lce.getData());
+                                view.showData(lce.getData().getProcessedResponse(), lce.getData().getLocation());
                             }
                         }
                 )));
@@ -127,7 +128,7 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
                 view.showReloadError(lce.getError());
             } else {
                 reFetchObservable = null;
-                view.showData(lce.getData());
+                view.showData(lce.getData().getProcessedResponse(), lce.getData().getLocation());
             }
         });
     }

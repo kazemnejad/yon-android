@@ -29,6 +29,7 @@ import io.yon.android.Config;
 import io.yon.android.R;
 import io.yon.android.contract.ShowcaseContract;
 import io.yon.android.model.Restaurant;
+import io.yon.android.model.Zone;
 import io.yon.android.presenter.ShowcasePresenter;
 import io.yon.android.util.Auth;
 import io.yon.android.util.RxBus;
@@ -177,8 +178,11 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
     }
 
     @Override
-    public void showData(List<Object> data) {
+    public void showData(List<Object> data, Zone location) {
         invisibleAll();
+
+        if (location != null)
+            btnSelectZone.setText(location.getName());
 
         if (swipeRefreshLayout.isRefreshing())
             swipeRefreshLayout.setRefreshing(false);

@@ -111,7 +111,7 @@ public abstract class WebService {
 
         // Content providers end-points
         @GET("home/mobile")
-        Observable<Response<ResponseBody>> getHomePage(@Query("long") Double longitude, @Query("lat") Double latitude);
+        Observable<Response<ResponseBody>> getHomePage(@Query("long") Double longitude, @Query("lat") Double latitude, @Query("zone_slug") String zoneSlug);
 
         // Restaurant content delivery
         @GET("restaurant")

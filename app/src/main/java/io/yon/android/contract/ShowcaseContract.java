@@ -2,6 +2,7 @@ package io.yon.android.contract;
 
 import java.util.List;
 
+import io.yon.android.model.Zone;
 import io.yon.android.view.MvpView;
 
 /**
@@ -26,6 +27,6 @@ public class ShowcaseContract extends Contract {
 
         void showReloadError(Throwable e);
 
-        void showData(List<Object> data);
+        void showData(List<Object> data, Zone location);
     }
 }

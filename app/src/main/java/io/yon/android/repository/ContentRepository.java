@@ -44,16 +44,18 @@ public class ContentRepository {
         return instance;
     }
 
-    public Observable<Lce<List<Object>>> getShowcase(Context context, Zone zone) {
+    public Observable<Lce<ShowcaseResponse>> getShowcase(Context context, Zone zone) {
         SharedPreferences pref = Config.getCache(context.getApplicationContext());
 
         return LocationRepository.getInstance()
                 .getLocation(context)
                 .flatMap(location -> {
                     if (NULL_LOCATION_PROVIDER.equals(location.getProvider()))
-                        return WebService.getInstance().getHomePage(null, null);
+                        return WebService.getInstance().getHomePage(null, null, zone != null ? zone.getSlug() : null);
+                    else if (zone == null)
+                        return WebService.getInstance().getHomePage(location.getLongitude(), location.getLatitude(), null);
                     else
-                        return WebService.getInstance().getHomePage(location.getLongitude(), location.getLatitude());
+                        return WebService.getInstance().getHomePage(null, null, zone.getSlug());
                 })
                 .map(Lce::data)
                 .startWith(Lce.loading())
@@ -63,13 +65,13 @@ public class ContentRepository {
                 .compose(polishData());
     }
 
-    public Observable<Lce<List<Object>>> getShowcaseFromCache(Context context) {
-        return showcaseCache(context.getApplicationContext())
-                .map(Lce::data)
-                .startWith(Lce.loading())
-                .onErrorReturn(Lce::error)
-                .compose(polishData());
-    }
+//    public Observable<Lce<List<Object>>> getShowcaseFromCache(Context context) {
+//        return showcaseCache(context.getApplicationContext())
+//                .map(Lce::data)
+//                .startWith(Lce.loading())
+//                .onErrorReturn(Lce::error)
+//                .compose(polishData());
+//    }
 
     public Observable<Lce<List<SearchResultSection>>> search(String query) {
         return WebService.getInstance()
@@ -116,14 +118,16 @@ public class ContentRepository {
         return WebService.getBodyFromJson(resBody, ShowcaseResponse.class);
     }
 
-    private static ObservableTransformer<Lce<ShowcaseResponse>, Lce<List<Object>>> polishData() {
+    private static ObservableTransformer<Lce<ShowcaseResponse>, Lce<ShowcaseResponse>> polishData() {
         return upstream -> upstream.map(lce -> {
             if (lce.hasError())
                 return Lce.error(lce.getError());
             else if (lce.isLoading())
                 return Lce.loading();
-            else
-                return Lce.data(convert(lce.getData()));
+            else {
+                lce.getData().setProcessedResponse(convert(lce.getData()));
+                return lce;
+            }
         });
     }
 
