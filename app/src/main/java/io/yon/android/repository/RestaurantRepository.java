@@ -120,7 +120,7 @@ public class RestaurantRepository {
             return new ArrayList<>();
 
 
-        openHours.sort((a, b) -> a.getStart() < b.getStart() ? -1 : a.getStart() == b.getStart() ? 0 : 1);
+        Collections.sort(openHours, (a, b) -> a.getStart() < b.getStart() ? -1 : a.getStart() == b.getStart() ? 0 : 1);
 
         int point = getStartPoint(openHours.get(0));
 

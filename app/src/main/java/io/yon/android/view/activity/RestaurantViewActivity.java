@@ -117,14 +117,14 @@ public class RestaurantViewActivity extends Activity {
             if (mRestaurant.getMaps() == null)
                 return;
 
-            ReservationActivity.start(getApplication(), mRestaurant);
+            ReservationActivity.start(this, mRestaurant);
         });
 
         btnReserve.setOnClickListener(v -> {
             if (mRestaurant.getMaps() == null)
                 return;
 
-            ReservationActivity.start(getApplication(), mRestaurant);
+            ReservationActivity.start(this, mRestaurant);
         });
 
         final int actionBarSize = getToolbarHeight();

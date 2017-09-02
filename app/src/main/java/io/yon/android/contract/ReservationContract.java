@@ -6,7 +6,7 @@ import java.util.List;
 import io.yon.android.api.response.BasicResponse;
 import io.yon.android.model.OpenTimeSlotSection;
 import io.yon.android.model.Reservation;
-import io.yon.android.util.calendar.PersianCalendar;
+import io.yon.android.view.LceView;
 import io.yon.android.view.MvpView;
 import retrofit2.Response;
 
@@ -26,6 +26,10 @@ public class ReservationContract extends Contract {
         void loadPendingSaveReservation();
 
         void saveInvitation(Reservation reservation, List<String> emails, String text);
+    }
+
+    public interface CancelPresenter {
+        void cancelReservation(Reservation reservation);
     }
 
     public interface TimeView extends MvpView {
@@ -53,4 +57,6 @@ public class ReservationContract extends Contract {
 
         void showForbiddenTables(HashMap<String, Boolean> forbiddenTables);
     }
+
+    public interface CancelView extends LceView<Response<BasicResponse>> {}
 }

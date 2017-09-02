@@ -144,6 +144,18 @@
             android:textColor="@color/black_54"
             android:textSize="13sp"/>
 
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_cancel_reservation"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:minWidth="60dp"
+            android:text="لفو"
+            android:textColor="@color/colorPrimary"/>
+
     </RelativeLayout>
 
 </android.support.design.widget.NavigationView>

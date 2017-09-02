@@ -2,6 +2,7 @@ package io.yon.android.view.adapter.viewholder;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.TimeZone;
@@ -19,6 +20,7 @@ import io.yon.android.util.calendar.PersianCalendar;
 public class ItemNvReservationViewHolder extends ViewHolder<Reservation> implements View.OnClickListener {
 
     private TextView monthDay, month, weekDay, restaurantName, guestCount, time;
+    private Button btnCancelReservation;
 
     public static Factory<ItemNvReservationViewHolder> getFactory() {
         return (inflater, parent, context, bus) -> new ItemNvReservationViewHolder(
@@ -40,11 +42,14 @@ public class ItemNvReservationViewHolder extends ViewHolder<Reservation> impleme
         restaurantName = (TextView) findViewById(R.id.restaurant_name);
         guestCount = (TextView) findViewById(R.id.label_guest_count);
         time = (TextView) findViewById(R.id.time);
+        btnCancelReservation = (Button) findViewById(R.id.btn_cancel_reservation);
     }
 
     @Override
     protected void initViews() {
         getItemView().setOnClickListener(this);
+
+//        btnCancelReservation.setOnClickListener(v -> getBus().send("cancel_reservation"));
     }
 
     @Override

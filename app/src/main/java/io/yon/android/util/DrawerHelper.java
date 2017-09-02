@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.orhanobut.logger.Logger;
 
 import io.yon.android.R;
 import io.yon.android.db.AppDatabase;
@@ -22,6 +23,7 @@ import io.yon.android.util.calendar.LanguageUtils;
 import io.yon.android.view.GlideApp;
 import io.yon.android.view.activity.Activity;
 import io.yon.android.view.adapter.viewholder.ItemNvReservationViewHolder;
+import io.yon.android.view.dialog.ReservationCancelDialog;
 
 /**
  * Created by amirhosein on 6/3/17.
@@ -41,6 +43,7 @@ public class DrawerHelper implements NavigationView.OnNavigationItemSelectedList
         mContext = context;
         mDrawerLayout = drawerLayout;
         mNavigationView = (NavigationView) mDrawerLayout.findViewById(R.id.navigation_view);
+        bus.toObservable().subscribe(this::handleReservationClick);
     }
 
     public void init() {
@@ -165,7 +168,17 @@ public class DrawerHelper implements NavigationView.OnNavigationItemSelectedList
                     if (lst.size() > 0) {
                         lastReservation.setVisibility(View.VISIBLE);
                         viewHolder.bindContent(lst.get(lst.size() - 1));
-                    }
+                        lastReservation.findViewById(R.id.btn_cancel_reservation)
+                                .setOnClickListener(v -> {
+                                    ReservationCancelDialog d = new ReservationCancelDialog(mContext, lst.get(lst.size() - 1));
+                                    d.setOnCancelListener(dialog -> {
+                                        Logger.d("ddd");
+                                        invalidate();
+                                    });
+                                    d.show();
+                                });
+                    }else
+                        lastReservation.setVisibility(View.INVISIBLE);
                 });
 
     }
@@ -208,5 +221,8 @@ public class DrawerHelper implements NavigationView.OnNavigationItemSelectedList
             int id = checkedMenuItems[i];
             mNavigationView.getMenu().findItem(id).setChecked(true);
         }
+    }
+
+    private void handleReservationClick(Object o) {
     }
 }

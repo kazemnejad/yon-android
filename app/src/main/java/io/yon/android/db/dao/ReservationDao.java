@@ -8,7 +8,6 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
-import io.reactivex.Single;
 import io.yon.android.model.Reservation;
 
 /**
@@ -31,6 +30,9 @@ public interface ReservationDao {
 
     @Insert
     void insert(Reservation reservation);
+
+    @Delete
+    void delete(Reservation reservation);
 
     @Query("DELETE FROM reservation")
     void deleteAll();

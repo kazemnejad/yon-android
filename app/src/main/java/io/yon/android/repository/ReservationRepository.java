@@ -46,7 +46,7 @@ public class ReservationRepository {
                 .onErrorReturn(Lce::error);
     }
 
-    public Observable<Lce<Response<Reservation>>> saveReservation(Context context, Restaurant restaurant, Reservation reservation) {
+    public Observable<Lce<Response<Reservation>>> save(Context context, Restaurant restaurant, Reservation reservation) {
         Observable<Response<Reservation>> responseObservable = null;
         if (reservation.getTable() != null)
             responseObservable = WebService.getInstance().saveNewReservationWithTable(restaurant.getId(), reservation);
@@ -63,6 +63,14 @@ public class ReservationRepository {
     public Observable<Lce<Response<BasicResponse>>> saveInvitation(Reservation reservation, List<String> email, String text) {
         return Observable.just(Response.success(new BasicResponse()))
                 .delay(1700, TimeUnit.MILLISECONDS)
+                .map(Lce::data)
+                .startWith(Lce.loading())
+                .onErrorReturn(Lce::error);
+    }
+
+    public Observable<Lce<Response<BasicResponse>>> remove(Reservation reservation) {
+        return Observable.just(Response.success(new BasicResponse()))
+                .delay(700, TimeUnit.MILLISECONDS)
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);

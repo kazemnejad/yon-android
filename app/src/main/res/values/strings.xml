@@ -136,5 +136,10 @@
     <string name="user_points">%1d امتیاز</string>
     <string name="logout">خروج از حساب کاربری</string>
     <string name="guest_count_label">میز برای %1d نفر</string>
+    <string name="cancel_reservation">کنسل‌کردن رزرو</string>
+    <string name="reservation_cancel_hint" formatted="false">آیا شما مطمئن می‌خواهید رززو خود را در «%1s» روز %2s، ساعت %3s کنسل کنید؟</string>
+    <string name="please_wait">لطفا صبر کنید.</string>
+    <string name="unable_to_connect_to_server_try_again">مشکل در برقراری ارتباط با سرور، دوباره امتحان کنید.</string>
+    <string name="reservation_canceled_successfully">رزرو با موفقیت کنسل شد.</string>
 
 </resources>
