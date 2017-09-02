@@ -54,6 +54,7 @@
                 <ImageButton
                     android:id="@+id/toolbar_icon_right"
                     style="@style/ToolbarButton"
+                    android:background="@drawable/round_button_light"
                     android:layout_marginRight="4dp"
                     android:src="@drawable/ic_menu_24dp"
                     android:visibility="gone"/>
@@ -77,8 +78,10 @@
                 <ImageButton
                     android:id="@+id/toolbar_icon_left"
                     style="@style/ToolbarButton"
+                    android:layout_marginLeft="4dp"
+                    android:background="@drawable/round_button_light"
                     android:src="@drawable/ic_search_24dp"
-                    android:visibility="gone"/>
+                    android:visibility="visible"/>
 
             </LinearLayout>
 

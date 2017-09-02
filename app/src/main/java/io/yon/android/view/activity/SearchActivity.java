@@ -56,7 +56,7 @@ public class SearchActivity extends Activity implements SearchContract.View {
     @Override
     protected int[] getCheckedMenuItems() {
         return new int[]{
-                R.id.menu_item_search, R.id.menu_item_search
+                R.id.menu_item_search, R.id.menu_item_mb_search
         };
     }
 

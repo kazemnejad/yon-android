@@ -11,7 +11,9 @@
             android:title="@string/home_page"/>
 
         <item
+            android:checkable="true"
             android:id="@+id/menu_item_search"
+            android:enabled="true"
             android:icon="@drawable/ic_search_24dp"
             android:title="@string/search"/>
         <item
@@ -29,13 +31,16 @@
         android:checkableBehavior="single"
         android:visible="false">
         <item
+            android:checkable="true"
             android:id="@+id/menu_item_mb_home"
             android:enabled="true"
             android:icon="@drawable/ic_store_24dp"
             android:title="@string/home_page"/>
 
         <item
+            android:checkable="true"
             android:id="@+id/menu_item_mb_search"
+            android:enabled="true"
             android:icon="@drawable/ic_search_24dp"
             android:title="@string/search"/>
         <item

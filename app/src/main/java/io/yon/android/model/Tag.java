@@ -40,7 +40,7 @@ public class Tag extends Model {
         return avatarUrl;
     }
 
-    @JsonProperty("avatar_url")
+    @JsonProperty("avatar")
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
     }

@@ -122,36 +122,6 @@ public class DrawerHelper implements NavigationView.OnNavigationItemSelectedList
     }
 
     private void initCurrentReservations() {
-
-
-////        RecyclerView recyclerView = (RecyclerView) mNavigationView.getMenu()
-////                .findItem(R.id.current_reservation)
-////                .getActionView();
-//
-////        mNavigationView.g
-//
-//        RecyclerView recyclerView = (RecyclerView) mNavigationView.findViewById(R.id.navigation_current_reservation_recycler_view);
-//
-////        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) recyclerView.getLayoutParams();
-////        params.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-////        recyclerView.setLayoutParams(params);
-//
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-//
-//        Adapter<Reservation, ItemNvReservationViewHolder> adapter = new Adapter<>(mContext, null, bus, ItemNvReservationViewHolder.getFactory());
-//        recyclerView.setAdapter(adapter);
-//
-////        AppDatabase.getInstance(mContext.getApplicationContext())
-////                .reservationDao()
-////                .loadAllReservations()
-////                .toObservable()
-////                .compose(RxUtils.applySchedulers())
-////                .subscribe(lst -> {
-////                    if (adapter != null)
-////                        adapter.setDataAndNotify(lst);
-////                });
-
         View lastReservation = mNavigationView.findViewById(R.id.nv_reserve_info_container);
 
         if (!isUserAuthenticated) {
@@ -215,7 +185,11 @@ public class DrawerHelper implements NavigationView.OnNavigationItemSelectedList
 
         for (int i = 0; i < checkedMenuItems.length; i++) {
             int id = checkedMenuItems[i];
-            mNavigationView.getMenu().findItem(id).setChecked(true);
+            mNavigationView.getMenu()
+                    .findItem(id)
+                    .setCheckable(true)
+                    .setChecked(true)
+                    .setEnabled(true);
         }
     }
 

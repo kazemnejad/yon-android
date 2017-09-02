@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,7 +26,6 @@ import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
-import io.yon.android.Config;
 import io.yon.android.R;
 import io.yon.android.contract.ShowcaseContract;
 import io.yon.android.model.Restaurant;
@@ -48,6 +48,7 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayout errorContainer;
     private Button btnRetry;
+    private ImageButton btnSearch;
     private View appBar;
     private TextView btnSelectZone;
 
@@ -79,11 +80,11 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
         if (!checkPlayServiceAvailable())
             return;
 
-        setHasOptionMenu(true);
+//        setHasOptionMenu(true);
 
         initView();
 
-        Config.getCache(this).edit().remove(Config.Field.ShowCase).commit();
+//        Config.getCache(this).edit().remove(Config.Field.ShowCase).commit();
 
         presenter = ViewModelProviders.of(this).get(ShowcasePresenter.class);
         presenter.bindView(this);
@@ -100,6 +101,7 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
         btnSelectZone = (TextView) findViewById(R.id.toolbar_text_main);
         btnRetry = (Button) findViewById(R.id.btn_retry);
         appBar = findViewById(R.id.appbar);
+        btnSearch = (ImageButton) findViewById(R.id.toolbar_icon_left);
     }
 
     private void initView() {
@@ -124,6 +126,7 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
 
         mRecyclerView.setAdapter(mAdapter);
 
+        btnSearch.setOnClickListener(v -> SearchActivity.start(this));
         btnRetry.setOnClickListener(v -> presenter.fetchData());
         btnSelectZone.setOnClickListener(v -> handleSelectZoneClick());
 
