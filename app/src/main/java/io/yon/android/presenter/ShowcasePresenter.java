@@ -79,7 +79,7 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
                                     view.showError(lce.getError());
                                     return;
                                 }
-                                // remove wreak cache
+                                // cancel wreak cache
                                 clearCache();
 
                                 // fallback to online solution

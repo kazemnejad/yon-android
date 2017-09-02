@@ -89,6 +89,7 @@ public class ReservationCancelDialog extends AppCompatDialog implements Reservat
     @Override
     public void showError(Throwable error) {
         clearVisibilities();
+        error.printStackTrace();
         hint.setVisibility(View.VISIBLE);
         errorContainer.setVisibility(View.VISIBLE);
         btnCancel.setVisibility(View.VISIBLE);
@@ -104,6 +105,11 @@ public class ReservationCancelDialog extends AppCompatDialog implements Reservat
 
     @Override
     public void showData(Response<BasicResponse> data) {
+        if (!data.isSuccessful()){
+            showError(new NullPointerException("unsuccessful response"));
+            return;
+        }
+
         clearVisibilities();
 
         new Thread(() -> AppDatabase.getInstance(getContext().getApplicationContext())

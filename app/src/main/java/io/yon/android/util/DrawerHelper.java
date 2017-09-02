@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
-import com.orhanobut.logger.Logger;
 
 import io.yon.android.R;
 import io.yon.android.db.AppDatabase;
@@ -171,10 +170,7 @@ public class DrawerHelper implements NavigationView.OnNavigationItemSelectedList
                         lastReservation.findViewById(R.id.btn_cancel_reservation)
                                 .setOnClickListener(v -> {
                                     ReservationCancelDialog d = new ReservationCancelDialog(mContext, lst.get(lst.size() - 1));
-                                    d.setOnCancelListener(dialog -> {
-                                        Logger.d("ddd");
-                                        invalidate();
-                                    });
+                                    d.setOnCancelListener(dialog -> invalidate());
                                     d.show();
                                 });
                     } else

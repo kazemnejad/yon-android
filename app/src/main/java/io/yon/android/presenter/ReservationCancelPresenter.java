@@ -35,7 +35,7 @@ public class ReservationCancelPresenter extends Presenter implements Reservation
     public void cancelReservation(Reservation reservation) {
         if (removeObservable == null)
             removeObservable = ReservationRepository.getInstance()
-                    .remove(reservation)
+                    .cancel(reservation)
                     .compose(RxUtils.applySchedulers())
                     .cache();
 

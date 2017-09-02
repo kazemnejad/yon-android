@@ -26,6 +26,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -139,6 +140,9 @@ public abstract class WebService {
 
         @POST("restaurant/{id}/reservation/new?table=true")
         Observable<Response<Reservation>> saveNewReservationWithTable(@Path("id") int restaurantId, @Body Reservation reservation);
+
+        @DELETE("restaurant/{id}/reservation/{reservation_id}")
+        Observable<Response<BasicResponse>> cancelReservation(@Path("id") int restaurantId, @Path("reservation_id") int reservationId);
 
         // Tag content delivery
         @GET("tag")

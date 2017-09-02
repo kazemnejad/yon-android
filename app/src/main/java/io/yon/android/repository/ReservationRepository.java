@@ -68,9 +68,9 @@ public class ReservationRepository {
                 .onErrorReturn(Lce::error);
     }
 
-    public Observable<Lce<Response<BasicResponse>>> remove(Reservation reservation) {
-        return Observable.just(Response.success(new BasicResponse()))
-                .delay(700, TimeUnit.MILLISECONDS)
+    public Observable<Lce<Response<BasicResponse>>> cancel(Reservation reservation) {
+        return WebService.getInstance()
+                .cancelReservation(reservation.getRestaurant() != null ? reservation.getRestaurant().getId() : -1, reservation.getId())
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);
