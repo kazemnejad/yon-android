@@ -5,7 +5,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/menu_item_home"
-            android:checked="true"
+            android:enabled="true"
             android:icon="@drawable/ic_store_24dp"
             android:title="@string/home_page"/>
 
@@ -29,7 +29,7 @@
         android:visible="false">
         <item
             android:id="@+id/menu_item_mb_home"
-            android:checked="true"
+            android:enabled="true"
             android:icon="@drawable/ic_store_24dp"
             android:title="@string/home_page"/>
 
@@ -38,12 +38,12 @@
             android:icon="@drawable/ic_search_24dp"
             android:title="@string/search"/>
         <item
-            android:id="@+id/menu_item_mb_logout"
-            android:icon="@drawable/ic_exit_to_app_24dp"
-            android:title="@string/login_register"/>
-        <item
             android:id="@+id/menu_item_mb_about_us"
             android:icon="@drawable/ic_info_24dp"
             android:title="@string/about_us"/>
+        <item
+            android:id="@+id/menu_item_mb_logout"
+            android:icon="@drawable/ic_exit_to_app_24dp"
+            android:title="@string/logout"/>
     </group>
 </menu>

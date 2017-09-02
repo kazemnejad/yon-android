@@ -140,6 +140,19 @@ public class DrawerHelper implements NavigationView.OnNavigationItemSelectedList
         if (mDrawerLayout != null)
             mDrawerLayout.closeDrawers();
 
-        return mListener != null && mListener.onNavigationItemSelected(item);
+        if (!item.isChecked())
+            return mListener != null && mListener.onNavigationItemSelected(item);
+
+        return false;
+    }
+
+    public void checkMenuItem(int[] checkedMenuItems) {
+        if (mNavigationView == null)
+            return;
+
+        for (int i = 0; i < checkedMenuItems.length; i++) {
+            int id = checkedMenuItems[i];
+            mNavigationView.getMenu().findItem(id).setChecked(true);
+        }
     }
 }

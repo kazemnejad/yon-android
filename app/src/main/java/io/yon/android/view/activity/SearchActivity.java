@@ -1,6 +1,8 @@
 package io.yon.android.view.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -54,6 +56,17 @@ public class SearchActivity extends Activity implements SearchContract.View {
     private RxBus bus = new RxBus();
 
     private SearchPresenter presenter;
+
+    @Override
+    protected int[] getCheckedMenuItems() {
+        return new int[]{
+                R.id.menu_item_search, R.id.menu_item_search
+        };
+    }
+
+    public static void start(Context context) {
+        context.startActivity(new Intent(context, SearchActivity.class));
+    }
 
     @Override
     protected int getLayoutResourceId() {

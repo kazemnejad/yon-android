@@ -1,6 +1,8 @@
 package io.yon.android.view.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -22,7 +24,6 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import io.yon.android.Config;
 import io.yon.android.R;
@@ -54,9 +55,20 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
 
     private ShowcasePresenter presenter;
 
+    public static void start(Context context) {
+        context.startActivity(new Intent(context, MainActivity.class));
+    }
+
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    protected int[] getCheckedMenuItems() {
+        return new int[]{
+                R.id.menu_item_home, R.id.menu_item_mb_home
+        };
     }
 
     @Override

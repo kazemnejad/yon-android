@@ -134,5 +134,6 @@
     <string name="login_register">ورود / ثبت‌نام</string>
     <string name="about_us">درباره ما</string>
     <string name="user_points">%1d امتیاز</string>
+    <string name="logout">خروج از حساب کاربری</string>
 
 </resources>

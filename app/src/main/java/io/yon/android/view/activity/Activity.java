@@ -8,8 +8,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.MenuRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -19,11 +21,13 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import io.yon.android.R;
+import io.yon.android.util.Auth;
 import io.yon.android.util.DrawerHelper;
 import io.yon.android.util.ViewUtils;
 import io.yon.android.view.widget.PopupMenu;
@@ -32,7 +36,7 @@ import io.yon.android.view.widget.PopupMenu;
  * Created by amirhosein on 5/27/17.
  */
 
-public abstract class Activity extends AppCompatActivity implements LifecycleRegistryOwner {
+public abstract class Activity extends AppCompatActivity implements LifecycleRegistryOwner, NavigationView.OnNavigationItemSelectedListener {
 
     private final LifecycleRegistry mRegistry = new LifecycleRegistry(this);
 
@@ -79,6 +83,13 @@ public abstract class Activity extends AppCompatActivity implements LifecycleReg
         initDrawer();
 
         findViews();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (drawerHelper != null)
+            drawerHelper.invalidate();
     }
 
     @Override
@@ -153,6 +164,8 @@ public abstract class Activity extends AppCompatActivity implements LifecycleReg
         }
 
         drawerHelper = new DrawerHelper(this, mDrawerLayout);
+        drawerHelper.setNavigationItemSelectListener(getNavigationMenuItemSelectListener());
+        drawerHelper.checkMenuItem(getCheckedMenuItems());
         drawerHelper.init();
 
         if (toolbarRightButton == null)
@@ -239,12 +252,38 @@ public abstract class Activity extends AppCompatActivity implements LifecycleReg
         return false;
     }
 
+    public NavigationView.OnNavigationItemSelectedListener getNavigationMenuItemSelectListener() {
+        return this;
+    }
+
+    protected int[] getCheckedMenuItems() {
+        return new int[0];
+    }
+
     public void addOnActivityResultListener(int requestCode, OnActivityResultListener listener) {
         mResultListeners.append(requestCode, listener);
     }
 
     public int getNewRequestCode() {
         return lastRequestCode++;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
+        if (id == R.id.menu_item_home || id == R.id.menu_item_mb_home)
+            MainActivity.start(this);
+        else if (id == R.id.menu_item_search || id == R.id.menu_item_mb_search)
+            SearchActivity.start(this);
+        else if (id == R.id.menu_item_login)
+            Auth.login(this, null);
+        else if (id == R.id.menu_item_mb_logout) {
+            Auth.logout(this);
+            if (this instanceof MainActivity)
+                recreate();
+        }
+
+        return false;
     }
 
     public interface OnActivityResultListener {
