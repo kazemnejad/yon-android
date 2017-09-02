@@ -2,9 +2,11 @@ package io.yon.android.util;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -17,13 +19,14 @@ import com.orhanobut.logger.Logger;
 
 import io.yon.android.R;
 import io.yon.android.model.User;
+import io.yon.android.util.calendar.LanguageUtils;
 import io.yon.android.view.GlideApp;
 
 /**
  * Created by amirhosein on 6/3/17.
  */
 
-public class DrawerHelper {
+public class DrawerHelper implements NavigationView.OnNavigationItemSelectedListener {
     private final Context mContext;
     private final DrawerLayout mDrawerLayout;
     private final NavigationView mNavigationView;
@@ -35,19 +38,13 @@ public class DrawerHelper {
         mContext = context;
         mDrawerLayout = drawerLayout;
         mNavigationView = (NavigationView) mDrawerLayout.findViewById(R.id.navigation_view);
-        isUserAuthenticated = Auth.check(context);
     }
 
     public void init() {
         if (mNavigationView == null)
             return;
 
-        mNavigationView.setNavigationItemSelectedListener(item -> {
-            if (mDrawerLayout != null)
-                mDrawerLayout.closeDrawers();
-
-            return mListener != null && mListener.onNavigationItemSelected(item);
-        });
+        mNavigationView.setNavigationItemSelectedListener(this);
 
         setHeaderViewHeight();
 
@@ -96,13 +93,14 @@ public class DrawerHelper {
     private void initHeaderWithUserProfile() {
         User user = Auth.user(mContext);
 
-        View h = mNavigationView.getHeaderView(0)
-                .findViewById(R.id.header_view_member);
+        View h = mNavigationView.getHeaderView(0).findViewById(R.id.header_view_member);
 
         TextView userName = (TextView) h.findViewById(R.id.user_name);
+        TextView point = (TextView) h.findViewById(R.id.user_point);
         ImageView avatar = (ImageView) h.findViewById(R.id.user_avatar);
 
         userName.setText(user.getFirstName() + " " + user.getLastName());
+        point.setText(LanguageUtils.getPersianNumbers(mContext.getString(R.string.user_points, user.getPoint())));
 
         ColorGenerator generator = ColorGenerator.MATERIAL;
         Drawable placeHolder = TextDrawable.builder()
@@ -123,6 +121,8 @@ public class DrawerHelper {
         if (mNavigationView == null)
             return;
 
+        isUserAuthenticated = Auth.check(mContext);
+
         handleNavigationMenus();
         handleHeaderLayouts();
     }
@@ -133,5 +133,13 @@ public class DrawerHelper {
 
     public void setNavigationItemSelectListener(final NavigationView.OnNavigationItemSelectedListener listener) {
         mListener = listener;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (mDrawerLayout != null)
+            mDrawerLayout.closeDrawers();
+
+        return mListener != null && mListener.onNavigationItemSelected(item);
     }
 }

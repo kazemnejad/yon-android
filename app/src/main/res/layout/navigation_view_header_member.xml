@@ -27,6 +27,7 @@
             android:textStyle="bold"/>
 
         <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/user_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
