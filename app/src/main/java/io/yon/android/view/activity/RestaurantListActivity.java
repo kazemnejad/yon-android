@@ -109,9 +109,13 @@ public abstract class RestaurantListActivity extends Activity implements Restaur
             onTagClick((Tag) o);
     }
 
-    protected void onRestaurantClick(Restaurant restaurant) {}
+    protected void onRestaurantClick(Restaurant restaurant) {
+        RestaurantViewActivity.start(this, restaurant);
+    }
 
-    protected void onTagClick(Tag tag) {}
+    protected void onTagClick(Tag tag) {
+        TagViewActivity.start(this, tag);
+    }
 
     protected void onBtnRetryClick() {}
 }

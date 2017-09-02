@@ -65,8 +65,8 @@ public class RestaurantViewActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        mRestaurant = Parcels.unwrap(getIntent().getParcelableExtra("rest"));
-        mRestaurant = createRestaurant();
+        mRestaurant = Parcels.unwrap(getIntent().getParcelableExtra("rest"));
+//        mRestaurant = createRestaurant();
 
         setDisplayHomeAsUpEnabled(true);
 

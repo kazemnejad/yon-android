@@ -69,10 +69,10 @@ public class TagViewActivity extends RestaurantListActivity implements TagContra
         presenter = ViewModelProviders.of(this).get(TagPresenter.class);
         presenter.bindView(this);
 
-//        Tag tag = Parcels.unwrap(getIntent().getParcelableExtra("tag"));
-        Tag tag = new Tag();
-        tag.setName("پیتزا");
-        tag.setSlug("pizza");
+        Tag tag = Parcels.unwrap(getIntent().getParcelableExtra("tag"));
+//        Tag tag = new Tag();
+//        tag.setName("پیتزا");
+//        tag.setSlug("pizza");
         presenter.setInitialTag(tag);
 
         initView();

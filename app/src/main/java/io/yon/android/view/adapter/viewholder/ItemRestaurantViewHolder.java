@@ -102,8 +102,12 @@ public class ItemRestaurantViewHolder extends ViewHolder<Restaurant> {
         else
             distance.setVisibility(View.GONE);
 
-        if (config.showTags)
+        if (config.showTags && r.getTags() != null) {
             setTags(r.getTags());
+        }
+
+        if (r.getTags() == null)
+            tagsContainer.setVisibility(View.GONE);
 
         GlideApp.with(getContext())
                 .load(r.getAvatarUrl())

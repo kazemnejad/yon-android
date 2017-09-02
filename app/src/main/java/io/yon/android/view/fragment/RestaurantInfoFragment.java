@@ -7,7 +7,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,7 +14,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
-import com.orhanobut.logger.Logger;
 
 import org.parceler.Parcels;
 
@@ -196,11 +194,23 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
 
         tvAddress.setText(mRestaurant.getAddress());
 
-        tvPhoneNumber.setText(mRestaurant.getInfo().get("phone"));
-        tvPriceRange.setText(mRestaurant.getInfo().get("price_range"));
-        tvParkingSpace.setText(mRestaurant.getInfo().get("parking_space"));
-        tvOpeningHour.setText(mRestaurant.getInfo().get("opening_hour"));
-        tvDescription.setText(mRestaurant.getInfo().get("desc"));
+        if (mRestaurant.getInfo() == null)
+            return;
+
+        if (mRestaurant.getInfo().containsKey("phone"))
+            tvPhoneNumber.setText(mRestaurant.getInfo().get("phone"));
+
+        if (mRestaurant.getInfo().containsKey("price_range"))
+            tvPriceRange.setText(mRestaurant.getInfo().get("price_range"));
+
+        if (mRestaurant.getInfo().containsKey("parking_space"))
+            tvParkingSpace.setText(mRestaurant.getInfo().get("parking_space"));
+
+        if (mRestaurant.getInfo().containsKey("opening_hour"))
+            tvOpeningHour.setText(mRestaurant.getInfo().get("opening_hour"));
+
+        if (mRestaurant.getInfo().containsKey("desc"))
+            tvDescription.setText(mRestaurant.getInfo().get("desc"));
     }
 
     protected String getMapImageUrl(double lng, double lat) {

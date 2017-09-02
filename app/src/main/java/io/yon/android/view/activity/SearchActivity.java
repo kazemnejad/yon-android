@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -19,9 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -167,15 +163,12 @@ public class SearchActivity extends Activity implements SearchContract.View {
 
             }
         });
-        searchBar.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    performSearch();
-                    return true;
-                }
-                return false;
+        searchBar.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                performSearch();
+                return true;
             }
+            return false;
         });
     }
 
@@ -193,11 +186,11 @@ public class SearchActivity extends Activity implements SearchContract.View {
         }
 
         if (item instanceof Tag)
-            Logger.d(((Tag) item).getName());
+            TagViewActivity.start(this, (Tag) item);
         else if (item instanceof Zone)
-            Logger.d(((Zone) item).getName());
+            ZoneViewActivity.start(this, (Zone) item);
         else if (item instanceof Restaurant)
-            Logger.d(((Restaurant) item).getName());
+            RestaurantViewActivity.start(this, (Restaurant) item);
     }
 
     protected void showClearButton() {
