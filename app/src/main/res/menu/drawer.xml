@@ -4,23 +4,23 @@
         android:id="@+id/gp_guest"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/testI1"
+            android:id="@+id/menu_item_home"
             android:checked="true"
-            android:icon="@drawable/ic_search_24dp"
-            android:title="Guest" />
+            android:icon="@drawable/ic_store_24dp"
+            android:title="@string/home_page"/>
 
         <item
-            android:id="@+id/testI2"
-            android:icon="@drawable/ic_menu_24dp"
-            android:title="test2" />
+            android:id="@+id/menu_item_search"
+            android:icon="@drawable/ic_search_24dp"
+            android:title="@string/search"/>
         <item
-            android:id="@+id/testI3"
-            android:icon="@drawable/ic_navigation_back_24dp"
-            android:title="test3" />
+            android:id="@+id/menu_item_login"
+            android:icon="@drawable/ic_account_circle_24dp"
+            android:title="@string/login_register"/>
         <item
-            android:id="@+id/testI4"
-            android:icon="@drawable/ic_more_vert_24dp"
-            android:title="test4" />
+            android:id="@+id/menu_item_about_us"
+            android:icon="@drawable/ic_info_24dp"
+            android:title="@string/about_us"/>
     </group>
 
     <group
@@ -28,21 +28,22 @@
         android:checkableBehavior="single"
         android:visible="false">
         <item
-            android:id="@+id/testI5"
-            android:icon="@drawable/ic_search_24dp"
-            android:title="Member" />
+            android:id="@+id/menu_item_mb_home"
+            android:checked="true"
+            android:icon="@drawable/ic_store_24dp"
+            android:title="@string/home_page"/>
 
         <item
-            android:id="@+id/testI6"
-            android:icon="@drawable/ic_menu_24dp"
-            android:title="test2" />
+            android:id="@+id/menu_item_mb_search"
+            android:icon="@drawable/ic_search_24dp"
+            android:title="@string/search"/>
         <item
-            android:id="@+id/testI7"
-            android:icon="@drawable/ic_navigation_back_24dp"
-            android:title="test3" />
+            android:id="@+id/menu_item_mb_logout"
+            android:icon="@drawable/ic_exit_to_app_24dp"
+            android:title="@string/login_register"/>
         <item
-            android:id="@+id/testI8"
-            android:icon="@drawable/ic_more_vert_24dp"
-            android:title="test4" />
+            android:id="@+id/menu_item_mb_about_us"
+            android:icon="@drawable/ic_info_24dp"
+            android:title="@string/about_us"/>
     </group>
 </menu>
