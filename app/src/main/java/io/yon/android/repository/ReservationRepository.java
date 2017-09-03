@@ -54,7 +54,7 @@ public class ReservationRepository {
             responseObservable = WebService.getInstance().saveNewReservation(restaurant.getId(), reservation);
 
         return responseObservable
-                .map(saveToDb(context, restaurant))
+                .map(saveToDb(context, restaurant, reservation.getTable()))
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);
@@ -76,11 +76,12 @@ public class ReservationRepository {
                 .onErrorReturn(Lce::error);
     }
 
-    private static Function<Response<Reservation>, Response<Reservation>> saveToDb(Context context, Restaurant restaurant) {
+    private static Function<Response<Reservation>, Response<Reservation>> saveToDb(Context context, Restaurant restaurant, Table table) {
         return reservationResponse -> {
             if (reservationResponse.isSuccessful()) {
                 Reservation reservation = reservationResponse.body();
                 reservation.setRestaurant(restaurant);
+                reservation.setTable(table);
 
                 AppDatabase.getInstance(context.getApplicationContext())
                         .reservationDao()
