@@ -4,8 +4,6 @@ import android.app.Application;
 
 import com.waylonbrown.lifecycleawarerx.LifecycleBinder;
 
-import java.util.List;
-
 import io.reactivex.Observable;
 import io.yon.android.Config;
 import io.yon.android.api.response.ShowcaseResponse;
@@ -58,17 +56,10 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
 
     @Override
     public void fetchData() {
-        if (fetchObservable == null) {
-            Observable<Lce<List<Object>>> showcase = null;
-//            if (cacheWasAvailable)
-//                showcase = ContentRepository.getInstance().getShowcaseFromCache(getApplication());
-//            else
-//                showcase = ContentRepository.getInstance().getShowcase(getApplication(), currentZone);
-
+        if (fetchObservable == null)
             fetchObservable = ContentRepository.getInstance().getShowcase(getApplication(), currentZone)
                     .compose(RxUtils.applySchedulers())
                     .cache();
-        }
 
         fetchObservable.takeWhile(LifecycleBinder.notDestroyed(view))
                 .compose(LifecycleBinder.subscribeWhenReady(view, new Lce.Observer<>(
@@ -76,23 +67,10 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
                             if (lce.isLoading())
                                 view.showLoading();
                             else if (lce.hasError()) {
-                                if (!cacheWasAvailable) {
-                                    fetchObservable = null;
-                                    view.showError(lce.getError());
-                                    return;
-                                }
-                                // cancel wreak cache
-                                clearCache();
-
-                                // fallback to online solution
                                 fetchObservable = null;
-                                cacheWasAvailable = false;
-                                fetchData();
-                            } else {
+                                view.showError(lce.getError());
+                            } else
                                 view.showData(lce.getData().getProcessedResponse(), lce.getData().getLocation());
-                                if (cacheWasAvailable)
-                                    reFetchData();
-                            }
                         }
                 )));
     }
@@ -113,6 +91,7 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
                                 reFetchObservable = null;
                                 view.showReloadError(lce.getError());
                             } else {
+                                fetchObservable = reFetchObservable;
                                 reFetchObservable = null;
                                 view.showData(lce.getData().getProcessedResponse(), lce.getData().getLocation());
                             }

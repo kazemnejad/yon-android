@@ -155,8 +155,12 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
 
     @Override
     public void showLoading() {
-        invisibleAll();
-        mProgressBar.setVisibility(View.VISIBLE);
+        if (mAdapter != null && mAdapter.getItemCount() > 0) {
+            swipeRefreshLayout.setRefreshing(true);
+        } else {
+            invisibleAll();
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -168,8 +172,17 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
     @Override
     public void showError(Throwable e) {
         e.printStackTrace();
-        invisibleAll();
-        errorContainer.setVisibility(View.VISIBLE);
+        if (mAdapter != null && mAdapter.getItemCount() > 0) {
+            if (swipeRefreshLayout.isRefreshing())
+                swipeRefreshLayout.setRefreshing(false);
+
+            Snackbar.make(getRootView(), R.string.unable_to_connect_to_server, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry, v -> presenter.reFetchData())
+                    .show();
+        } else {
+            invisibleAll();
+            errorContainer.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
