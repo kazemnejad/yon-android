@@ -174,6 +174,8 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
 
     @Override
     public void showReloadError(Throwable e) {
+        if (swipeRefreshLayout.isRefreshing())
+            swipeRefreshLayout.setRefreshing(false);
         e.printStackTrace();
         Snackbar.make(getRootView(), R.string.unable_to_connect_to_server, Snackbar.LENGTH_LONG)
                 .setAction(R.string.retry, v -> presenter.reFetchData())

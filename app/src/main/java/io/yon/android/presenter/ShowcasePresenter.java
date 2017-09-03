@@ -77,6 +77,7 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
                                 view.showLoading();
                             else if (lce.hasError()) {
                                 if (!cacheWasAvailable) {
+                                    fetchObservable = null;
                                     view.showError(lce.getError());
                                     return;
                                 }
@@ -117,20 +118,20 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
                             }
                         }
                 )));
-        reFetchObservable.subscribe(lce -> {
-            if (view == null)
-                return;
-
-            if (lce.isLoading()) {
-                view.showReloading();
-            } else if (lce.hasError()) {
-                reFetchObservable = null;
-                view.showReloadError(lce.getError());
-            } else {
-                reFetchObservable = null;
-                view.showData(lce.getData().getProcessedResponse(), lce.getData().getLocation());
-            }
-        });
+//        reFetchObservable.subscribe(lce -> {
+//            if (view == null)
+//                return;
+//
+//            if (lce.isLoading()) {
+//                view.showReloading();
+//            } else if (lce.hasError()) {
+//                reFetchObservable = null;
+//                view.showReloadError(lce.getError());
+//            } else {
+//                reFetchObservable = null;
+//                view.showData(lce.getData().getProcessedResponse(), lce.getData().getLocation());
+//            }
+//        });
     }
 
     @Override
