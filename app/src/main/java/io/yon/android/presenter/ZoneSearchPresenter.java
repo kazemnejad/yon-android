@@ -75,4 +75,10 @@ public class ZoneSearchPresenter extends Presenter implements ZoneSearchContract
 
         loadZones(query);
     }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        view = null;
+    }
 }

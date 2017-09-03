@@ -127,4 +127,10 @@ public class TagPresenter extends Presenter implements TagContract.Presenter {
                 }
         ));
     }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        view = null;
+    }
 }

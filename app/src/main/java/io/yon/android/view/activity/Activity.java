@@ -225,7 +225,7 @@ public abstract class Activity extends AppCompatActivity implements LifecycleReg
         }
     }
 
-    protected DrawerHelper getDrawerHelper() {
+    public DrawerHelper getDrawerHelper() {
         return drawerHelper;
     }
 

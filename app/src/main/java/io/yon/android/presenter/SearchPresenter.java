@@ -76,4 +76,10 @@ public class SearchPresenter extends Presenter implements SearchContract.Present
 
         loadSearchResult(query);
     }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        view = null;
+    }
 }

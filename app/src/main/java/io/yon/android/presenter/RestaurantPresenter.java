@@ -8,6 +8,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.yon.android.contract.RestaurantContract;
+import io.yon.android.db.AppDatabase;
 import io.yon.android.model.MenuSection;
 import io.yon.android.model.Restaurant;
 import io.yon.android.model.UserReview;
@@ -115,6 +116,17 @@ public class RestaurantPresenter extends Presenter implements RestaurantContract
                                 view.showRestaurantReview(lce.getData());
                         }
                 )));
+    }
+
+    @Override
+    public void loadCurrentReservations(int id) {
+        AppDatabase.getInstance(getApplication())
+                .reservationDao()
+                .loadAllReservationsByRestaurant(id)
+                .observe(view, reservations -> {
+                    if (view instanceof RestaurantContract.InfoView)
+                        ((RestaurantContract.InfoView) view).showCurrentReservations(reservations);
+                });
     }
 
     @Override

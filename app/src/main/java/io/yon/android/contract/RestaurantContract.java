@@ -3,6 +3,7 @@ package io.yon.android.contract;
 import java.util.List;
 
 import io.yon.android.model.MenuSection;
+import io.yon.android.model.Reservation;
 import io.yon.android.model.Restaurant;
 import io.yon.android.model.UserReview;
 import io.yon.android.view.MvpView;
@@ -13,6 +14,8 @@ import io.yon.android.view.MvpView;
 
 public class RestaurantContract extends Contract {
     public interface Presenter {
+        void loadCurrentReservations(int id);
+
         void loadRestaurant(int id);
 
         void loadRestaurantMenu(int id);
@@ -30,5 +33,9 @@ public class RestaurantContract extends Contract {
         void showRestaurantMenu(List<MenuSection> menu);
 
         void showRestaurantReview(List<UserReview> reviews);
+    }
+
+    public interface InfoView extends View {
+        void showCurrentReservations(List<Reservation> reservations);
     }
 }

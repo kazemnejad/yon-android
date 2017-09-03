@@ -140,7 +140,10 @@ public class DrawerHelper implements NavigationView.OnNavigationItemSelectedList
                         lastReservation.findViewById(R.id.btn_cancel_reservation)
                                 .setOnClickListener(v -> {
                                     ReservationCancelDialog d = new ReservationCancelDialog(mContext, lst.get(lst.size() - 1));
-                                    d.setOnCancelListener(dialog -> invalidate());
+                                    d.setOnCancelListener(dialog -> {
+                                        mContext.recreate();
+                                        invalidate();
+                                    });
                                     d.show();
                                 });
                     } else

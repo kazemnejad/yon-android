@@ -4,8 +4,7 @@
     android:id="@+id/reserve_info_container"
     android:layout_width="match_parent"
     android:layout_height="90dp"
-    android:background="@color/solidPlaceHolder"
-    android:paddingLeft="@dimen/cardview_compat_inset_shadow"
+    android:paddingLeft="@dimen/material_step_1_margin"
     android:paddingRight="@dimen/material_step_1_margin">
 
     <RelativeLayout
@@ -54,24 +53,13 @@
             android:textSize="10sp"/>
     </RelativeLayout>
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/restaurant_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="12dp"
-        android:layout_marginTop="10dp"
-        android:layout_toLeftOf="@+id/date_container"
-        android:text="اصغرجوجه"
-        android:textColor="@color/black_87"/>
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="18dp"
         android:layout_height="18dp"
         android:layout_below="@+id/restaurant_name"
         android:layout_marginRight="12dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_toLeftOf="@+id/date_container"
         android:src="@drawable/ic_access_time_20dp"
         android:tint="#9c9c9c"/>
@@ -107,7 +95,6 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/imageView2"
-        android:layout_marginEnd="11dp"
         android:layout_marginRight="11dp"
         android:layout_marginTop="0dp"
         android:layout_toLeftOf="@+id/imageView2"
@@ -115,13 +102,39 @@
         android:textColor="@color/black_54"
         android:textSize="13sp"/>
 
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_below="@id/imageView2"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="2dp"
+        android:layout_toLeftOf="@+id/date_container"
+        android:src="@drawable/ic_table_17dp"
+        android:tint="#9c9c9c"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/selected_table"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageView3"
+        android:layout_marginEnd="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="0dp"
+        android:layout_toLeftOf="@+id/imageView3"
+        android:background="?attr/selectableItemBackground"
+        android:text="@string/no_selected_table"
+        android:textColor="@color/black_54"
+        android:textSize="13sp"/>
+
+
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_cancel_reservation"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="4dp"
         android:minWidth="60dp"
         android:text="لفو"
         android:textColor="@color/colorPrimary"/>

@@ -4,7 +4,10 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -24,14 +27,24 @@ import io.yon.android.api.Constants;
 import io.yon.android.contract.RestaurantContract;
 import io.yon.android.model.Map;
 import io.yon.android.model.MenuSection;
+import io.yon.android.model.Reservation;
 import io.yon.android.model.Restaurant;
 import io.yon.android.model.Tag;
 import io.yon.android.model.UserReview;
 import io.yon.android.presenter.RestaurantPresenter;
+import io.yon.android.util.RxBus;
+import io.yon.android.util.TableUtils;
 import io.yon.android.util.ViewUtils;
 import io.yon.android.view.GlideApp;
+import io.yon.android.view.LinearDividerItemDecoration;
+import io.yon.android.view.activity.Activity;
 import io.yon.android.view.activity.RestaurantViewActivity;
+import io.yon.android.view.activity.TagViewActivity;
+import io.yon.android.view.adapter.Adapter;
 import io.yon.android.view.adapter.RestaurantMapPagerAdapter;
+import io.yon.android.view.adapter.viewholder.ItemCurrentReservation;
+import io.yon.android.view.dialog.MapViewDialog;
+import io.yon.android.view.dialog.ReservationCancelDialog;
 
 import static com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions.withCrossFade;
 
@@ -39,12 +52,13 @@ import static com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions.wi
  * Created by amirhosein on 8/8/17.
  */
 
-public class RestaurantInfoFragment extends Fragment implements RestaurantContract.View {
+public class RestaurantInfoFragment extends Fragment implements RestaurantContract.InfoView {
 
     private Restaurant mRestaurant;
 
     private ProgressBar progressBar;
-    private LinearLayout mainContentContainer, errorContainer;
+    private LinearLayout mainContentContainer, errorContainer, currentReservationsContainer;
+    private RecyclerView currentReservationsRecyclerView;
     private FlexboxLayout tagsContainer;
     private ViewPager mapsContainer;
     private TabLayout mapSwitcher;
@@ -86,8 +100,10 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
         presenter = ViewModelProviders.of(this).get(RestaurantPresenter.class);
         presenter.bindView(this);
 
-        if (mRestaurant != null && mRestaurant.getId() != -1)
+        if (mRestaurant != null && mRestaurant.getId() != -1) {
             presenter.loadRestaurant(mRestaurant.getId());
+            presenter.loadCurrentReservations(mRestaurant.getId());
+        }
     }
 
     @Override
@@ -97,6 +113,8 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
         errorContainer = (LinearLayout) v.findViewById(R.id.error_container);
         btnRetry = (Button) v.findViewById(R.id.btn_retry);
 
+        currentReservationsContainer = (LinearLayout) v.findViewById(R.id.current_reservations_container);
+        currentReservationsRecyclerView = (RecyclerView) v.findViewById(R.id.current_reservations_recycler_view);
         tagsContainer = (FlexboxLayout) v.findViewById(R.id.tags_container);
 
         mapsContainer = (ViewPager) v.findViewById(R.id.maps_container);
@@ -138,6 +156,22 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
     }
 
     @Override
+    public void showCurrentReservations(List<Reservation> reservations) {
+        if (reservations.size() == 0) {
+            currentReservationsContainer.setVisibility(View.GONE);
+            return;
+        }
+
+        currentReservationsContainer.setVisibility(View.VISIBLE);
+
+        RxBus bus = new RxBus();
+        bus.toObservable().subscribe(this::handleReservationClick);
+
+        Adapter<Reservation, ItemCurrentReservation> adapter = new Adapter<>(getContext(), reservations, bus, ItemCurrentReservation.getFactory());
+        currentReservationsRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
     public void showRestaurantMenu(List<MenuSection> menu) {}
 
     @Override
@@ -145,6 +179,13 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
 
     private void initView() {
         btnRetry.setOnClickListener(view -> presenter.loadRestaurant(mRestaurant.getId()));
+
+        currentReservationsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        currentReservationsRecyclerView.addItemDecoration(new LinearDividerItemDecoration(
+                getContext(),
+                ContextCompat.getColor(getContext(), R.color.restaurant_list_divider_color),
+                ViewUtils.px(getContext(), 0.8f)
+        ));
     }
 
     protected void clearVisibilities() {
@@ -233,6 +274,39 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
     }
 
     protected void handleTagClick(View view) {
+        TagViewActivity.start(getParentActivity(), (Tag) view.getTag());
+    }
 
+    protected void handleReservationClick(Object o) {
+        if (!(o instanceof Object[]))
+            return;
+
+        String type;
+        Reservation reservation;
+        try {
+            Object[] payload = (Object[]) o;
+            type = (String) payload[0];
+            reservation = (Reservation) payload[1];
+        } catch (Exception ignored) {
+            return;
+        }
+
+        if ("cancel_reservation".equals(type)) {
+            ReservationCancelDialog dialog = new ReservationCancelDialog(getParentActivity(), reservation);
+            dialog.setOnCancelListener(d -> {
+                try {
+                    ((Activity) getParentActivity())
+                            .getDrawerHelper()
+                            .invalidate();
+                } catch (Exception ignored) {
+                }
+
+                presenter.loadCurrentReservations(mRestaurant.getId());
+            });
+            dialog.show();
+        } else if ("show_selected_table".equals(type) && mRestaurant.getMaps() != null) {
+            new MapViewDialog(getContext(), TableUtils.findMapByTable(reservation.getTable(), mRestaurant.getMaps()), reservation.getTable())
+                    .show();
+        }
     }
 }
