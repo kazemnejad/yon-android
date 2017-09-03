@@ -260,7 +260,7 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
             if (zone != null)
                 btnSelectZone.setText(zone.getName());
 
-
+            presenter.setCurrentZone(zone);
             presenter.reFetchData();
         });
     }

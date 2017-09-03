@@ -1,9 +1,10 @@
 package io.yon.android.repository;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.yon.android.api.WebService;
+import io.yon.android.api.response.ZoneSearchResponse;
 import io.yon.android.model.Zone;
 
 /**
@@ -21,8 +22,9 @@ public class ZoneRepository {
     }
 
     public Observable<Lce<List<Zone>>> search(String query) {
-        return Observable.just(ContentRepository.createZones())
-                .delay(700, TimeUnit.MILLISECONDS)
+        return WebService.getInstance()
+                .searchZones(query, null, null)
+                .map(ZoneSearchResponse::getLocations)
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);

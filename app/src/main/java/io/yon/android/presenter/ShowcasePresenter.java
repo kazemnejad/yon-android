@@ -78,25 +78,44 @@ public class ShowcasePresenter extends Presenter implements ShowcaseContract.Pre
     @Override
     public void reFetchData() {
         if (reFetchObservable == null)
-            reFetchObservable = ContentRepository.getInstance().getShowcase(getApplication(), currentZone)
+            reFetchObservable = ContentRepository.getInstance()
+                    .getShowcase(getApplication(), currentZone)
                     .compose(RxUtils.applySchedulers())
                     .cache();
 
-        reFetchObservable.takeWhile(LifecycleBinder.notDestroyed(view))
-                .compose(LifecycleBinder.subscribeWhenReady(view, new Lce.Observer<>(
-                        lce -> {
-                            if (lce.isLoading()) {
-                                view.showReloading();
-                            } else if (lce.hasError()) {
-                                reFetchObservable = null;
-                                view.showReloadError(lce.getError());
-                            } else {
-                                fetchObservable = reFetchObservable;
-                                reFetchObservable = null;
-                                view.showData(lce.getData().getProcessedResponse(), lce.getData().getLocation());
-                            }
-                        }
-                )));
+//        reFetchObservable.takeWhile(LifecycleBinder.notDestroyed(view))
+//                .compose(LifecycleBinder.subscribeWhenReady(view, new Lce.Observer<>(
+//                        lce -> {
+//                            if (lce.isLoading()) {
+//                                view.showReloading();
+//                            } else if (lce.hasError()) {
+//                                reFetchObservable = null;
+//                                view.showReloadError(lce.getError());
+//                            } else {
+//                                fetchObservable = reFetchObservable;
+//                                reFetchObservable = null;
+//                                view.showData(lce.getData().getProcessedResponse(), lce.getData().getLocation());
+//                            }
+//                        }
+//                )));
+
+        reFetchObservable.subscribe(new Lce.Observer<>(
+                lce -> {
+                    if (view == null)
+                        return;
+
+                    if (lce.isLoading()) {
+                        view.showLoading();
+                    } else if (lce.hasError()) {
+                        reFetchObservable = null;
+                        view.showReloadError(lce.getError());
+                    } else {
+                        fetchObservable = reFetchObservable;
+                        reFetchObservable = null;
+                        view.showData(lce.getData().getProcessedResponse(), lce.getData().getLocation());
+                    }
+                }
+        ));
     }
 
     @Override

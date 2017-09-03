@@ -10,6 +10,7 @@ import io.yon.android.api.request.RegisterRequest;
 import io.yon.android.api.response.AuthResponse;
 import io.yon.android.api.response.BasicResponse;
 import io.yon.android.api.response.SearchResponse;
+import io.yon.android.api.response.ZoneSearchResponse;
 import io.yon.android.model.MenuSection;
 import io.yon.android.model.OpeningInterval;
 import io.yon.android.model.Reservation;
@@ -143,6 +144,11 @@ public abstract class WebService {
 
         @DELETE("restaurant/{id}/reservation/{reservation_id}")
         Observable<Response<BasicResponse>> cancelReservation(@Path("id") int restaurantId, @Path("reservation_id") int reservationId);
+
+
+        // Zone content delivery
+        @GET("location/search")
+        Observable<ZoneSearchResponse> searchZones(@Query("name") String name, @Query("long") Double longitude, @Query("lat") Double latitude);
 
         // Tag content delivery
         @GET("tag")
