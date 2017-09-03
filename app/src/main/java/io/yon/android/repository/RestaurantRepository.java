@@ -123,13 +123,14 @@ public class RestaurantRepository {
         Collections.sort(openHours, (a, b) -> a.getStart() < b.getStart() ? -1 : a.getStart() == b.getStart() ? 0 : 1);
 
         int point = getStartPoint(openHours.get(0));
+        long currentTimeMillis = System.currentTimeMillis();
 
         int i = 0;
         while (i < openHours.size()) {
             OpeningInterval interval = openHours.get(i);
             while (true) {
                 OpenTimeSlot slot = new OpenTimeSlot(initialTimeStamp, point);
-                if (point >= interval.getStart()) {
+                if (point >= interval.getStart() && slot.getDatetime().getTimeInMillis() > currentTimeMillis) {
                     if (point < interval.getEnd())
                         slot.setEnable(true);
                     else {
