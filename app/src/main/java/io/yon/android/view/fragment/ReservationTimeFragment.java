@@ -73,6 +73,7 @@ public class ReservationTimeFragment extends Fragment implements ReservationCont
         errorContainer = v.findViewById(R.id.error_container);
         btnPrevious = (Button) v.findViewById(R.id.btn_previous);
         btnNext = (Button) v.findViewById(R.id.btn_next);
+        btnRetry = (Button) v.findViewById(R.id.btn_retry);
     }
 
     @Override
@@ -101,6 +102,7 @@ public class ReservationTimeFragment extends Fragment implements ReservationCont
         SectionedSpanSizeLookup lookup = new SectionedSpanSizeLookup(adapter, layoutManager);
         layoutManager.setSpanSizeLookup(lookup);
         recyclerView.setLayoutManager(layoutManager);
+        btnRetry.setOnClickListener(v -> mPresenter.loadOpenHours());
 
         updateNextButton();
     }
