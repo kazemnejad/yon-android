@@ -120,7 +120,7 @@ public class Eatable extends Model {
             String prefix = "";
             for (String ingredient : ingredients) {
                 builder.append(prefix);
-                prefix = "،";
+                prefix = "، ";
                 builder.append(ingredient);
             }
 
