@@ -62,6 +62,7 @@ public class Zone extends Model {
         return longitude;
     }
 
+    @JsonProperty("long")
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
@@ -70,6 +71,7 @@ public class Zone extends Model {
         return latitude;
     }
 
+    @JsonProperty("lat")
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
