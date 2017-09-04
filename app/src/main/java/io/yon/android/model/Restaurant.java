@@ -1,9 +1,8 @@
 package io.yon.android.model;
 
 import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.DrawableRes;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,6 +11,7 @@ import org.parceler.Parcel;
 
 import java.util.List;
 
+import io.yon.android.R;
 import io.yon.android.api.Constants;
 import io.yon.android.util.calendar.LanguageUtils;
 
@@ -65,6 +65,16 @@ public class Restaurant extends Model {
     java.util.Map<String, String> info;
     @Ignore
     java.util.Map<String, Double> location;
+
+    public static int[] SampleBanner = new int[]{
+            R.drawable.sample_banner_01,
+            R.drawable.sample_banner_02,
+            R.drawable.sample_banner_03,
+            R.drawable.sample_banner_04,
+            R.drawable.sample_banner_05,
+            R.drawable.sample_banner_06,
+            R.drawable.sample_banner_07,
+    };
 
     public Restaurant() {}
 
@@ -121,7 +131,10 @@ public class Restaurant extends Model {
         return rateLabel;
     }
 
-    public String getBannerUrl() {
+    public Object getBannerUrl() {
+        if (bannerUrl == null)
+            return getSampleBanner();
+
         return bannerUrl;
     }
 
@@ -245,5 +258,15 @@ public class Restaurant extends Model {
 
     public void setBranch(String branch) {
         this.branch = branch;
+    }
+
+    public
+    @DrawableRes
+    int getSampleBanner() {
+        try {
+            return SampleBanner[id % SampleBanner.length];
+        } catch (Exception exp) {
+            return SampleBanner[0];
+        }
     }
 }

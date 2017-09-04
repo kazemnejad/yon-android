@@ -72,19 +72,6 @@ public class RestaurantViewActivity extends Activity {
 
         initViews();
         fillViewWithOfflineContent();
-
-        ImageView iv = (ImageView) findViewById(R.id.banner);
-        GlideApp.with(this)
-                .load(mRestaurant.getBannerUrl())
-                .centerCrop()
-                .into(iv);
-
-        ImageView iv2 = (ImageView) findViewById(R.id.icon);
-        GlideApp.with(this)
-                .load(mRestaurant.getAvatarUrl())
-                .centerCrop()
-                .transform(new RoundedCornersTransformation(this, 30, 0))
-                .into(iv2);
     }
 
     @Override
@@ -156,6 +143,18 @@ public class RestaurantViewActivity extends Activity {
             }
         });
 
+        ImageView iv = (ImageView) findViewById(R.id.banner);
+        GlideApp.with(this)
+                .load(mRestaurant.getBannerUrl())
+                .centerCrop()
+                .into(iv);
+
+        ImageView iv2 = (ImageView) findViewById(R.id.icon);
+        GlideApp.with(this)
+                .load(mRestaurant.getAvatarUrl())
+                .centerCrop()
+                .transform(new RoundedCornersTransformation(this, 30, 0))
+                .into(iv2);
     }
 
     private void fillViewWithOfflineContent() {
@@ -170,7 +169,6 @@ public class RestaurantViewActivity extends Activity {
                 .asBitmap()
                 .load(mRestaurant.getAvatarUrl())
                 .centerCrop()
-                .placeholder(R.color.solidPlaceHolder)
                 .transform(new RoundedCornersTransformation(this, 30, 0))
                 .transition(withCrossFade())
                 .into(mIcon);
