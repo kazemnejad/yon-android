@@ -53,12 +53,6 @@ public class ZoneViewActivity extends RestaurantListActivity implements ZoneCont
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        zone = new Zone();
-//        zone.setLongitude(35.7009524);
-//        zone.setLatitude(51.3897519);
-//        zone.setSlug("Enghelab");
-//        zone.setName("انقلاب");
-
         zone = Parcels.unwrap(getIntent().getParcelableExtra("zone"));
 
         initView();
