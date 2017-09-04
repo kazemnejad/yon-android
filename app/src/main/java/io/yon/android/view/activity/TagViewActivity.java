@@ -70,9 +70,6 @@ public class TagViewActivity extends RestaurantListActivity implements TagContra
         presenter.bindView(this);
 
         Tag tag = Parcels.unwrap(getIntent().getParcelableExtra("tag"));
-//        Tag tag = new Tag();
-//        tag.setName("پیتزا");
-//        tag.setSlug("pizza");
         presenter.setInitialTag(tag);
 
         initView();
@@ -91,6 +88,11 @@ public class TagViewActivity extends RestaurantListActivity implements TagContra
         dimmer = findViewById(R.id.dimmer);
         toolbarTitle = (TextView) findViewById(R.id.toolbar_text_main);
         toolbarRightBtn = (ImageButton) findViewById(R.id.toolbar_icon_right);
+    }
+
+    @Override
+    protected void onBtnRetryClick() {
+        presenter.loadRestaurants(presenter.getSelectedTags());
     }
 
     private void initView() {
