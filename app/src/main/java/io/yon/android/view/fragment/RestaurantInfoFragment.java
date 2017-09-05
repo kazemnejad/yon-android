@@ -1,6 +1,7 @@
 package io.yon.android.view.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -23,7 +24,6 @@ import org.parceler.Parcels;
 import java.util.List;
 
 import io.yon.android.R;
-import io.yon.android.api.Constants;
 import io.yon.android.contract.RestaurantContract;
 import io.yon.android.model.Map;
 import io.yon.android.model.MenuSection;
@@ -32,6 +32,7 @@ import io.yon.android.model.Restaurant;
 import io.yon.android.model.Tag;
 import io.yon.android.model.UserReview;
 import io.yon.android.presenter.RestaurantPresenter;
+import io.yon.android.util.GoogleMapUtils;
 import io.yon.android.util.RxBus;
 import io.yon.android.util.TableUtils;
 import io.yon.android.util.ViewUtils;
@@ -63,6 +64,7 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
     private ViewPager mapsContainer;
     private TabLayout mapSwitcher;
     private ImageView staticMap;
+    private View staticMapClickHandler;
     private TextView tvAddress, btnDirections, tvPhoneNumber, tvPriceRange, tvParkingSpace, tvOpeningHour, tvDescription;
     private Button btnRetry;
 
@@ -121,6 +123,7 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
         mapSwitcher = (TabLayout) v.findViewById(R.id.restaurant_maps_switcher);
 
         staticMap = (ImageView) v.findViewById(R.id.static_map);
+        staticMapClickHandler = v.findViewById(R.id.static_map_click_handler);
         tvAddress = (TextView) v.findViewById(R.id.address);
         btnDirections = (TextView) v.findViewById(R.id.btn_direction);
 
@@ -178,7 +181,17 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
     public void showRestaurantReview(List<UserReview> userReviews) {}
 
     private void initView() {
-        btnRetry.setOnClickListener(view -> presenter.loadRestaurant(mRestaurant.getId()));
+        btnRetry.setOnClickListener(v -> presenter.loadRestaurant(mRestaurant.getId()));
+
+        btnDirections.setOnClickListener(v -> startActivity(new Intent(
+                Intent.ACTION_VIEW,
+                GoogleMapUtils.getDirectionsViewUrl(mRestaurant.getLongitude(), mRestaurant.getLatitude())
+        )));
+
+        staticMapClickHandler.setOnClickListener(v -> startActivity(new Intent(
+                Intent.ACTION_VIEW,
+                GoogleMapUtils.getSearchViewUrl(mRestaurant.getLongitude(), mRestaurant.getLatitude())
+        )));
 
         currentReservationsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         currentReservationsRecyclerView.addItemDecoration(new LinearDividerItemDecoration(
@@ -252,16 +265,6 @@ public class RestaurantInfoFragment extends Fragment implements RestaurantContra
 
         if (mRestaurant.getInfo().containsKey("desc"))
             tvDescription.setText(mRestaurant.getInfo().get("desc"));
-    }
-
-    protected String getMapImageUrl(double lng, double lat) {
-        String url = Constants.GoogleStaticMapUrl;
-        url += "?scale=2";
-        url += "&language=fa";
-        url += "&markers=|" + String.valueOf(lng) + "," + String.valueOf(lat);
-        url += "&key=" + Constants.GoogleStaticMapKey;
-
-        return url;
     }
 
     private float getMapViewHeight(Map map) {

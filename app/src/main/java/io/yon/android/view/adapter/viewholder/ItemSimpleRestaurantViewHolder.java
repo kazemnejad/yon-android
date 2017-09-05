@@ -57,7 +57,6 @@ public class ItemSimpleRestaurantViewHolder extends ViewHolder<Restaurant> imple
 
         GlideApp.with(getContext())
                 .load(rest.getAvatarUrl())
-                .placeholder(R.color.solidPlaceHolder)
                 .transition(withCrossFade())
                 .transform(new RoundedCornersTransformation(getContext(), 30, 0))
                 .into(icon);

@@ -74,15 +74,15 @@
                     android:textSize="17sp"/>
 
                 <android.support.v7.widget.RecyclerView
-                    android:background="#ededed"
-                    android:paddingRight="@dimen/material_step_1_margin"
-                    android:paddingLeft="@dimen/material_step_1_margin"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
                     android:id="@+id/current_reservations_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clipToPadding="false"/>
+                    android:background="#ededed"
+                    android:clipToPadding="false"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="@dimen/material_step_1_margin"
+                    android:paddingRight="@dimen/material_step_1_margin"
+                    android:paddingTop="8dp"/>
 
             </LinearLayout>
 
@@ -173,6 +173,7 @@
                     android:layout_marginTop="2dp"/>
 
                 <View
+                    android:id="@+id/static_map_click_handler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="?attr/selectableItemBackground"
