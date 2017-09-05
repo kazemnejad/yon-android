@@ -16,17 +16,17 @@ import io.yon.android.Config;
 @Parcel
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
-    private int id;
+    int id;
 
-    private String email;
-    private String firstName;
-    private String lastName;
+    String email;
+    String firstName;
+    String lastName;
 
-    private int cash = 0;
-    private int point = 0;
+    int cash = 0;
+    int point = 0;
 
-    private String avatar;
-    private String phoneNumber = "09120242570";
+    String avatar;
+    String phoneNumber = "09120242570";
 
     public int getId() {
         return id;

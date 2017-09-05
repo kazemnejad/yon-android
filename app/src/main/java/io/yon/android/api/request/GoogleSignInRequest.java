@@ -13,7 +13,7 @@ public class GoogleSignInRequest {
         this.idToken = idToken;
     }
 
-    @JsonProperty("id_token")
+    @JsonProperty("token")
     public String getIdToken() {
         return idToken;
     }
