@@ -186,18 +186,6 @@ public class RestaurantViewActivity extends Activity {
         mRestaurant = restaurant;
     }
 
-    public Restaurant createRestaurant() {
-        Restaurant r = new Restaurant();
-        r.setId(1);
-        r.setName("برگرلند");
-        r.setRate(4.6f);
-        r.setPrice(4);
-        r.setAvatarUrl("http://162.243.174.32/restaurant_avatars/1665.jpeg");
-        r.setBannerUrl("http://www.pizzaeast.com/system/files/032016/56fd2c58ebeeb56aa00d9df6/large/24.3.16_pizzaeast2052.jpg?1459432756");
-
-        return r;
-    }
-
     private static class RestaurantViewPagesAdapter extends FragmentStatePagerAdapter {
 
         private RestaurantInfoFragment infoFragment;
@@ -264,18 +252,6 @@ public class RestaurantViewActivity extends Activity {
             }
 
             return "";
-        }
-
-        public RestaurantInfoFragment getInfoFragment() {
-            return infoFragment;
-        }
-
-        public RestaurantMenuFragment getMenuFragment() {
-            return menuFragment;
-        }
-
-        public RestaurantReviewFragment getReviewFragment() {
-            return reviewFragment;
         }
     }
 }
