@@ -15,13 +15,4 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-    <!--<android.support.v7.widget.AppCompatButton-->
-    <!--style="@style/AccentColoredButton"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignBottom="@+id/icon"-->
-    <!--app:layout_anchor="@id/appbar"-->
-    <!--app:layout_anchorGravity="bottom"-->
-    <!--android:text="روزو"/>-->
-
 </android.support.design.widget.CoordinatorLayout>

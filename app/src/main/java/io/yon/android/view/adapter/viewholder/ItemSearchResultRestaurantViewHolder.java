@@ -55,7 +55,7 @@ public class ItemSearchResultRestaurantViewHolder extends ViewHolder<Restaurant>
     @Override
     public void bindContent(Restaurant r) {
         title.setText(r.getName());
-        subTitle.setText(r.getZoneLabel());
+        subTitle.setText(r.getZoneName());
         rate.setText(r.getRateLabel());
 
         GlideApp.with(getContext())

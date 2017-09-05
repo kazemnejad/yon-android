@@ -231,12 +231,12 @@ public class Restaurant extends Model {
         this.zoneSlug = zoneSlug;
     }
 
-    public String getZoneLabel() {
+    public String getZoneName() {
         return zoneLabel;
     }
 
     @JsonProperty("zone_name")
-    public void setZoneLabel(String zoneLabel) {
+    public void setZoneName(String zoneLabel) {
         this.zoneLabel = zoneLabel;
     }
 

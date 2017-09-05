@@ -15,10 +15,13 @@ import android.support.v7.widget.AppCompatButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+
 import org.parceler.Parcels;
 
 import io.yon.android.R;
 import io.yon.android.model.Restaurant;
+import io.yon.android.model.Zone;
 import io.yon.android.util.ViewUtils;
 import io.yon.android.view.GlideApp;
 import io.yon.android.view.RoundedCornersTransformation;
@@ -66,7 +69,6 @@ public class RestaurantViewActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         mRestaurant = Parcels.unwrap(getIntent().getParcelableExtra("rest"));
-//        mRestaurant = createRestaurant();
 
         setDisplayHomeAsUpEnabled(true);
 
@@ -112,6 +114,22 @@ public class RestaurantViewActivity extends Activity {
                 return;
 
             ReservationActivity.start(this, mRestaurant);
+        });
+
+        subTitle.setOnClickListener(v -> {
+            Logger.d(mRestaurant);
+            if (mRestaurant.getZoneSlug() != null
+                    && mRestaurant.getZoneName() != null
+                    && mRestaurant.getLongitude() != -1
+                    && mRestaurant.getLatitude() != -1) {
+                Zone zone = new Zone();
+                zone.setName(mRestaurant.getZoneName());
+                zone.setSlug(mRestaurant.getZoneSlug());
+                zone.setLongitude(mRestaurant.getLongitude());
+                zone.setLatitude(mRestaurant.getLatitude());
+
+                ZoneViewActivity.start(this, zone);
+            }
         });
 
         final int actionBarSize = getToolbarHeight();
@@ -160,7 +178,7 @@ public class RestaurantViewActivity extends Activity {
     private void fillViewWithOfflineContent() {
         title.setText(mRestaurant.getName());
         toolbarTitle.setText(mRestaurant.getName());
-        subTitle.setText(mRestaurant.getZoneLabel());
+        subTitle.setText(mRestaurant.getZoneName());
         rateLabel.setText(mRestaurant.getRateLabel());
         priceLabel.setText(mRestaurant.getPriceLabel());
 
