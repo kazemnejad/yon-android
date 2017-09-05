@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,6 +23,7 @@ import org.parceler.Parcels;
 import io.yon.android.R;
 import io.yon.android.model.Restaurant;
 import io.yon.android.model.Zone;
+import io.yon.android.util.Auth;
 import io.yon.android.util.ViewUtils;
 import io.yon.android.view.GlideApp;
 import io.yon.android.view.RoundedCornersTransformation;
@@ -102,19 +104,8 @@ public class RestaurantViewActivity extends Activity {
 
         tabLayout.setupWithViewPager(mViewPager);
 
-        btnToolbarReserve.setOnClickListener(v -> {
-            if (mRestaurant.getMaps() == null)
-                return;
-
-            ReservationActivity.start(this, mRestaurant);
-        });
-
-        btnReserve.setOnClickListener(v -> {
-            if (mRestaurant.getMaps() == null)
-                return;
-
-            ReservationActivity.start(this, mRestaurant);
-        });
+        btnToolbarReserve.setOnClickListener(v -> performReservation());
+        btnReserve.setOnClickListener(v -> performReservation());
 
         subTitle.setOnClickListener(v -> {
             Logger.d(mRestaurant);
@@ -175,6 +166,18 @@ public class RestaurantViewActivity extends Activity {
                 .into(iv2);
     }
 
+    private void performReservation() {
+        if (!Auth.check(getApplicationContext())) {
+            showForbiddenMessage();
+            return;
+        }
+
+        if (mRestaurant.getMaps() == null)
+            return;
+
+        ReservationActivity.start(this, mRestaurant);
+    }
+
     private void fillViewWithOfflineContent() {
         title.setText(mRestaurant.getName());
         toolbarTitle.setText(mRestaurant.getName());
@@ -198,6 +201,12 @@ public class RestaurantViewActivity extends Activity {
                 .placeholder(R.color.colorPrimary)
                 .transition(withCrossFade())
                 .into(mBanner);
+    }
+
+    private void showForbiddenMessage() {
+        Snackbar.make(getRootView(), getString(R.string.authentication_is_needed_to_perform_reservation), Snackbar.LENGTH_SHORT)
+                .setAction(R.string.login, v -> Auth.login(this, null))
+                .show();
     }
 
     public void setUpdatedRestaurant(Restaurant restaurant) {

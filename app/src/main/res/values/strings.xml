@@ -143,5 +143,6 @@
     <string name="reservation_canceled_successfully">رزرو با موفقیت کنسل شد.</string>
     <string name="coming_reservations">رزرو‌های پیش‌ رو</string>
     <string name="show_table_with_name">میز %1s - مشاهده</string>
+    <string name="authentication_is_needed_to_perform_reservation">برای ثبت رزرو، ابتدا باید وارد شوید.</string>
 
 </resources>
