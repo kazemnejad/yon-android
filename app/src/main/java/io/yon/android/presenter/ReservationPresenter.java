@@ -12,6 +12,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.yon.android.contract.ReservationContract;
+import io.yon.android.model.Map;
 import io.yon.android.model.OpenTimeSlot;
 import io.yon.android.model.OpenTimeSlotSection;
 import io.yon.android.model.Reservation;
@@ -321,12 +322,10 @@ public class ReservationPresenter extends Presenter implements ReservationContra
     }
 
     private void addTablesWithSmallerCapacity(HashMap<String, Boolean> forbiddenTable) {
-        restaurant.getMaps()
-                .forEach(map -> map.getTables()
-                        .forEach(table -> {
-                            if (table.getCapacity() < getGuestCount())
-                                forbiddenTable.put(table.getId(), true);
-                        }));
+        for (Map map : restaurant.getMaps())
+            for (Table table :map.getTables())
+                if (table.getCapacity() < getGuestCount())
+                    forbiddenTable.put(table.getId(), true);
     }
 
     @Override
