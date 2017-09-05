@@ -16,11 +16,9 @@ import java.util.TimeZone;
 
 import io.yon.android.R;
 import io.yon.android.presenter.ReservationPresenter;
-import io.yon.android.presenter.RestaurantPresenter;
 import io.yon.android.util.ViewUtils;
 import io.yon.android.util.calendar.LanguageUtils;
 import io.yon.android.util.calendar.PersianCalendar;
-import io.yon.android.view.activity.ReservationActivity;
 import io.yon.android.view.activity.ReservationBuilderController;
 import io.yon.android.view.adapter.MonthAdapter;
 import io.yon.android.view.widget.date.CalendarDay;
@@ -57,6 +55,8 @@ public class ReservationDateFragment extends Fragment implements DatePickerContr
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        today.setTimeZone(TimeZone.getTimeZone("Asia/Tehran"));
 
         mController = getParentActivity();
         presenter = ViewModelProviders.of(getActivity()).get(ReservationPresenter.class);

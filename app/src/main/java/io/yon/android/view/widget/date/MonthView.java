@@ -35,11 +35,11 @@ import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-
 import java.security.InvalidParameterException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import io.yon.android.R;
 import io.yon.android.util.ViewUtils;
@@ -194,7 +194,10 @@ public abstract class MonthView extends View {
         Resources res = context.getResources();
 
         mDayLabelCalendar = new PersianCalendar();
+        mDayLabelCalendar.setTimeZone(TimeZone.getTimeZone("Asia/Tehran"));
+
         mPersianCalendar = new PersianCalendar();
+        mPersianCalendar.setTimeZone(TimeZone.getTimeZone("Asia/Tehran"));
 
         mDayOfWeekTypeface = res.getString(R.string.mdtp_day_of_week_label_typeface);
         mMonthTitleTypeface = res.getString(R.string.mdtp_sans_serif);
@@ -364,6 +367,7 @@ public abstract class MonthView extends View {
         //final Time today = new Time(Time.getCurrentTimezone());
         //today.setToNow();
         final PersianCalendar today = new PersianCalendar();
+        today.setTimeZone(TimeZone.getTimeZone("Asia/Tehran"));
         mHasToday = false;
         mToday = -1;
 
@@ -736,6 +740,7 @@ public abstract class MonthView extends View {
 
         public MonthViewTouchHelper(View host) {
             super(host);
+            mTempCalendar.setTimeZone(TimeZone.getTimeZone("Asia/Tehran"));
         }
 
         public void setFocusedVirtualView(int virtualViewId) {
