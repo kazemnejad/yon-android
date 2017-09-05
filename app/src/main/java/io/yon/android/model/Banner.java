@@ -16,7 +16,7 @@ import io.yon.android.util.calendar.LanguageUtils;
 public class Banner extends Model {
     public static final int TYPE_URL = 0;
     public static final int TYPE_TARGET_RESTAURANT = 1;
-    public static final int TYPE_LIST = 1;
+    public static final int TYPE_LIST = 2;
 
     String bannerUrl;
     String title;
@@ -34,6 +34,8 @@ public class Banner extends Model {
 
     float rate = -1;
     String rateLabel;
+
+    Restaurant restaurant;
 
     public Banner() {}
 
@@ -126,6 +128,16 @@ public class Banner extends Model {
     public void setTargetListId(int targetListId) {
         this.targetListId = targetListId;
     }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    @JsonProperty("restaurant")
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
 
     public String getRateLabel() {
         if (rateLabel == null)

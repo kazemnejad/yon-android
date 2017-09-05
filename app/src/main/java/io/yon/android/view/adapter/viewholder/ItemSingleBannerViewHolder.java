@@ -2,9 +2,7 @@ package io.yon.android.view.adapter.viewholder;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.view.View;
@@ -25,14 +23,15 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
  * Created by amirhosein on 7/31/17.
  */
 
-public class ItemSingleBannerViewHolder extends ViewHolder<Banner> {
+public class ItemSingleBannerViewHolder extends ViewHolder<Banner> implements View.OnClickListener {
 
-    private ColorDrawable placeHolder;
     private View star, gradientContainer;
     private CardView card;
     private ImageView icon;
     private RelativeLayout container;
     private TextView title, subTitle, rate;
+
+    private Banner currentBanner;
 
     public static Factory<ItemSingleBannerViewHolder> getFactory() {
         return (inflater, parent, context, bus) -> new ItemSingleBannerViewHolder(
@@ -44,7 +43,6 @@ public class ItemSingleBannerViewHolder extends ViewHolder<Banner> {
 
     public ItemSingleBannerViewHolder(View itemView, Context context, RxBus bus) {
         super(itemView, context, bus);
-        placeHolder = new ColorDrawable(ContextCompat.getColor(getContext(), R.color.solidPlaceHolder));
     }
 
     @Override
@@ -60,7 +58,13 @@ public class ItemSingleBannerViewHolder extends ViewHolder<Banner> {
     }
 
     @Override
+    protected void initViews() {
+        card.setOnClickListener(this);
+    }
+
+    @Override
     public void bindContent(Banner banner) {
+        currentBanner = banner;
         title.setText(banner.getTitle());
         subTitle.setText(banner.getSubTitle());
         if (banner.getRate() != -1) {
@@ -73,7 +77,7 @@ public class ItemSingleBannerViewHolder extends ViewHolder<Banner> {
 
         GlideApp.with(getContext())
                 .load(banner.getBannerUrl())
-                .placeholder(placeHolder)
+                .placeholder(R.color.solidPlaceHolder)
                 .centerCrop()
                 .transition(withCrossFade())
                 .into(new BitmapViewGroupTarget(container));
@@ -81,7 +85,7 @@ public class ItemSingleBannerViewHolder extends ViewHolder<Banner> {
         GlideApp.with(getContext())
                 .asBitmap()
                 .load(banner.getIconUrl())
-                .placeholder(placeHolder)
+                .placeholder(R.color.solidPlaceHolder)
                 .centerCrop()
                 .transform(new RoundedCornersTransformation(getContext(), 30, 0))
                 .into(icon);
@@ -97,5 +101,13 @@ public class ItemSingleBannerViewHolder extends ViewHolder<Banner> {
         drawable.setGradientCenter(1f, 0.5f);
 
         return drawable;
+    }
+
+    @Override
+    public void onClick(View v) {
+        try {
+            getBus().send(currentBanner);
+        } catch (Exception ignored) {
+        }
     }
 }

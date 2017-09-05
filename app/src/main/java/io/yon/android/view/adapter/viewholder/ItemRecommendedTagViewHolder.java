@@ -19,7 +19,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
  * Created by amirhosein on 7/30/17.
  */
 
-public class ItemRecommendedTagViewHolder extends ViewHolder<Tag> {
+public class ItemRecommendedTagViewHolder extends ViewHolder<Tag> implements View.OnClickListener {
 
     private final ColorDrawable placeHolder;
     private RelativeLayout container;
@@ -48,6 +48,11 @@ public class ItemRecommendedTagViewHolder extends ViewHolder<Tag> {
     }
 
     @Override
+    protected void initViews() {
+        container.setOnClickListener(this);
+    }
+
+    @Override
     public void bindContent(Tag tag) {
         title.setText(tag.getName());
         subTitle.setText("بولشت‌ترین تگ");
@@ -59,5 +64,13 @@ public class ItemRecommendedTagViewHolder extends ViewHolder<Tag> {
                 .transition(withCrossFade())
                 .into(icon);
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        try {
+            getBus().send(getParentAdapter().getData().get(getAdapterPosition()));
+        } catch (Exception ignored) {
+        }
     }
 }

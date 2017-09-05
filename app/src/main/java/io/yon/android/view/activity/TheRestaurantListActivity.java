@@ -1,6 +1,8 @@
 package io.yon.android.view.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,19 +12,14 @@ import android.text.method.LinkMovementMethod;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
-
-import java.util.ArrayList;
+import org.parceler.Parcels;
 
 import io.yon.android.R;
 import io.yon.android.contract.RestaurantListContract;
 import io.yon.android.model.Banner;
-import io.yon.android.model.Restaurant;
-import io.yon.android.model.Tag;
 import io.yon.android.presenter.RestaurantListPresenter;
-import io.yon.android.repository.RestaurantRepository;
 import io.yon.android.view.GlideApp;
-import io.yon.android.view.dialog.TagSelectDialog;
+import io.yon.android.view.RestaurantListItemConfig;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
@@ -39,6 +36,13 @@ public class TheRestaurantListActivity extends RestaurantListActivity implements
 
     private RestaurantListPresenter presenter;
 
+    public static void start(Context context, Banner banner) {
+        context.startActivity(
+                new Intent(context, TheRestaurantListActivity.class)
+                        .putExtra("banner", Parcels.wrap(banner))
+        );
+    }
+
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_the_restaurant_list;
@@ -48,10 +52,11 @@ public class TheRestaurantListActivity extends RestaurantListActivity implements
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        banner = new Banner();
-        banner.setTitle("تخفیف ویژه به مناسبت هفته‌ی دفاع مقدس");
-        banner.setBannerUrl("http://162.243.174.32/banners/banner1.jpg");
-        banner.setTargetListDescription("لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. ");
+        banner = Parcels.unwrap(getIntent().getParcelableExtra("banner"));
+//        banner = new Banner();
+//        banner.setTitle("تخفیف ویژه به مناسبت هفته‌ی دفاع مقدس");
+//        banner.setBannerUrl("http://162.243.174.32/banners/banner1.jpg");
+//        banner.setTargetListDescription("لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. ");
 
         setTitle(banner.getTitle());
         setDisplayHomeAsUpEnabled(true);
@@ -72,31 +77,13 @@ public class TheRestaurantListActivity extends RestaurantListActivity implements
     }
 
     @Override
-    protected void onRestaurantClick(Restaurant restaurant) {
-        Tag t1 = RestaurantRepository.makeTag("هندی۴۵");
-        Tag t4 = RestaurantRepository.makeTag("هندی۵۱");
-        Tag t2 = RestaurantRepository.makeTag("هندی۵۲");
-        Tag t3 = RestaurantRepository.makeTag("هندی۵۳");
+    protected void onBtnRetryClick() {
+        presenter.loadRestaurantList(banner.getTargetListId());
+    }
 
-        ArrayList<Tag> tags = new ArrayList<>();
-        tags.add(RestaurantRepository.makeTag("هندی"));
-        tags.add(t1);
-        tags.add(RestaurantRepository.makeTag("هندی۲"));
-        tags.add(t3);
-        tags.add(RestaurantRepository.makeTag("هندی۳"));
-        tags.add(RestaurantRepository.makeTag("هندی۴"));
-        tags.add(t2);
-        tags.add(t4);
-
-        ArrayList<Tag> selected = new ArrayList<>();
-        selected.add(t1);
-        selected.add(t2);
-        selected.add(t3);
-        selected.add(t4);
-
-        new TagSelectDialog(this, tags, selected)
-                .setOnTagSelectListener(Logger::d)
-                .show();
+    @Override
+    protected RestaurantListItemConfig getConfig() {
+        return super.getConfig().setShowTags(true);
     }
 
     protected void initView() {
@@ -107,7 +94,7 @@ public class TheRestaurantListActivity extends RestaurantListActivity implements
                 .transition(withCrossFade())
                 .into(bannerImage);
 
-        setDescription(banner.getTargetListDescription());
+        setDescription(banner.getTargetListDescription() != null ? banner.getTargetListDescription() : banner.getSubTitle());
     }
 
     protected void setDescription(String text) {

@@ -1,8 +1,6 @@
 package io.yon.android.view.adapter.viewholder;
 
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,9 +17,9 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
  * Created by amirhosein on 7/25/17.
  */
 
-public class ItemSimpleRestaurantViewHolder extends ViewHolder<Restaurant> {
+public class ItemSimpleRestaurantViewHolder extends ViewHolder<Restaurant> implements View.OnClickListener {
 
-    private final ColorDrawable placeHolder;
+    private View container;
     private ImageView icon;
     private TextView title, subTitle, rate;
 
@@ -35,15 +33,20 @@ public class ItemSimpleRestaurantViewHolder extends ViewHolder<Restaurant> {
 
     public ItemSimpleRestaurantViewHolder(View itemView, Context context, RxBus bus) {
         super(itemView, context, bus);
-        placeHolder = new ColorDrawable(ContextCompat.getColor(getContext(), R.color.solidPlaceHolder));
     }
 
     @Override
     protected void findViews() {
+        container = findViewById(R.id.container);
         icon = (ImageView) findViewById(R.id.icon);
         title = (TextView) findViewById(R.id.title);
         subTitle = (TextView) findViewById(R.id.sub_title);
         rate = (TextView) findViewById(R.id.rate);
+    }
+
+    @Override
+    protected void initViews() {
+        container.setOnClickListener(this);
     }
 
     @Override
@@ -54,9 +57,17 @@ public class ItemSimpleRestaurantViewHolder extends ViewHolder<Restaurant> {
 
         GlideApp.with(getContext())
                 .load(rest.getAvatarUrl())
-                .placeholder(placeHolder)
+                .placeholder(R.color.solidPlaceHolder)
                 .transition(withCrossFade())
                 .transform(new RoundedCornersTransformation(getContext(), 30, 0))
                 .into(icon);
+    }
+
+    @Override
+    public void onClick(View v) {
+        try {
+            getBus().send(getParentAdapter().getData().get(getAdapterPosition()));
+        } catch (Exception ignored) {
+        }
     }
 }

@@ -27,6 +27,8 @@ import io.yon.android.model.UserReview;
 import io.yon.android.model.Zone;
 import io.yon.android.util.calendar.PersianCalendar;
 
+import static io.yon.android.repository.LocationRepository.NULL_LOCATION_PROVIDER;
+
 /**
  * Created by amirhosein on 8/10/2017 AD.
  */
@@ -43,22 +45,33 @@ public class RestaurantRepository {
         return instance;
     }
 
-    public Observable<Lce<List<Restaurant>>> getRestaurantsByZone(Zone zone) {
-        return WebService.getInstance()
-                .getRestaurantsByZone(zone.getSlug())
-                .map(Lce::data)
+    public Observable<Lce<List<Restaurant>>> getRestaurantsByZone(Context context, Zone zone) {
+
+        return LocationRepository.getInstance()
+                .getLocation(context)
+                .flatMap(location -> {
+                    if (NULL_LOCATION_PROVIDER.equals(location.getProvider()))
+                        return WebService.getInstance().getRestaurantsByZone(zone.getSlug(), null, null);
+                    else
+                        return WebService.getInstance().getRestaurantsByZone(zone.getSlug(), location.getLongitude(), location.getLatitude());
+                }).map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);
     }
 
-    public Observable<Lce<List<Restaurant>>> getRestaurantsByTags(List<Tag> tags) {
+    public Observable<Lce<List<Restaurant>>> getRestaurantsByTags(Context context, List<Tag> tags) {
         String[] tagsSlug = new String[tags.size()];
         for (int i = 0; i < tags.size(); i++)
             tagsSlug[i] = tags.get(i).getSlug();
 
-        return WebService.getInstance()
-                .getRestaurantsByTags(tagsSlug)
-                .map(Lce::data)
+        return LocationRepository.getInstance()
+                .getLocation(context)
+                .flatMap(location -> {
+                    if (NULL_LOCATION_PROVIDER.equals(location.getProvider()))
+                        return WebService.getInstance().getRestaurantsByTags(null, null, tagsSlug);
+                    else
+                        return WebService.getInstance().getRestaurantsByTags(location.getLongitude(), location.getLatitude(), tagsSlug);
+                }).map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);
     }

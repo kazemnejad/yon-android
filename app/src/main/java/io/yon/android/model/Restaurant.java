@@ -9,10 +9,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.parceler.Parcel;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import io.yon.android.R;
 import io.yon.android.api.Constants;
+import io.yon.android.util.GeoUtils;
 import io.yon.android.util.calendar.LanguageUtils;
 
 /**
@@ -52,7 +54,7 @@ public class Restaurant extends Model {
     @Ignore
     String zoneLabel;
     @Ignore
-    float distanceFromMyLocation = -1;
+    double distanceFromMyLocation = -1;
     @Ignore
     String distanceLabel;
     @Ignore
@@ -238,13 +240,15 @@ public class Restaurant extends Model {
         this.zoneLabel = zoneLabel;
     }
 
-    public float getDistanceFromMyLocation() {
+    public double getDistanceFromMyLocation() {
         return distanceFromMyLocation;
     }
 
-    public void setDistanceFromMyLocation(float distanceFromMyLocation) {
-        this.distanceFromMyLocation = distanceFromMyLocation;
-        distanceLabel = LanguageUtils.getPersianNumbers(String.valueOf(distanceFromMyLocation));
+    @JsonProperty("distance")
+    public void setDistanceFromMyLocation(double distanceFromMyLocation) {
+        this.distanceFromMyLocation = GeoUtils.convertDistanceFromMyLocationToKilometer(distanceFromMyLocation);
+        DecimalFormat df = new DecimalFormat("###.##");
+        distanceLabel = LanguageUtils.getPersianNumbers(String.valueOf(df.format(distanceFromMyLocation)));
         distanceLabel += " km";
     }
 

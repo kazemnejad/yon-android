@@ -54,7 +54,7 @@ public class TagPresenter extends Presenter implements TagContract.Presenter {
     public void loadRestaurants(List<Tag> tags) {
         if (restaurantsObservable == null)
             restaurantsObservable = RestaurantRepository.getInstance()
-                    .getRestaurantsByTags(tags)
+                    .getRestaurantsByTags(getApplication(), tags)
                     .compose(RxUtils.applySchedulers())
                     .cache();
 

@@ -19,7 +19,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
  * Created by amirhosein on 7/30/17.
  */
 
-public class ItemRecommendedZoneViewHolder extends ViewHolder<Zone> {
+public class ItemRecommendedZoneViewHolder extends ViewHolder<Zone> implements View.OnClickListener {
 
     private final ColorDrawable placeHolder;
     private RelativeLayout container;
@@ -48,14 +48,27 @@ public class ItemRecommendedZoneViewHolder extends ViewHolder<Zone> {
     }
 
     @Override
+    protected void initViews() {
+        container.setOnClickListener(this);
+    }
+
+    @Override
     public void bindContent(Zone zone) {
         title.setText(zone.getName());
 
         GlideApp.with(getContext())
-                .load(zone.getAvatarUrl())
+                .load(zone.getGoogleMapImageUrl())
                 .placeholder(placeHolder)
                 .centerCrop()
                 .transition(withCrossFade())
                 .into(icon);
+    }
+
+    @Override
+    public void onClick(View v) {
+        try {
+            getBus().send(getParentAdapter().getData().get(getAdapterPosition()));
+        } catch (Exception ignored) {
+        }
     }
 }

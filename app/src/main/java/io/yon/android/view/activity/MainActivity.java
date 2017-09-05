@@ -3,6 +3,7 @@ package io.yon.android.view.activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -28,7 +29,9 @@ import java.util.List;
 
 import io.yon.android.R;
 import io.yon.android.contract.ShowcaseContract;
+import io.yon.android.model.Banner;
 import io.yon.android.model.Restaurant;
+import io.yon.android.model.Tag;
 import io.yon.android.model.Zone;
 import io.yon.android.presenter.ShowcasePresenter;
 import io.yon.android.util.Auth;
@@ -80,11 +83,7 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
         if (!checkPlayServiceAvailable())
             return;
 
-//        setHasOptionMenu(true);
-
         initView();
-
-//        Config.getCache(this).edit().remove(Config.Field.ShowCase).commit();
 
         presenter = ViewModelProviders.of(this).get(ShowcasePresenter.class);
         presenter.bindView(this);
@@ -105,6 +104,8 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
     }
 
     private void initView() {
+        mClickEventBus.toObservable().subscribe(this::handleItemClick);
+
         mRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -263,5 +264,38 @@ public class MainActivity extends Activity implements ShowcaseContract.View {
             presenter.setCurrentZone(zone);
             presenter.reFetchData();
         });
+    }
+
+    private void handleItemClick(Object o) {
+        try {
+            if (o instanceof Zone)
+                ZoneViewActivity.start(this, (Zone) o);
+
+            if (o instanceof Tag)
+                TagViewActivity.start(this, (Tag) o);
+
+            if (o instanceof Restaurant)
+                RestaurantViewActivity.start(this, (Restaurant) o);
+
+            if (o instanceof Banner)
+                handleBannerClick((Banner) o);
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void handleBannerClick(Banner banner) {
+        switch (banner.getType()) {
+            case Banner.TYPE_TARGET_RESTAURANT:
+                RestaurantViewActivity.start(this, banner.getRestaurant());
+                break;
+
+            case Banner.TYPE_LIST:
+                TheRestaurantListActivity.start(this, banner);
+                break;
+
+            case Banner.TYPE_URL:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(banner.getTargetUrl())));
+                break;
+        }
     }
 }

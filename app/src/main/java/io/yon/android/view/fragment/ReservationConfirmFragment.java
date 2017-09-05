@@ -19,7 +19,6 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import java.util.List;
 
 import io.yon.android.R;
-import io.yon.android.api.response.BasicResponse;
 import io.yon.android.contract.ReservationContract;
 import io.yon.android.model.Map;
 import io.yon.android.model.OpenTimeSlot;
@@ -117,7 +116,6 @@ public class ReservationConfirmFragment extends Fragment implements ReservationC
         phoneNumber.setText(LanguageUtils.getPersianNumbers(String.valueOf(user.getPhoneNumber())));
 
         if (selectedTable != null) {
-            selectedTable.setName("B3");
             btnShowSelectedTable.setClickable(true);
             btnShowSelectedTable.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
             btnShowSelectedTable.setText(getString(R.string.table) + " " + selectedTable.getName() + " - " + getString(R.string.view) + "");

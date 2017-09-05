@@ -20,7 +20,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
  * Created by amirhosein on 7/24/17.
  */
 
-public class SimpleSectionViewHolder extends ViewHolder<SimpleSectionShowcaseItem> {
+public class SimpleSectionViewHolder extends ViewHolder<SimpleSectionShowcaseItem> implements View.OnClickListener {
 
     private static final int[] CONTAINER_IDS = {
             R.id.container_1,
@@ -73,6 +73,7 @@ public class SimpleSectionViewHolder extends ViewHolder<SimpleSectionShowcaseIte
         title = (TextView) findViewById(R.id.title);
         for (int i = 0; i < 4; i++) {
             containers[i] = findViewById(CONTAINER_IDS[i]);
+            containers[i].setOnClickListener(this);
             texts[i] = (TextView) findViewById(TEXT_IDS[i]);
             icons[i] = (ImageView) findViewById(ICON_IDS[i]);
         }
@@ -88,6 +89,7 @@ public class SimpleSectionViewHolder extends ViewHolder<SimpleSectionShowcaseIte
                 break;
 
             containers[i].setVisibility(View.VISIBLE);
+            containers[i].setTag(rest);
             texts[i].setText(rest.getName());
 
             GlideApp.with(getContext())
@@ -96,6 +98,14 @@ public class SimpleSectionViewHolder extends ViewHolder<SimpleSectionShowcaseIte
                     .transition(withCrossFade())
                     .transform(new RoundedCornersTransformation(getContext(), 30, 0))
                     .into(icons[i]);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        try {
+            getBus().send(v.getTag());
+        } catch (Exception ignored) {
         }
     }
 }

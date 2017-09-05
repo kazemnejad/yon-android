@@ -38,7 +38,7 @@ public class ZonePresenter extends Presenter implements ZoneContract.Presenter {
     public void loadRestaurantsInZone(Zone zone) {
         if (restaurantObservable == null)
             restaurantObservable = RestaurantRepository.getInstance()
-                    .getRestaurantsByZone(zone)
+                    .getRestaurantsByZone(getApplication(), zone)
                     .compose(RxUtils.applySchedulers())
                     .cache();
 

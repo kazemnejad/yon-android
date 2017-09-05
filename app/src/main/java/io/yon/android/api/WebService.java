@@ -15,6 +15,7 @@ import io.yon.android.model.MenuSection;
 import io.yon.android.model.OpeningInterval;
 import io.yon.android.model.Reservation;
 import io.yon.android.model.Restaurant;
+import io.yon.android.model.RestaurantList;
 import io.yon.android.model.Tag;
 import io.yon.android.model.UserReview;
 import okhttp3.MediaType;
@@ -116,10 +117,10 @@ public abstract class WebService {
 
         // Restaurant content delivery
         @GET("restaurant")
-        Observable<List<Restaurant>> getRestaurantsByZone(@Query("zone") String zone);
+        Observable<List<Restaurant>> getRestaurantsByZone(@Query("zone") String zone, @Query("long") Double longitude, @Query("lat") Double latitude);
 
         @GET("restaurant")
-        Observable<List<Restaurant>> getRestaurantsByTags(@Query("tag") String... tag);
+        Observable<List<Restaurant>> getRestaurantsByTags(@Query("long") Double longitude, @Query("lat") Double latitude, @Query("tag") String... tag);
 
         @GET("restaurant/{id}")
         Observable<Restaurant> getRestaurant(@Path("id") int id);
@@ -144,6 +145,10 @@ public abstract class WebService {
 
         @DELETE("restaurant/{id}/reservation/{reservation_id}")
         Observable<Response<BasicResponse>> cancelReservation(@Path("id") int restaurantId, @Path("reservation_id") int reservationId);
+
+        // Restaurant list end-points
+        @GET("restaurant/list/{id}")
+        Observable<RestaurantList> getRestaurantList(@Path("id") int listId, @Query("long") Double longitude, @Query("lat") Double latitude);
 
 
         // Zone content delivery

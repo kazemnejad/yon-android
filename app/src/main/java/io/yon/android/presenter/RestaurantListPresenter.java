@@ -37,7 +37,7 @@ public class RestaurantListPresenter extends Presenter implements RestaurantList
     public void loadRestaurantList(int id) {
         if (restaurantsObservable == null)
             restaurantsObservable = RestaurantListRepository.getInstance()
-                    .getRestaurantList(id)
+                    .getRestaurantList(getApplication(), id)
                     .compose(RxUtils.applySchedulers())
                     .cache();
 
