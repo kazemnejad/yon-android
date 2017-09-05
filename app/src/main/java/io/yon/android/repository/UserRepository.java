@@ -5,6 +5,7 @@ import android.content.Context;
 import io.reactivex.Observable;
 import io.yon.android.Config;
 import io.yon.android.api.WebService;
+import io.yon.android.api.request.GoogleSignInRequest;
 import io.yon.android.api.request.LoginRequest;
 import io.yon.android.api.request.RegisterRequest;
 import io.yon.android.api.response.AuthResponse;
@@ -38,6 +39,14 @@ public class UserRepository {
     public Observable<Lce<Response<AuthResponse>>> createUser(String fname, String lname, String email, String password) {
         return WebService.getInstance()
                 .register(new RegisterRequest(fname, lname, email, password))
+                .map(Lce::data)
+                .startWith(Lce.loading())
+                .onErrorReturn(Lce::error);
+    }
+
+    public Observable<Lce<Response<AuthResponse>>> getUser(String idToken) {
+        return WebService.getInstance()
+                .googleAuth(new GoogleSignInRequest(idToken))
                 .map(Lce::data)
                 .startWith(Lce.loading())
                 .onErrorReturn(Lce::error);

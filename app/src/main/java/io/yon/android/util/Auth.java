@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
+
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import io.yon.android.Config;
+import io.yon.android.api.Constants;
 import io.yon.android.db.AppDatabase;
 import io.yon.android.model.User;
 import io.yon.android.view.activity.Activity;
@@ -78,7 +81,7 @@ public class Auth {
         user.setFirstName(pref.getString(Config.Field.FirstName, ""));
         user.setLastName(pref.getString(Config.Field.LastName, ""));
         user.setEmail(pref.getString(Config.Field.Email, ""));
-        user.setAvatar(pref.getString(Config.Field.Avatar,""));
+        user.setAvatar(pref.getString(Config.Field.Avatar, ""));
 
 
         return user;
@@ -89,5 +92,21 @@ public class Auth {
 
     public interface OnAuthResultListener {
         void onResult(boolean isSuccessful);
+    }
+
+    public static class Google {
+        public static GoogleApiClient createGoogleApiClient(Activity activity, GoogleApiClient.OnConnectionFailedListener listener) {
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestId()
+                    .requestIdToken(Constants.GoogleServerClientId)
+                    .requestEmail()
+                    .requestProfile()
+                    .build();
+
+            return new GoogleApiClient.Builder(activity)
+                    .enableAutoManage(activity, listener)
+                    .addApi(com.google.android.gms.auth.api.Auth.GOOGLE_SIGN_IN_API, gso)
+                    .build();
+        }
     }
 }

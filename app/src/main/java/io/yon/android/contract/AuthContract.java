@@ -15,6 +15,8 @@ public abstract class AuthContract extends Contract {
         void login(@NonNull String email, @NonNull String password);
 
         void register(@NonNull String email, @NonNull String password, @NonNull String fname, @NonNull String lname);
+
+        void sendGoogleAuthenticationResult(String idToken);
     }
 
     public interface View extends MvpView {

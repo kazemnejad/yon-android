@@ -3,6 +3,7 @@ package io.yon.android.presenter;
 import android.app.Application;
 import android.support.annotation.NonNull;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.waylonbrown.lifecycleawarerx.LifecycleBinder;
 
 import io.reactivex.Observable;
@@ -24,9 +25,20 @@ public class AuthPresenter extends Presenter implements AuthContract.Presenter {
 
     private Observable<Lce<Response<AuthResponse>>> loginObservable;
     private Observable<Lce<Response<AuthResponse>>> registerObservable;
+    private Observable<Lce<Response<AuthResponse>>> googleAuthObservable;
+
+    private GoogleSignInAccount loggedInAccount;
 
     public AuthPresenter(Application application) {
         super(application);
+    }
+
+    public GoogleSignInAccount getLoggedInAccount() {
+        return loggedInAccount;
+    }
+
+    public void setLoggedInAccount(GoogleSignInAccount loggedInAccount) {
+        this.loggedInAccount = loggedInAccount;
     }
 
     @Override
@@ -78,6 +90,30 @@ public class AuthPresenter extends Presenter implements AuthContract.Presenter {
                             }
 
                             registerObservable = null;
+                        }
+                )));
+    }
+
+    @Override
+    public void sendGoogleAuthenticationResult(String idToken) {
+        if (googleAuthObservable == null)
+            googleAuthObservable = UserRepository.getInstance()
+                    .getUser(idToken)
+                    .compose(RxUtils.applySchedulers())
+                    .cache();
+
+        googleAuthObservable.takeWhile(LifecycleBinder.notDestroyed(view))
+                .compose(LifecycleBinder.subscribeWhenReady(view, new Lce.Observer<>(
+                        lce -> {
+                            if (lce.isLoading())
+                                view.showLoading();
+                            else if (lce.hasError()) {
+                                googleAuthObservable = null;
+                                view.showError(lce.getError());
+                            } else {
+                                UserRepository.getInstance().saveIfSuccessful(lce.getData(), getApplication());
+                                view.handleResponse(lce.getData());
+                            }
                         }
                 )));
     }

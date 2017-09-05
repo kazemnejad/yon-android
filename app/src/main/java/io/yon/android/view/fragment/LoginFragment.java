@@ -116,14 +116,10 @@ public class LoginFragment extends Fragment implements Validator.ValidationListe
 
             }
         });
+
         btnLogin.setOnClickListener(v -> validator.validate());
-        btnGoRegister.setOnClickListener(v -> {
-            try {
-                ((AuthActivity) getActivity()).goToRegister();
-            } catch (Exception exp) {
-                Logger.e(exp, "Host activity is not AuthActivity instance");
-            }
-        });
+        btnGoogleSignIn.setOnClickListener(v -> ((AuthActivity) getParentActivity()).doGoogleSignIn());
+        btnGoRegister.setOnClickListener(v -> ((AuthActivity) getActivity()).goToRegister());
 
         ViewUtils.connectToTextInputLayout(etEmail, tilEmail);
         ViewUtils.connectToTextInputLayout(etPassword, tilPassword);

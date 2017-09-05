@@ -5,6 +5,7 @@ import java.lang.annotation.Annotation;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.yon.android.api.request.GoogleSignInRequest;
 import io.yon.android.api.request.LoginRequest;
 import io.yon.android.api.request.RegisterRequest;
 import io.yon.android.api.response.AuthResponse;
@@ -110,6 +111,9 @@ public abstract class WebService {
 
         @POST("user/auth/signup")
         Observable<Response<AuthResponse>> register(@Body RegisterRequest request);
+
+        @POST("user/auth/signup/google")
+        Observable<Response<AuthResponse>> googleAuth(@Body GoogleSignInRequest request);
 
         // Content providers end-points
         @GET("home/mobile")
