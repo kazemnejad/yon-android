@@ -122,14 +122,10 @@ public class RegisterFragment extends Fragment implements Validator.ValidationLi
 
             }
         });
+
+        btnGoogleSignUp.setOnClickListener(v -> ((AuthActivity) getParentActivity()).doGoogleSignIn());
         btnRegister.setOnClickListener(v -> validator.validate());
-        btnGoLogin.setOnClickListener(v -> {
-            try {
-                ((AuthActivity) getActivity()).goToLogin();
-            } catch (Exception exp) {
-                Logger.e(exp, "Host activity is not AuthActivity instance");
-            }
-        });
+        btnGoLogin.setOnClickListener(v -> ((AuthActivity) getActivity()).goToLogin());
 
         ViewUtils.connectToTextInputLayout(etEmail, tilEmail);
         ViewUtils.connectToTextInputLayout(etPassword, tilPassword);

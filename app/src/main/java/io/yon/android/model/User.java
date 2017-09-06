@@ -108,6 +108,7 @@ public class User {
                 .putString(Config.Field.LastName, lastName)
                 .putString(Config.Field.Email, email)
                 .putString(Config.Field.Avatar, avatar)
+                .putInt(Config.Field.UserPoint, point)
                 .apply();
     }
 }

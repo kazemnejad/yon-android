@@ -35,6 +35,7 @@ public class Config {
         public final static String LastName = "lname";
         public final static String Email = "email";
         public final static String Avatar = "avatar";
+        public final static String UserPoint = "point";
 
         public final static String ShowCase = "showcase";
     }
