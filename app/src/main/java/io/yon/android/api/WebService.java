@@ -112,7 +112,7 @@ public abstract class WebService {
         @POST("user/auth/signup")
         Observable<Response<AuthResponse>> register(@Body RegisterRequest request);
 
-        @POST("user/auth/signup/google")
+        @POST("user/auth/google")
         Observable<Response<AuthResponse>> googleAuth(@Body GoogleSignInRequest request);
 
         // Content providers end-points
