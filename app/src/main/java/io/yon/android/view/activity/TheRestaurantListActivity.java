@@ -53,10 +53,6 @@ public class TheRestaurantListActivity extends RestaurantListActivity implements
         super.onCreate(savedInstanceState);
 
         banner = Parcels.unwrap(getIntent().getParcelableExtra("banner"));
-//        banner = new Banner();
-//        banner.setTitle("تخفیف ویژه به مناسبت هفته‌ی دفاع مقدس");
-//        banner.setBannerUrl("http://162.243.174.32/banners/banner1.jpg");
-//        banner.setTargetListDescription("لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. ");
 
         setTitle(banner.getTitle());
         setDisplayHomeAsUpEnabled(true);
