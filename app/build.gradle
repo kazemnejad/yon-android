@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 26
@@ -23,6 +22,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    dexOptions{
+        javaMaxHeapSize "4g"
+    }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/NOTICE'
@@ -40,7 +42,7 @@ dependencies {
     })
 
     compile 'com.android.support:appcompat-v7:26.0.1'
-    compile 'com.android.support.constraint:constraint-layout:+'
+    compile 'com.android.support.constraint:constraint-layout:1.1.0-beta1'
     compile 'com.android.support:appcompat-v7:26.0.1'
     compile 'com.android.support:recyclerview-v7:26.0.1'
     compile 'com.android.support:transition:26.0.1'
@@ -52,13 +54,12 @@ dependencies {
 
     compile 'com.mobsandgeeks:android-saripaar:2.0.3'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
-    compile 'com.github.pchmn:MaterialChipsInput:1.0.8'
 
     compile 'com.google.android:flexbox:0.3.0'
     compile 'org.zakariya.stickyheaders:stickyheaders:0.7.6'
     compile 'com.truizlop.sectionedrecyclerview:library:1.2.0'
-    compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
     compile "com.splitwise:tokenautocomplete:2.0.8@aar"
+    compile 'com.github.bumptech.glide:glide:4.1.1'
     compile "com.github.bumptech.glide:okhttp3-integration:4.1.1"
     compile("com.github.bumptech.glide:recyclerview-integration:4.1.1") {
         transitive = false
@@ -83,8 +84,8 @@ dependencies {
     compile 'com.orhanobut:logger:2.1.1'
 
 //    compile 'com.google.android.gms:play-services-location:11.0.4'
-    compile 'com.google.android.gms:play-services-location:10.2.1'
-    compile 'com.google.android.gms:play-services-auth:10.2.1'
+    compile 'com.google.android.gms:play-services-location:11.2.2'
+    compile 'com.google.android.gms:play-services-auth:11.2.2'
 
     compile "android.arch.persistence.room:runtime:1.0.0-alpha2"
     compile "android.arch.persistence.room:rxjava2:1.0.0-alpha2"
